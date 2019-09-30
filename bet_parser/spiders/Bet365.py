@@ -52,7 +52,7 @@ class Bet365Spider(scrapy.Spider):
 
     def parse_matches_description(self, matches_group, parsed_matches):
         # Looping over Column 1 rows (Dates, Times, Match names and results)
-        matches_start_date = Const.txt_not_available
+        matches_start_date = None
         column1_rows = matches_group.css(Const.css_description_column + Const.css_child_divs)
         for row in column1_rows:
             row_class = row.xpath(Const.xpath_get_class).get(default='')
@@ -72,7 +72,7 @@ class Bet365Spider(scrapy.Spider):
             elif Const.css_name_result_time_row[1:] in row_class:
                 is_real_time = False
                 # Extracts specific Match name, and if available real-time result (if the match is started already)
-                match_team_1 = match_team_2 = match_result = Const.txt_not_available
+                match_team_1 = match_team_2 = match_result = None
                 extr_match_name = row.css(Const.css_name_result_cell + Const.css_get_all_text).getall()
                 if len(extr_match_name) == 1:
                     # Not yet started match
@@ -90,8 +90,7 @@ class Bet365Spider(scrapy.Spider):
 
                 # Extracts specific Match starting time, and if available real time (if the match is
                 # started)
-                match_start_time = Const.txt_not_available
-                match_real_time = Const.txt_not_available
+                match_start_time = match_real_time = None
                 extr_match_time = row.css(Const.css_time_cell + Const.css_get_all_text).getall()
                 if is_real_time:
                     if len(extr_match_time) == 1:
@@ -103,13 +102,18 @@ class Bet365Spider(scrapy.Spider):
                     if len(extr_match_time) == 1:
                         match_start_time = extr_match_time[0]
 
-                parsed_matches.append({'Bookmaker': self.name,
-                                       'StartDate': matches_start_date,
-                                       'StartTime': match_start_time,
-                                       'RealTime': match_real_time,
-                                       'Team1': match_team_1,
-                                       'Team2': match_team_2,
-                                       'Result': match_result})
+                # Creates and fill Match object
+                parsed_match = Match()
+                parsed_match.Bookmaker = self.name
+                parsed_match.StartDate = matches_start_date
+                parsed_match.StartTime = match_start_time
+                parsed_match.RealTime = match_real_time
+                parsed_match.Team1 = match_team_1
+                parsed_match.Team2 = match_team_2
+                parsed_match.Result = match_result
+
+                # Append the parsed Match to the list
+                parsed_matches.append(parsed_match)
 
     @staticmethod
     def parse_matches_quotes(matches_group, first_match_of_group, parsed_matches):
@@ -125,5 +129,5 @@ class Bet365Spider(scrapy.Spider):
                     quote_type = row.css(Const.css_get_all_text).get(default='')
                 else:
                     quote = row.css(Const.css_get_all_text).get(default='')
-                    parsed_matches[match_number]['Quote' + quote_type] = quote
+                    setattr(parsed_matches[match_number], 'Quote' + quote_type, quote)
                     match_number += 1

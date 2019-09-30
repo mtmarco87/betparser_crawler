@@ -2,30 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e06a46a7-7647-466c-89a0-5f3f2192a5c5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/output/b365_europe_elite.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/b365_europe_elite.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/b365_europe_elite.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/b365_ita_league.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/b365_ita_league.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/b365_main.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/b365_main.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/old/quotes-0.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/old/quotes-0.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/old/quotes-1.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/old/quotes-1.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/old/quotes-2.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/old/quotes-2.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/output/old/quotes-diretta.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/READme.txt" beforeDir="false" afterPath="$PROJECT_DIR$/READme.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/betparser/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/betparser/items.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/betparser/middlewares.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/betparser/pipelines.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/betparser/settings.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/betparser/spiders/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/betparser/spiders/example.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scrapy.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/scrapy.cfg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/b365_europe_elite.csv" beforeDir="false" afterPath="$PROJECT_DIR$/output/b365_europe_elite.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/b365_europe_elite.html" beforeDir="false" afterPath="$PROJECT_DIR$/output/b365_europe_elite.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/b365_ita_league.csv" beforeDir="false" afterPath="$PROJECT_DIR$/output/b365_ita_league.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/b365_ita_league.html" beforeDir="false" afterPath="$PROJECT_DIR$/output/b365_ita_league.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/b365_main.csv" beforeDir="false" afterPath="$PROJECT_DIR$/output/b365_main.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output/b365_main.html" beforeDir="false" afterPath="$PROJECT_DIR$/output/b365_main.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,19 +19,11 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/output/old/quotes-0.txt">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bet_parser/constants/Bet365.py">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/bet_parser/spiders/Bet365.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1597" />
+            <state relative-caret-position="595">
+              <caret line="40" column="39" selection-start-line="40" selection-start-column="39" selection-end-line="40" selection-end-column="39" />
+            </state>
           </provider>
         </entry>
       </file>
@@ -67,13 +42,33 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/READme.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="568">
-              <caret line="37" column="35" lean-forward="true" selection-start-line="37" selection-start-column="35" selection-end-line="37" selection-end-column="35" />
+            <state relative-caret-position="283">
+              <caret line="24" column="8" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="50" />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/output/b365_europe_elite.csv">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/output/b365_ita_league.html">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/output/b365_main.csv">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/output/b365_europe_elite.html">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -90,6 +85,11 @@
       </file>
     </leaf>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>docker</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -103,9 +103,9 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="width" value="1244" />
-    <option name="height" value="1038" />
+    <option name="x" value="1038" />
+    <option name="width" value="902" />
+    <option name="height" value="1039" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -113,7 +113,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -121,20 +120,24 @@
               <item name="betparser" type="b2602c69:ProjectViewProjectNode" />
               <item name="betparser" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="betparser" type="b2602c69:ProjectViewProjectNode" />
-              <item name="betparser" type="462c0819:PsiDirectoryNode" />
-              <item name="bet_parser" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$USER_HOME$/AppData/Local/Continuum/anaconda3/envs/test_env_ema3" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\efricano\Desktop\Personal Desktop\Projects\ProgettoParser\betparser" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\efricano\Desktop\Personal Desktop\Projects\ProgettoParser\betparser" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -190,10 +193,9 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="0" width="995" height="830" extended-state="0" />
-    <editor active="true" />
+    <frame x="831" y="0" width="721" height="831" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.29436326" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.4122807" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -220,19 +222,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/betparser/pipelines.py">
+    <entry file="file://$PROJECT_DIR$/betparser/pipelines.py" />
+    <entry file="file://$PROJECT_DIR$/betparser/middlewares.py" />
+    <entry file="file://$PROJECT_DIR$/betparser/items.py" />
+    <entry file="file://$PROJECT_DIR$/betparser/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/betparser/spiders/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/betparser/spiders/example.py" />
+    <entry file="file://$PROJECT_DIR$/betparser/settings.py" />
+    <entry file="file://$PROJECT_DIR$/output/old/quotes-0.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/betparser/middlewares.py">
+    <entry file="file://$PROJECT_DIR$/bet_parser/constants/Bet365.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/betparser/items.py">
+    <entry file="file://$PROJECT_DIR$/bet_parser/spiders/Diretta.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/betparser/__init__.py">
+    <entry file="file://$PROJECT_DIR$/output/old/quotes-0.html">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/betparser/spiders/__init__.py">
+    <entry file="file://$PROJECT_DIR$/scrapy.cfg">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Continuum/anaconda3/envs/test_env_ema3/Lib/site-packages/firebase/__init__.py">
@@ -245,45 +254,31 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/betparser/spiders/example.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="601">
-          <caret line="38" column="40" selection-start-line="30" selection-start-column="2" selection-end-line="38" selection-end-column="40" />
-          <folding>
-            <element signature="e#24#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/old/quotes-0.html">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/scrapy.cfg">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/betparser/settings.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output/old/quotes-0.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bet_parser/constants/Bet365.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/bet_parser/spiders/Bet365.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1597" />
+        <state relative-caret-position="595">
+          <caret line="40" column="39" selection-start-line="40" selection-start-column="39" selection-end-line="40" selection-end-column="39" />
+        </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bet_parser/spiders/Diretta.py">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/READme.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="568">
-          <caret line="37" column="35" lean-forward="true" selection-start-line="37" selection-start-column="35" selection-end-line="37" selection-end-column="35" />
+        <state relative-caret-position="283">
+          <caret line="24" column="8" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="50" />
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/b365_europe_elite.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/b365_europe_elite.csv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/b365_ita_league.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output/b365_main.csv">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
   </component>
 </project>

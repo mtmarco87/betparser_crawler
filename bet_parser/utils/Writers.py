@@ -1,5 +1,7 @@
 import pyrebase
 from bet_parser.settings import *
+from bet_parser.models.Match import Match
+from typing import List
 
 
 class FirebaseWriter:
@@ -13,23 +15,23 @@ class FirebaseWriter:
         self.db_root = db_root
 
     """
-    Minimum required data structure:
-    parsed_matches = [ {'Bookmaker':, 'StartDate':, 'Team1':, 'Team2':}, ... ]
+    Input: List[Match] - Matches list 
+    Minimum required data: Bookmaker, StartDate, Team1, Team2 (for unique key in DB)
     """
-    def write(self, parsed_matches: list):
+    def write(self, parsed_matches: List[Match]):
         # Init Firebase app
         firebase = pyrebase.initialize_app(FIREBASE_CONFIG)
         # Get Database
         db = firebase.database()
 
         for match in parsed_matches:
-            db_path = self.db_root + match['Bookmaker'] + '/' + match['StartDate']
-            db_key = self.clean_string(match['Team1']) + '_' + self.clean_string(match['Team2'])
-            db.child(db_path).child(db_key).set(match)
+            db_path = self.db_root + match.Bookmaker + '/' + match.StartDate
+            db_key = self.clean_string(match.Team1) + '_' + self.clean_string(match.Team2)
+            db.child(db_path).child(db_key).set(match.dict())
 
     @staticmethod
     def clean_string(string):
-        return string.replace(" ", "").replace(".", "").lower()
+        return string.replace(" ", "").replace(".", "").replace("/", "").lower()
 
 
 class FileWriter:
@@ -45,19 +47,20 @@ class FileWriter:
         self.out_folder = out_folder
 
     """
-    Required data structure:
-    parsed_matches = [ {'Bookmaker':, 'StartDate':, 'StartTime':, 'RealTime':, 
-                        'Team1':, 'Team2':, 'Result':, 'Quote1':, 'QuoteX': , 'Quote2':}, ... ]
+    Input: str          - Output Filename
+    Input: List[Match]  - Matches list
+    Input: bytes        - Page html (optional)
+    Minimum required data: None (no need of unique key, sequential write)
     """
-    def write(self, filename: str, parsed_matches: list, html: bytes = None):
+    def write(self, filename: str, parsed_matches: List[Match], html: bytes = None):
         # Write Matches quotes to CSV file
         filename_csv = (self.out_folder + '/' if self.out_folder else '') + filename + self.format_csv
         with open(filename_csv, 'w') as f:
-            f.write('Bookmaker,StartDate,StartTime,RealTime,Team1,Team2,Result,Quote1,QuoteX,Quote2;\n')
+            f.write('Bookmaker,StartDate,StartTime,RealTime,Team1,Team2,Quote1,QuoteX,Quote2,Result;\n')
             for match in parsed_matches:
                 line = ''
-                for key, item in match.items():
-                    line += item + (',' if key != 'Quote2' else ';')
+                for key, item in match.dict().items():
+                    line += item + (',' if key != 'Result' else ';')
                 f.write('%s\n' % line)
 
         # Dumps, if available, Matches webpage to file

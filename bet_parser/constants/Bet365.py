@@ -27,10 +27,10 @@ class Const:
     xpath_child_divs: str = './div'
 
     # Other Constants
-    txt_not_available: str = 'N/A'
     match_date_divider: str = ' '
     match_name_divider: str = ' v '
     current_year: int = datetime.today().year
     datetime_italian_locale: str = 'it_IT'
     b365_date_format: str = '%d %b %Y'
     output_date_format: str = '%Y_%m_%d'
+    txt_not_available: str = 'N/A'
