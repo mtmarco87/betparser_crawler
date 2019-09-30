@@ -15,6 +15,8 @@ class Bet365Spider(scrapy.Spider):
         'https://www.bet365.it/#/AC/B1/C1/D13/E113/F16/': 'b365_ita_league',    # Italian Championship
         'https://www.bet365.it/#/AC/B1/C1/D13/E108/F16/': 'b365_europe_elite'   # Europe Elite
     }
+    # Set datetime locale to italian (needed for Bet365 italian pages)
+    locale.setlocale(locale.LC_TIME, Const.datetime_italian_locale)
 
     def start_requests(self):
         for url, name in self.start_urls.items():
@@ -27,8 +29,6 @@ class Bet365Spider(scrapy.Spider):
     def parse(self, response):
         # All the parsed data will be filled in the following array
         parsed_matches = []
-        # Set datetime locale to italian
-        locale.setlocale(locale.LC_TIME, Const.datetime_italian_locale)
 
         # Looping over Matches Groups
         # (this is the main loop, here we iterate on each div containing a group of matches, with its description
