@@ -8,7 +8,7 @@
 import scrapy
 
 
-class BetparserItem(scrapy.Item):
+class BetParserItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     pass

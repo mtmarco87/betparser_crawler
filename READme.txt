@@ -34,3 +34,5 @@
        Let's start :)
 
 6)To add a new spider from the main folder in the anaconda prompt run 'scrapy genspider diretta', and we can start to code :)
+
+7)For firebase pip install pyrebase
