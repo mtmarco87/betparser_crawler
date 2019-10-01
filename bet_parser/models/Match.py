@@ -4,7 +4,6 @@ na: str = 'N/A'
 class Match:
     """
     Match common data model
-
     """
     Bookmaker: str = na
     StartDate: str = na

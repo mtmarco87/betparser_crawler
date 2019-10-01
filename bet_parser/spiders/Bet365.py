@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
-import scrapy
-from scrapy_splash import SplashRequest
-from datetime import datetime
 import locale
+import scrapy
+from scrapy.selector import Selector
+from scrapy_splash import SplashRequest, SplashTextResponse
+from datetime import datetime
+from typing import Dict
 from bet_parser.constants.Bet365 import Const
 from bet_parser.utils.Writers import *
 
@@ -10,10 +12,10 @@ from bet_parser.utils.Writers import *
 class Bet365Spider(scrapy.Spider):
     name: str = 'b365'
     allowed_domains: list = ['bet365.it']
-    start_urls: dict = {
-        'https://www.bet365.it/#/HO/': 'b365_main',                             # Main Page
-        'https://www.bet365.it/#/AC/B1/C1/D13/E113/F16/': 'b365_ita_league',    # Italian Championship
-        'https://www.bet365.it/#/AC/B1/C1/D13/E108/F16/': 'b365_europe_elite'   # Europe Elite
+    start_urls: Dict[str, str] = {
+        'https://www.bet365.it/#/HO/': 'b365_main',  # Main Page
+        'https://www.bet365.it/#/AC/B1/C1/D13/E113/F16/': 'b365_ita_league',  # Italian Championship
+        'https://www.bet365.it/#/AC/B1/C1/D13/E108/F16/': 'b365_europe_elite'  # Europe Elite
     }
     # Set datetime locale to italian (needed for Bet365 italian pages)
     locale.setlocale(locale.LC_TIME, Const.datetime_italian_locale)
@@ -26,16 +28,16 @@ class Bet365Spider(scrapy.Spider):
                                 cookies={Const.access_cookie_key: Const.access_cookie_value}
                                 )
 
-    def parse(self, response):
+    def parse(self, response: SplashTextResponse):
         # All the parsed data will be filled in the following array
-        parsed_matches = []
+        parsed_matches: List[Match] = []
 
         # Looping over Matches Groups
         # (this is the main loop, here we iterate on each div containing a group of matches, with its description
         # and quotes)
         matches_groups = response.css(Const.css_matches_groups)
         for matches_group in matches_groups:
-            first_match_of_group = len(parsed_matches)
+            first_match_of_group: int = len(parsed_matches)
             # Matches description extraction
             self.parse_matches_description(matches_group, parsed_matches)
             # Matches quotes extraction
@@ -50,7 +52,7 @@ class Bet365Spider(scrapy.Spider):
         file_writer = FileWriter('output')
         file_writer.write(self.start_urls[response.url], parsed_matches, response.body)
 
-    def parse_matches_description(self, matches_group, parsed_matches):
+    def parse_matches_description(self, matches_group: Selector, parsed_matches: List[Match]):
         # Looping over Column 1 rows (Dates, Times, Match names and results)
         matches_start_date = None
         column1_rows = matches_group.css(Const.css_description_column + Const.css_child_divs)
@@ -116,7 +118,7 @@ class Bet365Spider(scrapy.Spider):
                 parsed_matches.append(parsed_match)
 
     @staticmethod
-    def parse_matches_quotes(matches_group, first_match_of_group, parsed_matches):
+    def parse_matches_quotes(matches_group: Selector, first_match_of_group: int, parsed_matches: List[Match]):
         # Looping over Column 2, 3, 4 rows (Quotes 1, X, 2)
         quote_columns = matches_group.css(Const.css_quote_columns)
         for column in quote_columns:

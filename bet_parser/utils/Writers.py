@@ -7,7 +7,6 @@ from typing import List
 class FirebaseWriter:
     """
     Writer class able to write Parsed Matches to Firebase.
-
     """
     db_root: str = ''
 
@@ -37,7 +36,6 @@ class FirebaseWriter:
 class FileWriter:
     """
     Writer class able to write Parsed Matches to File (csv+html).
-
     """
     out_folder: str = ''
     format_csv: str = '.csv'
