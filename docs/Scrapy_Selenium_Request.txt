@@ -1,0 +1,22 @@
+yield scrapy.Request(url=url,
+                     callback=self.parse,
+                     meta={'selenium': {
+                           'driver': 'chrome',
+                           'render_js': True,
+                           'wait_time': 1,
+                           # 'wait_until': EC.presence_of_element_located([By.ID, 'ip_sport_0']),
+                           'headless': True,
+                           # 'window_size': '1200x600',
+                           # 'script': ''
+                           }
+                           })
+
+DOC:
+
+driver ==> 'chrome' or 'firefox', specify which web driver you want to use with selenium (and so which browser)
+render_js ==> true: execute a js script to extract the rendered DOM for the response; false: just ask selenium to extract html content of the page
+wait_time ==> alone: sets a waiting time for selenium to render the page; together with wait_until: sets a deadline until which to wait for the wait_until condition
+wait_until ==> works only together with wait_time, and represent a Selenium expectation that has to happen before the page is fetched
+headless ==> true: no browser window opened, operate in ghost mode; false: use a browser window
+window_size ==> size of the above window
+script ==> pass a custom js script to execute (before the extraction)

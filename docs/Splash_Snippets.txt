@@ -1,0 +1,66 @@
+Splash Request with Lua Script definition
+===================================================
+
+        script = """
+        function main(splash)
+          splash:init_cookies(splash.args.cookies)
+          assert(splash:go{
+            splash.args.url,
+            headers=splash.args.headers,
+            http_method=splash.args.http_method,
+            body=splash.args.body,
+            })
+          assert(splash:wait(0.5))
+          splash:set_viewport_full()
+          local banner = splash:select('div[id="dv1"]')
+          banner:mouse_click()
+
+
+          local entries = splash:history()
+          local last_response = entries[#entries].response
+          return {
+            url = splash:url(),
+            headers = last_response.headers,
+            http_status = last_response.status,
+            cookies = splash:get_cookies(),
+            html = splash:html(),
+          }
+        end
+        """
+
+        yield SplashRequest(url=self.url, callback=self.parse,
+                            endpoint='execute',
+                            cache_args=['lua_source'],
+                            args={'wait': 2, 'lua_source': script},
+                            headers={'X-My-Header': 'value'},
+                            session_id=1,
+                            cookies={'aps03': 'lng=6&ct=97&cg=1&cst=0&hd=N&cf=N&tzi=19&oty=2'}
+                            )
+
+
+======================================================
+Splash Request bridged via scrapy.Request
+======================================================
+
+        yield scrapy.Request(url=self.url, callback=self.parse, meta={
+            'splash': {
+                'args': {
+                    # set rendering arguments here
+                    'html': 1,
+                    'png': 1,
+
+                    # 'url' is prefilled from request url
+                    # 'http_method' is set to 'POST' for POST requests
+                    # 'body' is set to request body for POST requests
+                },
+
+                # optional parameters
+                # 'endpoint': 'render.json',  # optional; default is render.json
+                # 'splash_url': '<url>',  # optional; overrides SPLASH_URL
+                # 'slot_policy': scrapy_splash.SlotPolicy.PER_DOMAIN,
+                # 'splash_headers': {},  # optional; a dict with headers sent to Splash
+                # 'dont_process_response': True,  # optional, default is False
+                # 'dont_send_headers': True,  # optional, default is False
+                # 'magic_response': False,  # optional, default is True
+            }
+        })

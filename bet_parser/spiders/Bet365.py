@@ -48,10 +48,6 @@ class Bet365Spider(scrapy.Spider):
         fb_writer.write(parsed_matches)
         self.log('Saved parsed quotes on Firebase: %s' % self.name)
 
-        # Write quotes to File
-        file_writer = FileWriter('output')
-        file_writer.write(self.start_urls[response.url], parsed_matches, response.body)
-
     def parse_matches_description(self, matches_group: Selector, parsed_matches: List[Match]):
         # Looping over Column 1 rows (Dates, Times, Match names and results)
         matches_start_date = None

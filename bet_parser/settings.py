@@ -8,7 +8,10 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+import os
+from pathlib import Path
 
+BOT_PATH = str(Path(os.path.dirname(os.path.realpath(__file__))).parent)
 BOT_NAME = 'bet_parser'
 SPIDER_MODULES = ['bet_parser.spiders']
 NEWSPIDER_MODULE = 'bet_parser.spiders'
@@ -16,6 +19,10 @@ NEWSPIDER_MODULE = 'bet_parser.spiders'
 # Splash config
 SPLASH_URL = 'http://127.0.0.1:8050'
 DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
+
+# Selenium config
+SELENIUM_DRIVER_CHROME = BOT_PATH + '/libs/selenium_drivers/chromedriver.exe'
+SELENIUM_DRIVER_FIREFOX = BOT_PATH + '/libs/selenium_drivers/geckodriver.exe'
 
 # Firebase config
 FIREBASE_CONFIG = {
@@ -32,7 +39,7 @@ USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTM
              'Chrome/77.0.3865.75 Safari/537.36'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -67,10 +74,10 @@ SPIDER_MIDDLEWARES = {
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    # 'bet_parser.middlewares.BetParserDownloaderMiddleware': 543,
     'scrapy_splash.SplashCookiesMiddleware': 723,
     'scrapy_splash.SplashMiddleware': 725,
     'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
+    'bet_parser.middlewares.SeleniumDownloaderMiddleware': 900
 }
 
 # Enable or disable extensions
