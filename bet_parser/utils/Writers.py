@@ -24,8 +24,9 @@ class FirebaseWriter:
         db = firebase.database()
 
         for match in parsed_matches:
-            db_path = self.db_root + match.Bookmaker + '/' + match.StartDate
-            db_key = self.clean_string(match.Team1) + '_' + self.clean_string(match.Team2)
+            db_path = self.db_root + '/' + match.StartDate + '/' + self.clean_string(match.Team1) + \
+                      '_' + self.clean_string(match.Team2)
+            db_key = match.Bookmaker
             db.child(db_path).child(db_key).set(match.dict())
 
     @staticmethod

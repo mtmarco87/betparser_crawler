@@ -24,7 +24,7 @@ FIREBASE_CONFIG = {
     "databaseURL": "https://parser-b8114.firebaseio.com",
     "storageBucket": ""
 }
-FIREBASE_DEFAULT_DB_ROOT = 'parsed_bets/'
+FIREBASE_DEFAULT_DB_ROOT = 'parsed_bets'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'bet_parser (+http://www.yourdomain.com)'
