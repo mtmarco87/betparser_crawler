@@ -1,0 +1,142 @@
+Machine learning, Single Word/Documents Classification problem:
+
+import pandas
+import matplotlib.pyplot as plt
+from sklearn import model_selection
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report
+from sklearn.metrics import confusion_matrix
+from sklearn.metrics import accuracy_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.naive_bayes import GaussianNB
+from sklearn.svm import SVC
+
+def start_str(self):
+    # Load dataset
+    filepath = BOT_PATH + "/libs/ml_data/team_names.csv"
+    names = ['source-name', 'class']
+    dataset = pandas.read_csv(filepath, names=names)
+
+    # shape
+    print(dataset.shape)
+    # head
+    print(dataset.head(20))
+    # descriptions
+    print(dataset.describe())
+    # class distribution
+    print(dataset.groupby('class').size())
+
+    # Split-out validation dataset
+    array = dataset.values
+    X = array[:, 0:1]
+    Y = array[:, 1]
+
+    words = []
+
+    for word in X:
+        word = ' '.join([char for char in word[0]])
+        words.append(word)
+        # # Remove all the special characters
+        # word = re.sub(r'\W', ' ', str(X[sen]))
+
+        # # remove all single characters
+        # word = re.sub(r'\s+[a-zA-Z]\s+', ' ', document)
+        #
+        # # Remove single characters from the start
+        # word = re.sub(r'\^[a-zA-Z]\s+', ' ', document)
+
+        # # Substituting multiple spaces with single space
+        # word = re.sub(r'\s+', ' ', document, flags=re.I)
+        #
+        # # Removing prefixed 'b'
+        # word = re.sub(r'^b\s+', '', document)
+
+        # # Converting to Lowercase
+        # word = document.lower()
+
+        # # Lemmatization
+        # document = document.split()
+        #
+        # document = [stemmer.lemmatize(word) for word in document]
+        # document = ' '.join(document)
+        #
+        # documents.append(document)
+        pass
+
+    from sklearn.feature_extraction.text import CountVectorizer
+    from sklearn.feature_extraction.text import TfidfTransformer
+    vectorizer = CountVectorizer(
+        analyzer="word",
+        tokenizer=None,
+        preprocessor=None,
+        stop_words=None,
+        max_features=5000,
+        token_pattern=r"(?u)\b\w+\b")
+    X = vectorizer.fit_transform(words).toarray()
+    tfidfconverter = TfidfTransformer()
+    X = tfidfconverter.fit_transform(X).toarray()
+
+    validation_size = 0.1
+    seed = 0
+    X_train, X_validation, Y_train, Y_validation = model_selection.train_test_split(X, Y, test_size=validation_size,
+                                                                                    random_state=seed)
+    # Test options and evaluation metric
+    seed = 7
+    scoring = 'accuracy'
+
+    # Spot Check Algorithms
+    models = []
+    models.append(('LR', LogisticRegression(solver='liblinear', multi_class='ovr')))
+    models.append(('LDA', LinearDiscriminantAnalysis()))
+    models.append(('KNN', KNeighborsClassifier()))
+    models.append(('CART', DecisionTreeClassifier()))
+    models.append(('NB', GaussianNB()))
+    models.append(('SVM', SVC(gamma='auto')))
+    models.append(('FOR', RandomForestClassifier(n_estimators=1000, random_state=0)))
+    # evaluate each model in turn
+    results = []
+    names = []
+    for name, model in models:
+        kfold = model_selection.KFold(n_splits=10, random_state=seed)
+        cv_results = model_selection.cross_val_score(model, X_train, Y_train, cv=kfold, scoring=scoring)
+        results.append(cv_results)
+        names.append(name)
+        msg = "%s: %f (%f)" % (name, cv_results.mean(), cv_results.std())
+        print(msg)
+
+    # Compare Algorithms
+    fig = plt.figure()
+    fig.suptitle('Algorithm Comparison')
+    ax = fig.add_subplot(111)
+    plt.boxplot(results)
+    ax.set_xticklabels(names)
+    plt.show()
+
+    # RandomForest Classifier
+    classifier = RandomForestClassifier(n_estimators=1000, random_state=0)
+    classifier.fit(X_train, Y_train)
+    predictions = classifier.predict(X_validation)
+    print(accuracy_score(Y_validation, predictions))
+    print(confusion_matrix(Y_validation, predictions))
+    print(classification_report(Y_validation, predictions))
+
+    # Make predictions on validation dataset
+    lda = LinearDiscriminantAnalysis()
+    lda.fit(X_train, Y_train)
+    predictions = lda.predict(X_validation)
+    print(accuracy_score(Y_validation, predictions))
+    print(confusion_matrix(Y_validation, predictions))
+    print(classification_report(Y_validation, predictions))
+
+    # Make predictions on validation dataset
+    knn = KNeighborsClassifier()
+    knn.fit(X_train, Y_train)
+    predictions = knn.predict(X_validation)
+    print(accuracy_score(Y_validation, predictions))
+    print(confusion_matrix(Y_validation, predictions))
+    print(classification_report(Y_validation, predictions))
+
+

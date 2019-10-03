@@ -6,6 +6,8 @@ from scrapy_splash import SplashRequest, SplashTextResponse
 from datetime import datetime
 from typing import Dict
 from bet_parser.constants.Bet365 import Const
+from bet_parser.utils.Mappers import MatchMapper
+from bet_parser.utils.Translators import MatchTranslator
 from bet_parser.utils.Writers import *
 
 
@@ -42,6 +44,13 @@ class Bet365Spider(scrapy.Spider):
             self.parse_matches_description(matches_group, parsed_matches)
             # Matches quotes extraction
             self.parse_matches_quotes(matches_group, first_match_of_group, parsed_matches)
+
+        # # Apply Google Translate to each Match team names to global EN ones
+        # match_translator = MatchTranslator(from_lang='it', to_lang='en', word_by_word=True)
+        # parsed_matches = match_translator.translate_all(parsed_matches)
+
+        # Try to remap each Match team names to the global EN ones (if found from the ML system)
+        parsed_matches = MatchMapper().remap_all(parsed_matches)
 
         # Write quotes to Firebase
         fb_writer = FirebaseWriter()
@@ -129,3 +138,4 @@ class Bet365Spider(scrapy.Spider):
                     quote = row.css(Const.css_get_all_text).get(default='')
                     setattr(parsed_matches[match_number], 'Quote' + quote_type, quote)
                     match_number += 1
+
