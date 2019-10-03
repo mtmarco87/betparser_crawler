@@ -1,128 +1,25 @@
-import re
-
+from numpy.core.multiarray import ndarray
 import nltk
-from numpy import genfromtxt
 from collections import Counter
 from math import sqrt
-from bet_parser.settings import *
 import difflib
-
-teams_path = BOT_PATH + "/libs/ml_data/team_names.csv"
-columns = ['source', 'target']
-dataset = genfromtxt(teams_path, dtype=str, delimiter=',')
-dataset_sources = dataset[:, 0]
-dataset_target = dataset[:, 1]
-
-
-class ML:
-    algorithm: str = None
-
-    def __init__(self, algorithm: str = 'cosine'):
-        self.algorithm = algorithm
-
-    def get_by_similarity(self, team_name, threshold: int = None):
-        result = team_name
-        if 'cos' in self.algorithm:
-            result = self.cosine_similarity(team_name, threshold)
-        elif 'lev' in self.algorithm:
-            result = self.levenstein_distance(team_name, threshold)
-        elif 'seq' in self.algorithm:
-            result = self.sequence_matcher(team_name, threshold)
-        return result
-
-    @staticmethod
-    def cosine_similarity(team_name: str, threshold: int = None):
-        result = team_name
-        key = re.sub(r'\s+', ' ', team_name.strip().lower(), flags=re.I)
-        if not threshold:
-            threshold = 95
-
-        index = -1
-        best_results = []
-        for word in dataset_sources:
-            index += 1
-            try:
-                res = MLHelpers.cosdis(MLHelpers.word2vec(key), MLHelpers.word2vec(word)) * 100
-                if res > threshold:
-                    target_word = dataset_target[index]
-                    msg = "The cosine similarity between : {} and : {} is: {}. Mapping => {}"
-                    print(msg.format(word, key, res, target_word))
-                    best_results.append({
-                        'Matched': word,
-                        'Mapping': target_word,
-                        'Score': res
-                    })
-            except IndexError:
-                pass
-
-        if len(best_results) > 0:
-            result = sorted(best_results, key=lambda k: k['Score'], reverse=True)[:1][0]
-            print("Best result: {}".format(result))
-            result = str(result['Mapping'])
-
-        return result
-
-    @staticmethod
-    def levenstein_distance(team_name: str, threshold: int = None):
-        result = team_name
-        key = re.sub(r'\s+', ' ', team_name.strip().lower(), flags=re.I)
-        if not threshold:
-            threshold = 4
-
-        index = -1
-        best_results = []
-        for word in dataset_sources:
-            index += 1
-            res = nltk.edit_distance(key, word)
-            if res < threshold:
-                target_word = dataset_target[index]
-                msg = "The levenstein distance between : {} and : {} is: {}. Mapping => {}"
-                print(msg.format(word, key, res, target_word))
-                best_results.append({
-                    'Matched': word,
-                    'Mapping': target_word,
-                    'Score': res
-                })
-
-        if len(best_results) > 0:
-            result = sorted(best_results, key=lambda k: k['Score'])[:1][0]
-            print("Best result: {}".format(result))
-            result = str(result['Mapping'])
-
-        return result
-
-    @staticmethod
-    def sequence_matcher(team_name: str, threshold: int = None):
-        result = team_name
-        key = re.sub(r'\s+', ' ', team_name.strip().lower(), flags=re.I)
-        if not threshold:
-            threshold = 85
-
-        index = -1
-        best_results = []
-        for word in dataset_sources:
-            index += 1
-            seq = difflib.SequenceMatcher(None, key, word)
-            res = seq.ratio() * 100
-            if res > threshold:
-                target_word = dataset_target[index]
-                msg = "The sequence-matcher similarity between : {} and : {} is: {}. Mapping => {}"
-                print(msg.format(word, key, res, target_word))
-                best_results.append({
-                    'Matched': word,
-                    'Mapping': target_word,
-                    'Score': res
-                })
-
-        if len(best_results) > 0:
-            result = sorted(best_results, key=lambda k: k['Score'])[:1][0]
-            print("Best result: {}".format(result))
-            result = str(result['Mapping'])
-
-        return result
+import re
 
 
 class MLHelpers:
+    @staticmethod
+    def cosine_similarity(key: str, word: str):
+        return MLHelpers.cosdis(MLHelpers.word2vec(key), MLHelpers.word2vec(word)) * 100
+
+    @staticmethod
+    def levenstein_distance(key: str, word: str):
+        return nltk.edit_distance(key, word)
+
+    @staticmethod
+    def sequence_matcher(key: str, word: str):
+        seq = difflib.SequenceMatcher(None, key, word)
+        return seq.ratio() * 100
+
     @staticmethod
     def word2vec(word):
         # count the characters in word
@@ -141,3 +38,105 @@ class MLHelpers:
         common = v1[1].intersection(v2[1])
         # by definition of cosine distance we have
         return sum(v1[0][ch] * v2[0][ch] for ch in common) / v1[2] / v2[2]
+
+
+class WordSimilarityML:
+    """
+    Word Similarity Machine Learning engine
+
+    Parameters:
+    @Source Dataset: that will be used to match words by similarity
+    @Target Dataset: that will provide a mapping for every matched word
+    @Algorithm: that specifies the ML algorithm that will be used to evaluate word similarity (cos, lev, seq)
+    @Validation Dataset (var):  the engine adds to it the not recognized words
+    """
+    algorithm = None
+    algorithm_fullname: str = None
+    algorithm_treshold: int = None
+    algorithm_maximize: bool = None
+    algorithms: dict = {
+        'cos': ['cosine similarity', True, 95, MLHelpers.cosine_similarity],
+        'lev': ['levenstein distance', False, 4, MLHelpers.levenstein_distance],
+        'seq': ['sequence matcher', True, 85, MLHelpers.sequence_matcher]
+    }
+    dataset_source: ndarray = None
+    dataset_target: ndarray = None
+    sanitize_array: list = None
+
+    def __init__(self, dataset_source: ndarray = None, dataset_target: ndarray = None,
+                 algorithm: str = 'cos', sanitize_array: list = None):
+        if algorithm not in self.algorithms.keys():
+            raise Exception('Error: Unknown ML algorithm requested')
+        if dataset_source is None or dataset_target is None:
+            raise Exception('Error: No dataset provided to the ML algorithm')
+        self.algorithm_fullname = self.algorithms[algorithm][0]
+        self.algorithm_maximize = self.algorithms[algorithm][1]
+        self.algorithm_treshold = self.algorithms[algorithm][2]
+        self.algorithm = self.algorithms[algorithm][3]
+
+        self.dataset_source = dataset_source
+        self.dataset_target = dataset_target
+        self.sanitize_array = sanitize_array
+
+    def get(self, key: str, threshold: int = None):
+        key = self.sanitize(key, self.sanitize_array)
+        result = MLSimilarityResult(key)
+        if not threshold:
+            threshold = self.algorithm_treshold
+
+        index = -1
+        found = []
+        for word in self.dataset_source:
+            index += 1
+            try:
+                score: float = self.algorithm(key, word)
+                if (self.algorithm_maximize and score > threshold) \
+                        or (not self.algorithm_maximize and score < threshold):
+                    target_word = self.dataset_target[index]
+                    print("The {} between : {} and {} ({}) is: {}"
+                          .format(self.algorithm_fullname, key, word, target_word, score))
+                    found.append(MLSimilarityResult(key, word, target_word, score))
+            except IndexError:
+                pass
+
+        if len(found) > 0:
+            # If at least one word with an high similarity has been found, takes the best one
+            result = sorted(found, key=lambda k: k.score, reverse=self.algorithm_maximize)[0]
+            print("Best result: {}".format(result))
+
+        return result
+
+    @staticmethod
+    def sanitize(key, sanitize_array: list = None):
+        # Sanitizing the input word for better comparison:
+
+        # Remove all the special characters
+        key = re.sub(r'\W', ' ', key)
+        # Transform the string lower case, so that next rules can apply correctly
+        key = key.lower()
+        # Applies custom sanitation rules (removes all the isolated occurrences of these words)
+        if sanitize_array:
+            for s in sanitize_array:
+                key = re.sub(r'(' + s + r'\s+)|(\s+' + s + r')', '', key, flags=re.I)
+        # Substitute multiple spaces with single space
+        key = re.sub(r'\s+', ' ', key, flags=re.I)
+
+        # Finally we trim and return
+        return key.strip()
+
+
+class MLSimilarityResult:
+    key_word: str
+    matched_word: str
+    mapped_word: str
+    score: float
+
+    def __init__(self, key_word: str = None, matched_word: str = None, mapped_word: str = None, score: float = 0):
+        self.key_word = key_word
+        self.matched_word = matched_word
+        self.mapped_word = mapped_word
+        self.score = score
+
+    def __str__(self):
+        return "[ Key Word: {}, Matched Word: {}, Mapped Word: {}, Score: {} ]".format(self.key_word, self.matched_word,
+                                                                                       self.mapped_word, self.score)

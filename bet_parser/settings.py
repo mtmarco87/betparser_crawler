@@ -8,8 +8,10 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+
 import os
 from pathlib import Path
+from numpy import genfromtxt
 
 BOT_PATH = str(Path(os.path.dirname(os.path.realpath(__file__))).parent)
 BOT_NAME = 'bet_parser'
@@ -32,6 +34,19 @@ FIREBASE_CONFIG = {
     "storageBucket": ""
 }
 FIREBASE_DEFAULT_DB_ROOT = 'parsed_bets'
+
+# Machine Learning config
+TEAM_NAMES = BOT_PATH + "/libs/ml_data/team_names.csv"
+TEAM_NAMES_DATASET = genfromtxt(TEAM_NAMES, dtype=str, delimiter=',')    # Dataset for Team Names word similarity
+TEAM_NAMES_DATASET_SOURCE = TEAM_NAMES_DATASET[:, 0]
+TEAM_NAMES_DATASET_TARGET = TEAM_NAMES_DATASET[:, 1]
+TEAM_NAMES_SANITIZE_ARRAY = [
+    'fc', 'ac', 'ssc', 'cf', 'sc', 'rb'
+]
+TEAM_NAMES_VALIDATION_PATH = BOT_PATH + "/libs/ml_data"  # Output validation path (for training)
+TEAM_NAMES_VALIDATION_FILE = 'to_validate'
+SANITIZED_TEAM_NAMES_VALIDATION_FILE = None
+ORIGINAL_TEAM_NAMES_VALIDATION_FILE = None
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'bet_parser (+http://www.yourdomain.com)'

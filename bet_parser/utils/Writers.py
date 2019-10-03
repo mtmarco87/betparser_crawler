@@ -41,6 +41,7 @@ class FileWriter:
     out_folder: str = ''
     format_csv: str = '.csv'
     format_html: str = '.html'
+    format_txt: str = '.txt'
 
     def __init__(self, out_folder=''):
         self.out_folder = out_folder
@@ -67,3 +68,13 @@ class FileWriter:
             filename_html = (self.out_folder + '/' if self.out_folder else '') + filename + self.format_html
             with open(filename_html, 'wb') as f:
                 f.write(html)
+
+    """
+    Input: str          - Output File Name
+    Input: str          - Content to append
+    Appends raw string data to file
+    """
+    def append(self, filename: str, content: str):
+        filename_txt = (self.out_folder + '/' if self.out_folder else '') + filename + self.format_txt
+        with open(filename_txt, 'a+') as f:
+            f.write(content)

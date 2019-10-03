@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import locale
 import scrapy
+from scrapy import signals
 from scrapy.selector import Selector
 from scrapy_splash import SplashRequest, SplashTextResponse
 from datetime import datetime
@@ -21,8 +22,13 @@ class Bet365Spider(scrapy.Spider):
     }
     # Set datetime locale to italian (needed for Bet365 italian pages)
     locale.setlocale(locale.LC_TIME, Const.datetime_italian_locale)
+    match_mapper = MatchMapper()
 
     def start_requests(self):
+        # Connect the idle status (end of all requests) to self.spider_idle method
+        self.crawler.signals.connect(self.spider_idle, signal=signals.spider_idle)
+
+        # Start requests
         for url, name in self.start_urls.items():
             yield SplashRequest(url, self.parse,
                                 args={'wait': 3, 'html': 0, 'png': 0},
@@ -49,8 +55,8 @@ class Bet365Spider(scrapy.Spider):
         # match_translator = MatchTranslator(from_lang='it', to_lang='en', word_by_word=True)
         # parsed_matches = match_translator.translate_all(parsed_matches)
 
-        # Try to remap each Match team names to the global EN ones (if found from the ML system)
-        parsed_matches = MatchMapper().remap_all(parsed_matches)
+        # Try to remap each Match team name to the global en-EN one (if found from the ML system)
+        parsed_matches = self.match_mapper.map_all(parsed_matches)
 
         # Write quotes to Firebase
         fb_writer = FirebaseWriter()
@@ -139,3 +145,6 @@ class Bet365Spider(scrapy.Spider):
                     setattr(parsed_matches[match_number], 'Quote' + quote_type, quote)
                     match_number += 1
 
+    def spider_idle(self):
+        # At the end of all the requests write down validation output of ML (unique array through all the parsed teams)
+        self.match_mapper.write_validation_dataset()

@@ -1,44 +1,29 @@
 atalanta,Atalanta
-atalanta fc,Atalanta
 bologna,Bologna
-bologna fc,Bologna
 brescia,Brescia
 cagliari,Cagliari
 fiorentina,Fiorentina
-ac fiorentina,Fiorentina
 florence,Fiorentina
-ac florence,Fiorentina
 genoa,Genoa
 inter,Inter
-fc inter,Inter
 inter milan,Inter
-fc inter milan,Inter
+inter-milan,Inter
 juventus,Juventus
-fc juventus,Juventus
 lazio,Lazio
-ac lazio,Lazio
 lecce,Lecce
 milan,Milan
-ac milan,Milan
 napoli,Napoli
-ssc napli,Napoli
 naples,Napoli
-ssc naples,Napoli
 parma,Parma
 roma,Roma
-ac roma,Roma
 rome,Roma
-ac rome,Roma
 sampdoria,Sampdoria
 sassuolo,Sassuolo
 spal,Spal
 torino,Torino
-ac torino,Torino
 turin,Torino
-ac turin,Torino
 udinese,Udinese
 verona,Verona
-ac verona,Verona
 ascoli,Ascoli
 benevento,Benevento
 chievo,Chievo
