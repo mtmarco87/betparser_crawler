@@ -11,13 +11,11 @@ from bet_parser.utils.Mappers import MatchMapper
 from bet_parser.utils.Writers import *
 
 
-class Bet365Spider(scrapy.Spider):
-    name: str = 'b365'
-    allowed_domains: list = ['bet365.it']
+class BwinSpider(scrapy.Spider):
+    name = 'bwin'
+    allowed_domains = ['bwin.fr']
     start_urls: Dict[str, str] = {
-        'https://www.bet365.it/#/HO/': 'b365_main',  # Main Page
-        'https://www.bet365.it/#/AC/B1/C1/D13/E113/F16/': 'b365_ita_league',  # Italian Championship
-        'https://www.bet365.it/#/AC/B1/C1/D13/E108/F16/': 'b365_europe_elite'  # Europe Elite
+        'https://sports.bwin.fr/fr/sports/football-4/paris-sportifs/italie-20': 'bwin_italy',
     }
     parsed_matches: List[Match] = []
     # Set datetime locale to italian (needed for Bet365 italian pages)
@@ -37,6 +35,9 @@ class Bet365Spider(scrapy.Spider):
                                 )
 
     def parse(self, response: SplashTextResponse):
+        tmp = FileWriter('output')
+        tmp.write('test', [], response.body)
+
         # Looping over Matches Groups
         # (this is the main loop, here we iterate on each div containing a group of matches, with its description
         # and quotes)

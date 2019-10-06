@@ -17,17 +17,21 @@ class FirebaseWriter:
     Input: List[Match] - Matches list 
     Minimum required data: Bookmaker, StartDate, Team1, Team2 (for unique key in DB)
     """
-    def write(self, parsed_matches: List[Match]):
+    def write(self, parsed_matches: List[Match], deduplicate: bool = True):
         # Init Firebase app
         firebase = pyrebase.initialize_app(FIREBASE_CONFIG)
         # Get Database
         db = firebase.database()
 
+        inserted_paths = []
         for match in parsed_matches:
             db_path = self.db_root + '/' + match.StartDate + '/' + self.clean_string(match.Team1) + \
                       '_' + self.clean_string(match.Team2)
-            db_key = match.Bookmaker
-            db.child(db_path).child(db_key).set(match.dict())
+            if db_path not in inserted_paths:
+                if deduplicate:
+                    inserted_paths.append(db_path)
+                db_key = match.Bookmaker
+                db.child(db_path).child(db_key).set(match.dict())
 
     @staticmethod
     def clean_string(string):
@@ -78,3 +82,19 @@ class FileWriter:
         filename_txt = (self.out_folder + '/' if self.out_folder else '') + filename + self.format_txt
         with open(filename_txt, 'a+') as f:
             f.write(content)
+    """
+    Input: str          - File Name to read
+    """
+    def readlines(self, filename: str):
+        filename_txt = (self.out_folder + '/' if self.out_folder else '') + filename + self.format_txt
+        with open(filename_txt, 'r') as f:
+            return f.readlines()
+
+    def deduplicate(self, in_filename):
+        content = self.readlines(in_filename)
+
+        already_inserted = []
+        for line in content:
+            if line not in already_inserted:
+                already_inserted.append(line)
+                self.append(in_filename + '_deduplicate', line)

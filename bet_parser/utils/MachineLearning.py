@@ -117,7 +117,7 @@ class WordSimilarityML:
         # Applies custom sanitation rules (removes all the isolated occurrences of these words)
         if sanitize_array:
             for s in sanitize_array:
-                key = re.sub(r'(' + s + r'\s+)|(\s+' + s + r')', '', key, flags=re.I)
+                key = re.sub(r'((?<!\w)' + s + r'(?!\w))', '', key, flags=re.I)
         # Substitute multiple spaces with single space
         key = re.sub(r'\s+', ' ', key, flags=re.I)
 

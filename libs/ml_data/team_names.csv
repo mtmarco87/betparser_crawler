@@ -1,29 +1,39 @@
 atalanta,Atalanta
+atalanta bergame,Atalanta
 bologna,Bologna
+bologne,Bologna
 brescia,Brescia
 cagliari,Cagliari
 fiorentina,Fiorentina
 florence,Fiorentina
 genoa,Genoa
+genoa cfc,Genoa
+gênes,Genoa
 inter,Inter
 inter milan,Inter
-inter-milan,Inter
 juventus,Juventus
 lazio,Lazio
+lazio rome,Lazio
 lecce,Lecce
 milan,Milan
 napoli,Napoli
 naples,Napoli
 parma,Parma
+parme,Parma
 roma,Roma
 rome,Roma
 sampdoria,Sampdoria
+sampdoria de gênes,Sampdoria
 sassuolo,Sassuolo
 spal,Spal
+spal ferrara,Spal
 torino,Torino
 turin,Torino
 udinese,Udinese
 verona,Verona
+vérone,Verona
+hellas vérone,Verona
+hellas verona,Verona
 ascoli,Ascoli
 benevento,Benevento
 chievo,Chievo
@@ -35,13 +45,430 @@ empoli,Empoli
 frosinone,Frosinone
 juve stabia,Juve Stabia
 livorno,Livorno
+livourne,Livorno
+pérouse,Perugia
 perugia,Perugia
 pescara,Pescara
+pise,Pisa
 pisa,Pisa
 pordenone,Pordenone
 salernitana,Salernitana
+la spezia,Spezia
 spezia,Spezia
 trapani,Trapani
 venezia,Venezia
 venice,Venezia
+venise,Venezia
 virtus entella,Virtus Entella
+hertha berlin,Hertha Berlin
+hertha berlino,Hertha Berlin
+hertha berliner,Hertha Berlin
+hertha berliner sport club,Hertha Berlin
+hertha berliner sport club e v,Hertha Berlin
+hertha,Hertha Berlin
+fortuna dusseldorf,Fortuna Dusseldorf
+fortuna düsseldorf,Fortuna Dusseldorf
+amiens,Amiens
+marsiglia,Marseilles
+olympique marsiglia,Marseilles
+marseille,Marseilles
+om marseille,Marseilles
+olympique marseille,Marseilles
+olympique de marseille,Marseilles
+marseilles,Marseilles
+real betis,Real Betis
+real betis balompié,Real Betis
+betis sevilla,Real Betis
+betis seville,Real Betis
+betis séville,Real Betis
+betis siviglia,Real Betis
+eibar,Eibar
+leganes,Leganes
+levante,Levante
+brighton,Brighton
+tottenham,Tottenham
+bayern munich,Bayern Munich
+bayern monaco,Bayern Munich
+bayern münchen,Bayern Munich
+hoffenheim,Hoffenheim
+tsg hoffenheim,Hoffenheim
+tsg 1899 hoffenheim,Hoffenheim
+1899 hoffenheim,Hoffenheim
+bayer leverkusen,Bayer Leverkusen
+lipsia,RB Leipzig
+leipzig,RB Leipzig
+rasenballsport leipzig,RB Leipzig
+freiburg,SC Freiburg
+friburgo,SC Freiburg
+fribourg,SC Freiburg
+borussia dortmund,Borussia Dortmund
+borussia 09 dortmund,Borussia Dortmund
+bv 09 borussia dortmund,Borussia Dortmund
+09 borussia dortmund,Borussia Dortmund
+paderborn,Paderborn
+paderborn 07,Paderborn
+mainz,Mainz
+mainz 05,Mainz
+real madrid,Real Madrid
+granada,Granada
+grenade,Granada
+burnley,Burnley
+everton,Everton
+liverpool,Liverpool
+leicester,Leicester
+sampdoria u19,Sampdoria U19
+lazio u19,Lazio U19
+atletico madrid,Atletico Madrid
+atlético madrid,Atletico Madrid
+atlético de madrid,Atletico Madrid
+shakhtar donetsk,Shakhtar Donetsk
+dinamo zagreb,Dinamo Zagreb
+dinamo zagabria,Dinamo Zagreb
+club bruges,Club Bruges
+paris saint germain,Paris Saint Germain
+galatasaray,Galatasaray
+lokomotiv mosca,Lokomotiv Moscow
+lokomotiv moskva,Lokomotiv Moscow
+lokomotiv moscow,Lokomotiv Moscow
+manchester city,Manchester City
+olympiakos,Olympiakos
+stella rossa belgrado,Red Star Belgrade
+belgrado,Red Star Belgrade
+étoile rouge de belgrade,Red Star Belgrade
+étoile rouge belgrade,Red Star Belgrade
+red star belgrade,Red Star Belgrade
+belgrade,Red Star Belgrade
+crvena zvezda,Red Star Belgrade
+ajax,Ajax
+chelsea,Chelsea
+zenit sankt peterburg,Zenit Saint Petersburg
+zenit saint petersburg,Zenit Saint Petersburg
+zenit st petersburg,Zenit Saint Petersburg
+zenit san pietroburgo,Zenit Saint Petersburg
+zenit s pietroburgo,Zenit Saint Petersburg
+zénith saint pétersbourg,Zenit Saint Petersburg
+benfica,Benfica
+sl benfica,Benfica
+lione,Lyon
+olympique lione,Lyon
+lyon,Lyon
+olympique lyon,Lyon
+olympique lyonnais,Lyon
+salisburgo,Salzburg
+red bull salisburgo,Salzburg
+salzburg,Salzburg
+red bull salzburg,Salzburg
+salzbourg,Salzburg
+red bull salzbourg,Salzburg
+genk,Genk
+lilla,Lille
+lille,Lille
+losc lille,Lille
+losc,Lille
+valencia,Valencia
+slavia praga,Slavia Prague
+slavia prague,Slavia Prague
+slavia praha,Slavia Prague
+barcellona,Barcelona
+barcelona,Barcelona
+norwich,Norwich
+aston villa,Aston Villa
+watford,Watford
+sheffield united,Sheffield United
+west ham,West Ham
+crystal palace,Crystal Palace
+arsenal,Arsenal
+bournemouth,Bournemouth
+wolverhampton,Wolverhampton
+southampton,Southampton
+newcastle,Newcastle
+manchester united,Manchester United
+alaves,Alaves
+osasuna,Osasuna
+villarreal,Villarreal
+maiorca,Mallorca
+mallorca,Mallorca
+majorque,Mallorca
+espanyol,Espanyol
+celta vigo,Celta Vigo
+celta de vigo,Celta Vigo
+atletico bilbao,Athletic Bilbao
+athletic bilbao,Athletic Bilbao
+athletic club,Athletic Bilbao
+valladolid,Valladolid
+real sociedad,Real Sociedad
+getafe,Getafe
+siviglia,Seville
+sevilla,Seville
+seville,Seville
+séville,Seville
+schalke 04,Schalke 04
+schalke,Schalke 04
+colonia,Cologne
+köln,Cologne
+1 köln,Cologne
+köln 01 07,Cologne
+1 köln 01 07,Cologne
+cologne,Cologne
+1 cologne,Cologne
+borussia m gladbach,Borussia M'gladbach
+borussia mönchengladbach,Borussia M'gladbach
+mönchengladbach,Borussia M'gladbach
+borussia vfl mönchengladbach,Borussia M'gladbach
+augsburg,Augsburg
+augsbourg,Augsburg
+wolfsburg,Wolfsburg
+wolfsbourg,Wolfsburg
+union berlino,Union Berlin
+union berlin,Union Berlin
+1 union berlin,Union Berlin
+eintracht francoforte,Eintracht Frankfurt
+eintracht frankfurt,Eintracht Frankfurt
+eintracht francfort,Eintracht Frankfurt
+werder brema,Werder Bremen
+werder bremen,Werder Bremen
+werder brême,Werder Bremen
+sportverein werder von 1899 e V,Werder Bremen
+sportverein werder bremen von 1899 e V,Werder Bremen
+angers,Angers
+angers sco,Angers
+brest,Brest
+stade brestois 29,Brest
+stade brest,Brest
+metz,Metz
+digione,Dijon
+dijon football côte d or,Dijon
+dijon fco,Dijon
+strasburgo,Strasbourg
+racing strasburgo,Strasbourg
+strasbourg,Strasbourg
+racing strasbourg,Strasbourg
+racing club de strasbourg alsace,Strasbourg
+racing straßburg,Strasbourg
+montpellier,Montpellier
+montpellier hérault sport club,Montpellier
+montpellier hsc,Montpellier
+monaco,Monaco
+association sportive de monaco football club,Monaco
+association sportive de monaco,Monaco
+nantes,Nantes
+nizza,Nice
+nice,Nice
+ogc nice,Nice
+olympique gymnaste club de nice côte d azur,Nice
+tolosa,Toulouse
+toulouse,Toulouse
+bordeaux,Bordeaux
+girondins de bordeaux,Bordeaux
+football club girondins de bordeaux,Bordeaux
+football club des girondins de bordeaux,Bordeaux
+nimes,Nimes
+nîmes,Nimes
+nîmes olympique,Nimes
+rennes,Rennes
+stade rennais,Rennes
+reims,Reims
+stade de reims,Reims
+asse,St Etienne
+st etienne,St Etienne
+st étienne,St Etienne
+saint étienne,St Etienne
+association sportive de saint étienne loire,St Etienne
+como,Como
+giana erminio,Giana Erminio
+erminio giana,Giana Erminio
+giana erminio gorgonzola,Giana Erminio
+novara,Novara
+pro vercelli,Pro Vercelli
+albinoleffe,AlbinoLeffe
+siena,Siena
+gozzano,Gozzano
+asdc gozzano,Gozzano
+carrarese,Carrarese
+pistoiese,Pistoiese
+olbia,Olbia
+pro patria,Pro Patria
+lecco,Lecco
+pianese,Pianese
+juventus u23,Juventus U23
+alessandria,Alessandria
+pontedera,Pontedera
+arezzo,Arezzo
+monza,Monza
+pergolettese,Pergolettese
+renate,Renate
+pesaro,Vis Pesaro
+vis pesaro,Vis Pesaro
+fermana,Fermana
+reggio audace,Reggio Audace
+gubbio,Gubbio
+sambenedettese,Sambenedettese
+piacenza,Piacenza
+sudtirol,Sudtirol
+modena,Modena
+triestina,Triestina
+ravenna,Ravenna
+carpi,Carpi
+feralpisalò,Feralpisalò
+imolese,Imolese
+fano,Fano
+padoue,Padova
+padua,Padova
+padova,Padova
+arzignano valchiampo,Arzignano Valchiampo
+rimini,Rimini
+virtus verona,Virtus Verona
+vicenza,Vicenza
+cesena,Cesena
+teramo,Teramo
+rieti,Rieti
+avellino,Avellino
+rende,Rende
+bari,Bari
+cavese,Cavese
+potenza,Potenza
+viterbese,Viterbese
+ternana,Ternana
+catania,Catania
+sicula leonzio,Sicula Leonzio
+asd sicula leonzio,Sicula Leonzio
+monopoli,Monopoli
+bisceglie,Bisceglie
+bisceglie 1913,Bisceglie
+picerno,AZ Picerno
+az picerno,AZ Picerno
+az picerno asd,AZ Picerno
+catanzaro,Catanzaro
+francavilla,Virtus Francavilla
+virtus francavilla,Virtus Francavilla
+paganese,Paganese
+reggina,Reggina
+vibonese,Vibonese
+casertana,Casertana
+mestre,Mestre
+montebelluna,Montebelluna
+sasso marconi,Sasso Marconi
+asd sasso marconi,Sasso Marconi
+fanfulla cavenago,Fanfulla Cavenago
+villafranca,Villafranca
+asd villafranca,Villafranca
+feltre,Union Feltre
+union feltre,Union Feltre
+union feltre asd,Union Feltre
+chieti,Chieti
+cattolica,Cattolica SM Calcio
+cattolica calcio,Cattolica SM Calcio
+cattolica sm calcio,Cattolica SM Calcio
+andria,Fidelis Andria
+fidelis andria,Fidelis Andria
+brindisi,Brindisi
+pomezia,Pomezia
+sangiovannese,Sangiovannese
+sammaurese,Sammaurese
+progresso calcio,SCD Progresso Calcio
+scd progresso calcio,SCD Progresso Calcio
+sangiustese,Sangiustese
+olympia agnonese,Olympia Agnonese
+breno,US Breno
+savignanese,ASD Savignanese
+asd savignanese,ASD Savignanese
+palmese,US Palmese
+biancavilla,ASD Biancavilla
+asd biancavilla,ASD Biancavilla
+virtus flaminia,Virtus Flaminia
+scandicci,Scandicci
+nardo,Nardo
+cerignola,Audace Cerignola
+audace cerignola,Audace Cerignola
+inter u19,Inter U19
+juventus u19,Juventus U19
+az,AZ
+az alkmaar,AZ
+alkmaar zaanstreek combinatie,AZ
+alkmaar zaanstreek,AZ
+astana,FC Astana
+besiktas,Besiktas
+beşiktaş,Besiktas
+braga,Braga
+cska mosca,CSKA Moscow
+cska moscow,CSKA Moscow
+cska moskva,CSKA Moscow
+ferencvarosi,Ferencvarosi TC
+ferencvarosi tc,Ferencvarosi TC
+qarabag,FK Qarabag
+fk qarabag,FK Qarabag
+apoel nicosia,Apoel Nicosia
+gent,Gent
+istanbul basaksehir,Istanbul Basaksehir
+wolfsberger,Wolfsberger AC
+ludogorets,Ludogorets Razgrad
+ludogorets razgrad,Ludogorets Razgrad
+partizan,Partizan Belgrade
+fk partizan,Partizan Belgrade
+partizan belgrado,Partizan Belgrade
+partizan de belgrade,Partizan Belgrade
+partizan belgrade,Partizan Belgrade
+porto,Porto
+glasgow rangers,Glasgow Rangers
+slovan bratislava,Slovan Bratislava
+oleksandria,PFC Oleksandria
+pfc oleksandria,PFC Oleksandria
+young boys,Young Boys
+feyenoord,Feyenoord
+vitoria,Guimaraes
+vitória,Guimaraes
+guimaraes,Guimaraes
+guimarães,Guimaraes
+vitoria guimaraes,Guimaraes
+vitória guimaraes,Guimaraes
+vitória guimarães,Guimaraes
+vitoria de guimaraes,Guimaraes
+vitória de guimaraes,Guimaraes
+vitória de guimarães,Guimaraes
+celtic,Celtic
+dinamo kiev,Dinamo Kiev
+copenhagen,FC Copenhagen
+standard liegi,Standard Liegi
+basilea,Basel
+basel,Basel
+bâle,Basel
+malmo,Malmo FF
+malmö,Malmo FF
+malmo ff,Malmo FF
+malmö ff,Malmo FF
+lugano,Lugano
+psv eindhoven,PSV Eindhoven
+linz,LASK Linz
+lask,LASK Linz
+lask linz,LASK Linz
+cluj,CFR Cluj
+cfr cluj,CFR Cluj
+dudelange,F91 Dudelange
+f91 dudelange,F91 Dudelange
+sporting,Sporting
+sporting cp,Sporting
+sporting lisbon,Sporting
+sporting lisbona,Sporting
+rosenborg,Rosenborg
+trabzonspor,Trabzonspor
+krasnodar,Krasnodar
+feralpisalò,AC Feralpisalò
+corigliano calabro,ASD Corigliano Calabro
+asd corigliano calabro,ASD Corigliano Calabro
+licata,ASD Licata
+asd licata,ASD Licata
+palermo,Palermo
+palerme,Palermo
+cittanovese,Cittanovese
+forlì,Forli
+forli,Forli
+mantova,Mantova
+empoli u19,Empoli U19
+napoli u19,Napoli U19
+naples u19,Napoli U19
+germania,Germany
+germany,Germany
+allemagne,Germany
+argentina,Argentine
+argentine,Argentine
+argentin,Argentine

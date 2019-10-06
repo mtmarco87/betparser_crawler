@@ -41,7 +41,9 @@ TEAM_NAMES_DATASET = genfromtxt(TEAM_NAMES, dtype=str, delimiter=',')    # Datas
 TEAM_NAMES_DATASET_SOURCE = TEAM_NAMES_DATASET[:, 0]
 TEAM_NAMES_DATASET_TARGET = TEAM_NAMES_DATASET[:, 1]
 TEAM_NAMES_SANITIZE_ARRAY = [
-    'fc', 'ac', 'ssc', 'cf', 'sc', 'rb'
+    'fc', 'ac', 'ssc', 'cf', 'sc',
+    'rb', 'bsc', 'fsv', 'rcd', 'cd',
+    'rc', 'as', 'us'
 ]
 TEAM_NAMES_VALIDATION_PATH = BOT_PATH + "/libs/ml_data"  # Output validation path (for training)
 TEAM_NAMES_VALIDATION_FILE = 'to_validate'
