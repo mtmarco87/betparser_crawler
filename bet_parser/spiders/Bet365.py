@@ -43,6 +43,7 @@ class Bet365Spider(scrapy.Spider):
             #             'domain': self.allowed_domains[0]}}
 
     def parse(self, response: HtmlResponse):
+        FileWriter('output').write('b365', [], response.body)
         # Looping over Matches Groups
         # (this is the main loop, here we iterate on each div containing a group of matches, with its description
         # and quotes)

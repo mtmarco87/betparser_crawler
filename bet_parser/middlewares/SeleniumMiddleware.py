@@ -26,6 +26,7 @@ class SeleniumDownloaderMiddleware(object):
         self.download_delay = download_delay
 
         self.crawler.signals.connect(self.spider_opened, signals.spider_opened)
+        self.crawler.signals.connect(self.spider_idle, signals.spider_idle)
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -142,4 +143,11 @@ class SeleniumDownloaderMiddleware(object):
         pass
 
     def spider_opened(self, spider):
+        pass
+
+    def spider_idle(self, spider):
+        if self.chrome_driver:
+            self.chrome_driver.close()
+        if self.firefox_driver:
+            self.firefox_driver.close()
         pass
