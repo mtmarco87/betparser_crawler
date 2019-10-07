@@ -21,7 +21,7 @@ class MatchMapper:
 
     def __init__(self, ml_algorithm: WordSimilarityML = WordSimilarityML(dataset_source=TEAM_NAMES_DATASET_SOURCE,
                                                                          dataset_target=TEAM_NAMES_DATASET_TARGET,
-                                                                         algorithm='cos',
+                                                                         algorithm='seq',
                                                                          sanitize_array=TEAM_NAMES_SANITIZE_ARRAY)):
         self.ml_algorithm: WordSimilarityML = ml_algorithm
 

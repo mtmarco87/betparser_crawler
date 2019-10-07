@@ -23,8 +23,11 @@ SPLASH_URL = 'http://127.0.0.1:8050'
 DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 
 # Selenium config
-SELENIUM_DRIVER_CHROME = BOT_PATH + '/libs/selenium_drivers/chromedriver.exe'
-SELENIUM_DRIVER_FIREFOX = BOT_PATH + '/libs/selenium_drivers/geckodriver.exe'
+SELENIUM_CHROME_DRIVER = BOT_PATH + '/libs/selenium_drivers/chromedriver.exe'
+SELENIUM_FIREFOX_DRIVER = BOT_PATH + '/libs/selenium_drivers/geckodriver.exe'
+SELENIUM_HEADLESS = None     # True/False
+SELENIUM_WINDOW_SIZE = None  # '1200x600'
+SELENIUM_CHROME_USER_DATA_DIR = BOT_PATH + '/libs/selenium_drivers/chrome_profiles/Profile1/'
 
 # Firebase config
 FIREBASE_CONFIG = {
@@ -85,7 +88,7 @@ DOWNLOAD_DELAY = 2
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 SPIDER_MIDDLEWARES = {
     'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
-    # 'bet_parser.middlewares.BetParserSpiderMiddleware': 543,
+    # 'bet_parser.middlewares.middlewares.BetParserSpiderMiddleware': 543,
 }
 
 # Enable or disable downloader middlewares
@@ -94,7 +97,7 @@ DOWNLOADER_MIDDLEWARES = {
     'scrapy_splash.SplashCookiesMiddleware': 723,
     'scrapy_splash.SplashMiddleware': 725,
     'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
-    'bet_parser.middlewares.SeleniumDownloaderMiddleware': 900
+    'bet_parser.middlewares.SeleniumMiddleware.SeleniumDownloaderMiddleware': 900
 }
 
 # Enable or disable extensions

@@ -2,11 +2,12 @@
 import locale
 import scrapy
 from scrapy import signals
+from scrapy.http import HtmlResponse
 from scrapy.selector import Selector
-from scrapy_splash import SplashRequest, SplashTextResponse
 from datetime import datetime
 from typing import Dict
 from bet_parser.constants.Bet365 import Const
+from bet_parser.middlewares.SeleniumRequest import SeleniumRequest
 from bet_parser.utils.Mappers import MatchMapper
 from bet_parser.utils.Writers import *
 
@@ -19,6 +20,9 @@ class Bet365Spider(scrapy.Spider):
         'https://www.bet365.it/#/AC/B1/C1/D13/E113/F16/': 'b365_ita_league',  # Italian Championship
         'https://www.bet365.it/#/AC/B1/C1/D13/E108/F16/': 'b365_europe_elite'  # Europe Elite
     }
+    custom_settings = {
+        'DUPEFILTER_CLASS': 'scrapy.dupefilters.BaseDupeFilter',
+    }
     parsed_matches: List[Match] = []
     # Set datetime locale to italian (needed for Bet365 italian pages)
     locale.setlocale(locale.LC_TIME, Const.datetime_italian_locale)
@@ -30,13 +34,15 @@ class Bet365Spider(scrapy.Spider):
 
         # Start requests
         for url, name in self.start_urls.items():
-            yield SplashRequest(url, self.parse,
-                                args={'wait': 3, 'html': 0, 'png': 0},
-                                session_id=1,
-                                cookies={Const.access_cookie_key: Const.access_cookie_value}
-                                )
+            yield SeleniumRequest(url=url,
+                                  callback=self.parse,
+                                  driver_type='chrome',
+                                  wait_time=3,
+                                  headless=False)
+            # 'cookies': {'name': Const.access_cookie_key, 'value': Const.access_cookie_value,
+            #             'domain': self.allowed_domains[0]}}
 
-    def parse(self, response: SplashTextResponse):
+    def parse(self, response: HtmlResponse):
         # Looping over Matches Groups
         # (this is the main loop, here we iterate on each div containing a group of matches, with its description
         # and quotes)
@@ -65,8 +71,11 @@ class Bet365Spider(scrapy.Spider):
                         # Here we finally parse the Matches Date, from B365 format (Day 3-char Month and
                         # numeric Year) to BetParser output format (Year_Month_Day)
                         extr_date_with_year = extr_date + ' ' + str(Const.current_year)
-                        matches_start_date = datetime.strptime(extr_date_with_year, Const.b365_date_format) \
-                            .strftime(Const.output_date_format)
+                        try:
+                            matches_start_date = datetime.strptime(extr_date_with_year, Const.b365_date_format) \
+                                .strftime(Const.output_date_format)
+                        except Exception:
+                            pass
             elif Const.css_name_result_time_row[1:] in row_class:
                 is_real_time = False
                 # Extracts specific Match name, and if available real-time result (if the match is started already)

@@ -57,14 +57,14 @@ class WordSimilarityML:
     algorithms: dict = {
         'cos': ['cosine similarity', True, 95, MLHelpers.cosine_similarity],
         'lev': ['levenstein distance', False, 4, MLHelpers.levenstein_distance],
-        'seq': ['sequence matcher', True, 85, MLHelpers.sequence_matcher]
+        'seq': ['sequence matcher', True, 95, MLHelpers.sequence_matcher]
     }
     dataset_source: ndarray = None
     dataset_target: ndarray = None
     sanitize_array: list = None
 
     def __init__(self, dataset_source: ndarray = None, dataset_target: ndarray = None,
-                 algorithm: str = 'cos', sanitize_array: list = None):
+                 algorithm: str = 'seq', sanitize_array: list = None):
         if algorithm not in self.algorithms.keys():
             raise Exception('Error: Unknown ML algorithm requested')
         if dataset_source is None or dataset_target is None:
@@ -83,6 +83,8 @@ class WordSimilarityML:
         result = MLSimilarityResult(key)
         if not threshold:
             threshold = self.algorithm_treshold
+
+        print("ML ==> testing '{}'".format(key))
 
         index = -1
         found = []
