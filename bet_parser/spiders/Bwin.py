@@ -51,7 +51,7 @@ class BwinSpider(scrapy.Spider):
         matches_start_date = None
         rows = matches_group.css(Const.css_match_rows)
         for row in rows:
-            # Extracts Team names
+            # Extracts Team names (required)
             match_teams = row.css(Const.css_match_teams)
             match_team_1 = None
             match_team_2 = None
@@ -60,8 +60,10 @@ class BwinSpider(scrapy.Spider):
                 match_team_1 = match_team_1.strip() if match_team_1 else match_team_1
                 match_team_2 = match_teams[1].css(Const.css_get_all_text).get(default=None)
                 match_team_2 = match_team_2.strip() if match_team_2 else match_team_2
+            if match_team_1 is None or match_team_2 is None:
+                continue
 
-            # Extracts Match Start Date and time
+            # Extracts Match Start Date (required) and time
             match_start_date = match_start_time = match_real_time = None
             match_start_date_time = row.css(Const.css_match_start_date_time + Const.css_get_all_text).get(
                 default='').lower()
@@ -87,6 +89,8 @@ class BwinSpider(scrapy.Spider):
                     match_start_time = match_start_date_time.time().strftime(Const.output_time_format)
             except Exception:
                 pass
+            if match_start_date is None:
+                continue
 
             # Extracts Live Results (if available)
             match_result = None

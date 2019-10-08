@@ -37,8 +37,11 @@ hellas verona,Verona
 ascoli,Ascoli
 benevento,Benevento
 chievo,Chievo
+chievo verona,Chievo
+chievo verone,Chievo
 cittadella,Cittadella
 cosenza,Cosenza
+cosenza calcio,Cosenza
 cremonese,Cremonese
 crotone,Crotone
 empoli,Empoli
@@ -118,12 +121,14 @@ lazio u19,Lazio U19
 atletico madrid,Atletico Madrid
 atletico de madrid,Atletico Madrid
 shakhtar donetsk,Shakhtar Donetsk
+chakhtar donetsk,Shakhtar Donetsk
 dinamo zagreb,Dinamo Zagreb
 dinamo zagabria,Dinamo Zagreb
 club bruges,Club Bruges
 paris saint germain,Paris Saint Germain
 galatasaray,Galatasaray
 lokomotiv mosca,Lokomotiv Moscow
+lokomotiv moscou,Lokomotiv Moscow
 lokomotiv moskva,Lokomotiv Moscow
 lokomotiv moscow,Lokomotiv Moscow
 manchester city,Manchester City
@@ -136,6 +141,7 @@ etoile rouge de belgrade,Red Star Belgrade
 red star belgrade,Red Star Belgrade
 crvena zvezda,Red Star Belgrade
 ajax,Ajax
+ajax amsterdam,Ajax
 chelsea,Chelsea
 zenit sankt peterburg,Zenit Saint Petersburg
 zenit saint petersburg,Zenit Saint Petersburg
@@ -157,15 +163,19 @@ red bull salzburg,Salzburg
 salzbourg,Salzburg
 red bull salzbourg,Salzburg
 genk,Genk
+krc genk,Genk
 lilla,Lille
 lille,Lille
 losc lille,Lille
 losc,Lille
 valencia,Valencia
+valence,Valencia
 slavia praga,Slavia Prague
 slavia prague,Slavia Prague
+sk slavia prague,Slavia Prague
 slavia praha,Slavia Prague
 barcellona,Barcelona
+barcelone,Barcelona
 barcelona,Barcelona
 norwich,Norwich
 aston villa,Aston Villa
@@ -214,6 +224,7 @@ augsburg,Augsburg
 augsbourg,Augsburg
 wolfsburg,Wolfsburg
 wolfsbourg,Wolfsburg
+vfl wolfsbourg,Wolfsburg
 union berlino,Union Berlin
 union berlin,Union Berlin
 1 union berlin,Union Berlin
@@ -378,17 +389,24 @@ besiktas,Besiktas
 braga,Braga
 cska mosca,CSKA Moscow
 cska moscow,CSKA Moscow
+cska moscou,CSKA Moscow
 cska moskva,CSKA Moscow
 ferencvarosi,Ferencvarosi TC
 ferencvarosi tc,Ferencvarosi TC
+ferencvarosi torna club,Ferencvarosi TC
 qarabag,FK Qarabag
 fk qarabag,FK Qarabag
-apoel nicosia,Apoel Nicosia
+apoel,APOEL Nicosia
+apoel nicosia,APOEL Nicosia
 gent,Gent
+la gantoise,Gent
 istanbul basaksehir,Istanbul Basaksehir
-wolfsberger,Wolfsberger AC
+istanbul basaksehir fk,Istanbul Basaksehir
+wolfsberger,RZ Pellets Wolfsberger AC
+rz pellets wac,RZ Pellets Wolfsberger AC
 ludogorets,Ludogorets Razgrad
 ludogorets razgrad,Ludogorets Razgrad
+pfc ludogorets,Ludogorets Razgrad
 partizan,Partizan Belgrade
 fk partizan,Partizan Belgrade
 partizan belgrado,Partizan Belgrade
@@ -396,19 +414,24 @@ partizan de belgrade,Partizan Belgrade
 partizan belgrade,Partizan Belgrade
 porto,Porto
 glasgow rangers,Glasgow Rangers
+rangers,Glasgow Rangers
 slovan bratislava,Slovan Bratislava
+sk slovan bratislava,SK Slovan Bratislava
 oleksandria,PFC Oleksandria
 pfc oleksandria,PFC Oleksandria
 young boys,Young Boys
 feyenoord,Feyenoord
+feyenoord rotterdam,Feyenoord
 vitoria,Guimaraes
 guimaraes,Guimaraes
 vitoria guimaraes,Guimaraes
 vitoria de guimaraes,Guimaraes
 celtic,Celtic
-dinamo kiev,Dinamo Kiev
+copenhague,FC Copenhagen
 copenhagen,FC Copenhagen
-standard liegi,Standard Liegi
+standard liegi,Standard Liege
+standard liege,Standard Liege
+standard de liege,Standard Liege
 basilea,Basel
 basel,Basel
 bale,Basel
@@ -427,6 +450,7 @@ sporting,Sporting
 sporting cp,Sporting
 sporting lisbon,Sporting
 sporting lisbona,Sporting
+sporting lisbonne,Sporting
 rosenborg,Rosenborg
 trabzonspor,Trabzonspor
 krasnodar,Krasnodar
@@ -448,3 +472,190 @@ allemagne,Germany
 argentina,Argentine
 argentine,Argentine
 argentin,Argentine
+lamia,Lamia
+panetolikos,Panetolikos
+panaitolikos,Panetolikos
+bahrain,Bahrain
+azerbaigian,Azerbaijan
+azerbaidjan,Azerbaijan
+azerbaijan,Azerbaijan
+brasile,Brazil
+bresil,Brazil
+brazil,Brazil
+kazakistan,Kazakhstan
+kazakhstan,Kazakhstan
+cipro,Cyprus
+chypre,Cyprus
+cyprus,Cyprus
+bielorussia,Belarus
+bielorussie,Belarus
+belarus,Belarus
+estonia,Estonia
+estonie,Estonia
+kosovo,Kosovo
+gibilterra,Gibraltar
+gibraltar,Gibraltar
+serbia,Serbia
+serbie,Serbia
+paraguay,Paraguay
+olanda,Holland
+paesi bassi,Holland
+hollande,Holland
+pays bas,Holland
+holland,Holland
+irlanda del nord,Northern Ireland
+irlande du nord,Northern Ireland
+northern ireland,Northern Ireland
+slovacchia,Slovakia
+slovaquie,Slovakia
+slovakia,Slovakia
+galles,Wales
+pays de galles,Wales
+wales,Wales
+croazia,Croatia
+croatie,Croatia
+croatia,Croatia
+ungheria,Hungary
+hongrie,Hungary
+hungary,Hungary
+lettonia,Latvia
+lettonie,Latvia
+latvia,Latvia
+macedonia del nord,North Macedonia
+macedoine du nord,North Macedonia
+north macedonia,North Macedonia
+slovenia,Slovenia
+slovenie,Slovenia
+austria,Austria
+autriche,Austria
+israele,Israel
+israel,Israel
+senegal,Senegal
+polonia,Poland
+pologne,Poland
+poland,Poland
+russia,Russia
+russie,Russia
+scozia,Scotland
+ecosse,Scotland
+scotland,Scotland
+robur siena,Robur Siena
+rep tcheque,Czech republic
+republique tcheque,Czech republic
+rep ceca,Czech republic
+repubblica ceca,Czech republic
+czech republic,Czech republic
+angleterre,England
+inghilterra,England
+england,England
+montenegro,Montenegro
+bulgaria,Bulgaria
+bulgarie,Bulgaria
+portogallo,Portugal
+portugal,Portugal
+luxembourg,Luxembourg
+lussemburgo,Luxembourg
+ukraine,Ukraine
+ucraina,Ukraine
+lituania,Lithuania
+lituanie,Lithuania
+lithuania,Lithuania
+georgie,Georgia
+georgia,Georgia
+irlande,Ireland
+irlanda,Ireland
+ireland,Ireland
+danemark,Denmark
+danimarca,Denmark
+denmark,Denmark
+suisse,Switzerland
+svizzera,Switzerland
+switzerland,Switzerland
+isole faroe,Faroe Islands
+isole faer oer,Faroe Islands
+iles feroe,Faroe Islands
+faroe islands,Faroe Islands
+faeroe islands,Faroe Islands
+roumanie,Romania
+romania,Romania
+malte,Malta
+malta,Malta
+suede,Sweden
+svezia,Sweden
+sweden,Sweden
+norvege,Norway
+norvegia,Norway
+norway,Norway
+espagne,Spain
+spagna,Spain
+spain,Spain
+andorre,Andorra
+andorra,Andorra
+moldavie,Moldova
+moldavia,Moldova
+moldova,Moldova
+islande,Iceland
+islanda,Iceland
+iceland,Iceland
+france,France
+francia,France
+turquie,Turkey
+turchia,Turkey
+turkey,Turkey
+albanie,Albania
+albania,Albania
+belgique,Belgium
+belgio,Belgium
+belgium,Belgium
+saint marin,San Marino
+san marino,San Marino
+bosnie herzegovine,Bosnia Herzegovina
+bosnia herzegovina,Bosnia Herzegovina
+bosnia and herzegovina,Bosnia Herzegovina
+bosnia,Bosnia Herzegovina
+bosnia erzegovina,Bosnia Herzegovina
+finlande,Finland
+finlandia,Finland
+finland,Finland
+italie,Italy
+italia,Italy
+italy,Italy
+grece,Greece
+grecia,Greece
+greece,Greece
+liechtenstein,Liechtenstein
+armenie,Armenia
+armenia,Armenia
+dynamo kiev,Dinamo Kiev
+dinamo kiev,Dinamo Kiev
+uruguay,Uruguay
+peru,Peru
+perou,Peru
+colombie,Colombia
+colombia,Colombia
+chili,Chile
+cile,Chile
+chile,Chile
+trinite et tobago,Trinidad and Tobago
+trinidad e tobago,Trinidad and Tobago
+trinidad and tobago,Trinidad and Tobago
+republique dominicaine,Dominican Republic
+repubblica dominicana,Dominican Republic
+dominican republic,Dominican Republic
+guatemala,Guatemala
+panama,Panama
+salvador,Salvador
+costa rica,Costa Rica
+ligorna,Ligorna
+lavagnese,Lavagnese
+campodarsego,Campodarsego
+adriese,US Adriese
+ciliverghe mazzano,Ciliverghe Mazzano
+folgore caratese,US Folgore Caratese
+mezzolara,Mezzolara
+taranto,Taranto
+inveruno,US Inveruno
+asd brusaporto,ASD Brusaporto
+asd pineto calcio,ASD Pineto Calcio
+ostia mare,AS Ostia Mare
+savoia 1908,AC Savoia 1908

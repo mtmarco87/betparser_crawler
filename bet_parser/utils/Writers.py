@@ -118,3 +118,8 @@ class FileWriter:
     def get_file_path(self, filename: str, file_format: str = None):
         return (self.out_folder + '/' if self.out_folder else '') + filename + '.' + \
                        (file_format or self.format_txt)
+
+    @staticmethod
+    def deduplicate_ml_data():
+        file_writer = FileWriter(TEAM_NAMES_VALIDATION_PATH)
+        file_writer.deduplicate('team_names', 'csv', True)
