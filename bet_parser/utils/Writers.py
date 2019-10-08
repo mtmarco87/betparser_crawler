@@ -3,6 +3,7 @@ from bet_parser.settings import *
 from bet_parser.models.Match import Match
 from typing import List
 import unidecode
+import os
 
 
 class FirebaseWriter:
@@ -59,7 +60,7 @@ class FileWriter:
     """
     def write(self, filename: str, parsed_matches: List[Match], html: bytes = None):
         # Write Matches quotes to CSV file
-        filename_csv = (self.out_folder + '/' if self.out_folder else '') + filename + '.' + self.format_csv
+        filename_csv = self.get_file_path(filename, self.format_csv)
         with open(filename_csv, 'w') as f:
             f.write('Bookmaker,StartDate,StartTime,RealTime,Team1,Team2,Quote1,QuoteX,Quote2,Result;\n')
             for match in parsed_matches:
@@ -70,7 +71,7 @@ class FileWriter:
 
         # Dumps, if available, Matches webpage to file
         if html:
-            filename_html = (self.out_folder + '/' if self.out_folder else '') + filename + '.' + self.format_html
+            filename_html = self.get_file_path(filename, self.format_html)
             with open(filename_html, 'wb') as f:
                 f.write(html)
 
@@ -80,16 +81,14 @@ class FileWriter:
     Appends raw string data to file
     """
     def append(self, filename: str, content: str, file_format: str = None):
-        filename_out = (self.out_folder + '/' if self.out_folder else '') + filename + '.' + \
-                       (file_format or self.format_txt)
+        filename_out = self.get_file_path(filename, file_format)
         with open(filename_out, 'a+') as f:
             f.write(content)
     """
     Input: str          - File Name to read
     """
     def readlines(self, filename: str, file_format: str = None):
-        filename_in = (self.out_folder + '/' if self.out_folder else '') + filename + '.' + \
-                      (file_format or self.format_txt)
+        filename_in = self.get_file_path(filename, file_format)
         with open(filename_in, 'r') as f:
             return f.readlines()
 
@@ -105,3 +104,17 @@ class FileWriter:
             elif not by_first_column and line not in already_inserted.keys():
                 already_inserted.setdefault(line)
                 self.append(in_filename + '_deduplicate', line, file_format)
+
+    def deduplicate_and_replace(self, in_filename: str, file_format: str = None, by_first_column: bool = False):
+        # Create Deduplicate file
+        self.deduplicate(in_filename, file_format, by_first_column)
+
+        old_file = self.get_file_path(in_filename, file_format)
+        new_file = self.get_file_path(in_filename + '_deduplicate', file_format)
+        # Remove old file
+        os.remove(old_file)
+        os.rename(new_file, old_file)
+
+    def get_file_path(self, filename: str, file_format: str = None):
+        return (self.out_folder + '/' if self.out_folder else '') + filename + '.' + \
+                       (file_format or self.format_txt)

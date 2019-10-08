@@ -33,4 +33,3 @@ class Const:
     datetime_italian_locale: str = 'it_IT'
     b365_date_format: str = '%d %b %Y'
     output_date_format: str = '%Y_%m_%d'
-    txt_not_available: str = 'N/A'

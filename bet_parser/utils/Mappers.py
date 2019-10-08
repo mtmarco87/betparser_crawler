@@ -56,6 +56,8 @@ class MatchMapper:
                 (TEAM_NAMES_VALIDATION_FILE or
                  SANITIZED_TEAM_NAMES_VALIDATION_FILE or
                  ORIGINAL_TEAM_NAMES_VALIDATION_FILE):
+            # If there is a Validation Dataset and at least one output validation file specified in settings
+            # write down all the Validation Dataset (in one or more files)
             file_writer = FileWriter(TEAM_NAMES_VALIDATION_PATH)
             for key, original in self.validation_dataset.items():
                 if TEAM_NAMES_VALIDATION_FILE:
@@ -64,3 +66,11 @@ class MatchMapper:
                     file_writer.append(SANITIZED_TEAM_NAMES_VALIDATION_FILE, key + '\n')
                 if ORIGINAL_TEAM_NAMES_VALIDATION_FILE:
                     file_writer.append(ORIGINAL_TEAM_NAMES_VALIDATION_FILE, original + '\n')
+
+            # At the end of the write, Deduplicate the existing file(s)
+            if TEAM_NAMES_VALIDATION_FILE:
+                file_writer.deduplicate_and_replace(TEAM_NAMES_VALIDATION_FILE, None, True)
+            if SANITIZED_TEAM_NAMES_VALIDATION_FILE:
+                file_writer.deduplicate_and_replace(SANITIZED_TEAM_NAMES_VALIDATION_FILE, None, True)
+            if ORIGINAL_TEAM_NAMES_VALIDATION_FILE:
+                file_writer.deduplicate_and_replace(ORIGINAL_TEAM_NAMES_VALIDATION_FILE, None, True)

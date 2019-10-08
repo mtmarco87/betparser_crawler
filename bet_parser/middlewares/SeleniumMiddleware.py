@@ -87,6 +87,10 @@ class SeleniumDownloaderMiddleware(object):
         wait_time = request.meta['selenium']['wait_time'] if 'wait_time' in request.meta['selenium'] else None
         wait_until = request.meta['selenium']['wait_until'] if 'wait_until' in request.meta['selenium'] else None
         script = request.meta['selenium']['script'] if 'script' in request.meta['selenium'] else None
+        scroll_to_element = request.meta['selenium']['scroll_to_element'] if 'scroll_to_element' in request.meta[
+            'selenium'] else None
+        scroll_wait_time = request.meta['selenium']['scroll_wait_time'] if 'scroll_wait_time' in request.meta[
+            'selenium'] else None
         render_js = request.meta['selenium']['render_js'] if 'render_js' in request.meta['selenium'] else False
 
         # Driver Build/Rebuild params
@@ -124,6 +128,12 @@ class SeleniumDownloaderMiddleware(object):
         if script:
             driver.execute_script(script)
 
+        if scroll_to_element:
+            element = driver.find_element_by_css_selector('.' + scroll_to_element)
+            while not driver.execute_script(Scripts.is_element_visible, element):
+                driver.execute_script(Scripts.scroll_to_element, element)
+                time.sleep(scroll_wait_time or 0.5)
+
         if render_js:
             body = driver.execute_script("return document.body.innerHTML;")
         else:
@@ -152,3 +162,19 @@ class SeleniumDownloaderMiddleware(object):
         if self.firefox_driver:
             self.firefox_driver.close()
         pass
+
+
+class Scripts:
+    is_element_visible = 'function getElementHeight(elem){ ' + \
+             '  return parseFloat(getComputedStyle(elem, null).height.replace("px", "")); ' + \
+             '} ' + \
+             'function isScrolledIntoView(elem) { ' + \
+             '  var docViewTop = document.body.scrollTop; ' + \
+             '  var docViewBottom = docViewTop + getElementHeight(document.body); ' + \
+             '  var elemRectangle = elem.getBoundingClientRect(); ' + \
+             '  var elemTop = elemRectangle.top + document.body.scrollTop; ' + \
+             '  var elemBottom = elemTop + getElementHeight(elem); ' + \
+             '  return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop)); ' + \
+             '} ' + \
+             'return isScrolledIntoView(arguments[0]);'
+    scroll_to_element = 'arguments[0].scrollIntoView(true);'

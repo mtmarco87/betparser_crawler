@@ -10,7 +10,6 @@ from bet_parser.constants.Bet365 import Const
 from bet_parser.middlewares.SeleniumRequest import SeleniumRequest
 from bet_parser.utils.Mappers import MatchMapper
 from bet_parser.utils.Writers import *
-from bet_parser.settings import *
 
 
 class Bet365Spider(scrapy.Spider):
@@ -130,7 +129,7 @@ class Bet365Spider(scrapy.Spider):
                 if Const.css_quote_header[1:] in row_class:
                     quote_type = row.css(Const.css_get_all_text).get(default='')
                 else:
-                    quote = row.css(Const.css_get_all_text).get(default='')
+                    quote = row.css(Const.css_get_all_text).get(default=None)
                     setattr(parsed_matches[match_number], 'Quote' + quote_type, quote)
                     match_number += 1
 

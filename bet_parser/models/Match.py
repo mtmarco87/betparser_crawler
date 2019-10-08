@@ -1,10 +1,8 @@
-na: str = 'N/A'
-
-
 class Match:
     """
     Match common data model
     """
+    na: str = 'N/A'
     Bookmaker: str = na
     StartDate: str = na
     StartTime: str = na
@@ -32,14 +30,14 @@ class Match:
 
     def dict(self):
         return {
-            'Bookmaker': self.Bookmaker if self.Bookmaker else na,
-            'StartDate': self.StartDate if self.StartDate else na,
-            'StartTime': self.StartTime if self.StartTime else na,
-            'RealTime': self.RealTime if self.RealTime else na,
-            'Team1': self.Team1 if self.Team1 else na,
-            'Team2': self.Team2 if self.Team2 else na,
-            'Quote1': self.Quote1 if self.Quote1 else na,
-            'QuoteX': self.QuoteX if self.QuoteX else na,
-            'Quote2': self.Quote2 if self.Quote2 else na,
-            'Result': self.Result if self.Result else na
+            'Bookmaker': self.Bookmaker if self.Bookmaker else Match.na,
+            'StartDate': self.StartDate if self.StartDate else Match.na,
+            'StartTime': self.StartTime if self.StartTime else Match.na,
+            'RealTime': self.RealTime if self.RealTime else Match.na,
+            'Team1': self.Team1 if self.Team1 else Match.na,
+            'Team2': self.Team2 if self.Team2 else Match.na,
+            'Quote1': self.Quote1 if self.Quote1 else Match.na,
+            'QuoteX': self.QuoteX if self.QuoteX else Match.na,
+            'Quote2': self.Quote2 if self.Quote2 else Match.na,
+            'Result': self.Result if self.Result else Match.na
         }

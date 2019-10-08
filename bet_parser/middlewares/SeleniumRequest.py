@@ -19,6 +19,8 @@ class SeleniumRequest(scrapy.Request):
                  wait_time=None,
                  wait_until=None,
                  script=None,
+                 scroll_to_element=None,
+                 scroll_wait_time=None,
                  render_js=False,
                  rebuild=False,
                  window_size=None,
@@ -37,6 +39,8 @@ class SeleniumRequest(scrapy.Request):
         selenium_meta.setdefault('wait_time', wait_time)
         selenium_meta.setdefault('wait_until', wait_until)
         selenium_meta.setdefault('script', script)
+        selenium_meta.setdefault('scroll_to_element', scroll_to_element)
+        selenium_meta.setdefault('scroll_wait_time', scroll_wait_time)
         selenium_meta.setdefault('render_js', render_js)
         selenium_meta.setdefault('rebuild', rebuild)
         selenium_meta.setdefault('window_size', window_size)

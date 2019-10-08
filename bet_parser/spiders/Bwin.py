@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-import locale
 import scrapy
 from scrapy import signals
+from scrapy.http import HtmlResponse
 from scrapy.selector import Selector
-from scrapy_splash import SplashRequest, SplashTextResponse
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Dict
-from bet_parser.constants.Bet365 import Const
+from bet_parser.constants.Bwin import Const
+from bet_parser.middlewares.SeleniumRequest import SeleniumRequest
 from bet_parser.utils.Mappers import MatchMapper
 from bet_parser.utils.Writers import *
 
@@ -15,12 +15,11 @@ class BwinSpider(scrapy.Spider):
     name = 'bwin'
     allowed_domains = ['bwin.fr']
     start_urls: Dict[str, str] = {
+        'https://sports.bwin.fr/fr/sports/football-4/paris-sportifs/monde-6': 'bwin_world',
+        'https://sports.bwin.fr/fr/sports/football-4/paris-sportifs/europe-7': 'bwin_europe',
         'https://sports.bwin.fr/fr/sports/football-4/paris-sportifs/italie-20': 'bwin_italy',
     }
     parsed_matches: List[Match] = []
-    # Set datetime locale to italian (needed for Bet365 italian pages)
-    locale.setlocale(locale.LC_TIME, Const.datetime_italian_locale)
-    match_mapper = MatchMapper()
 
     def start_requests(self):
         # Connect the idle status (end of all requests) to self.spider_idle method
@@ -28,122 +27,115 @@ class BwinSpider(scrapy.Spider):
 
         # Start requests
         for url, name in self.start_urls.items():
-            yield SplashRequest(url, self.parse,
-                                args={'wait': 3, 'html': 0, 'png': 0},
-                                session_id=1,
-                                cookies={Const.access_cookie_key: Const.access_cookie_value}
-                                )
+            yield SeleniumRequest(url=url,
+                                  callback=self.parse,
+                                  driver_type='chrome',
+                                  wait_time=0.5,
+                                  scroll_to_element='footer-bottom',
+                                  headless=False)
 
-    def parse(self, response: SplashTextResponse):
-        tmp = FileWriter('output')
-        tmp.write('test', [], response.body)
+    def parse(self, response: HtmlResponse):
+        # tmp = FileWriter('output')
+        # tmp.write('test', [], response.body)
 
         # Looping over Matches Groups
         # (this is the main loop, here we iterate on each div containing a group of matches, with its description
         # and quotes)
         matches_groups = response.css(Const.css_matches_groups)
         for matches_group in matches_groups:
-            first_match_of_group: int = len(self.parsed_matches)
-            # Matches description extraction
-            self.parse_matches_description(matches_group, self.parsed_matches)
-            # Matches quotes extraction
-            self.parse_matches_quotes(matches_group, first_match_of_group, self.parsed_matches)
+            # Match rows extraction
+            self.parse_matches_rows(matches_group, self.parsed_matches)
 
-    def parse_matches_description(self, matches_group: Selector, parsed_matches: List[Match]):
-        # Looping over Column 1 rows (Dates, Times, Match names and results)
+    def parse_matches_rows(self, matches_group: Selector, parsed_matches: List[Match]):
+        # Looping over Matches Rows (Dates, Times, Match names, results, quotes)
         matches_start_date = None
-        column1_rows = matches_group.css(Const.css_description_column + Const.css_child_divs)
-        for row in column1_rows:
-            row_class = row.xpath(Const.xpath_get_class).get(default='')
-            if Const.css_date_row[1:] in row_class:
-                # Extracts Matches group start date
-                extr_date = row.xpath(Const.xpath_get_text).get()
-                if extr_date:
-                    # Let's remove the localized day name from the Date string
-                    divider_index = extr_date.find(Const.match_date_divider)
-                    if divider_index != -1:
-                        extr_date = extr_date[divider_index + 1:len(extr_date)]
-                        # Here we finally parse the Matches Date, from B365 format (Day 3-char Month and
-                        # numeric Year) to BetParser output format (Year_Month_Day)
-                        extr_date_with_year = extr_date + ' ' + str(Const.current_year)
-                        matches_start_date = datetime.strptime(extr_date_with_year, Const.b365_date_format) \
-                            .strftime(Const.output_date_format)
-            elif Const.css_name_result_time_row[1:] in row_class:
-                is_real_time = False
-                # Extracts specific Match name, and if available real-time result (if the match is started already)
-                match_team_1 = match_team_2 = match_result = None
-                extr_match_name = row.css(Const.css_name_result_cell + Const.css_get_all_text).getall()
-                if len(extr_match_name) == 1:
-                    # Not yet started match
-                    match_str = extr_match_name[0]
-                    divider_index = match_str.find(Const.match_name_divider)
-                    if divider_index != -1:
-                        match_team_1 = match_str[0:divider_index]
-                        match_team_2 = match_str[divider_index + 3:len(match_str)]
-                elif len(extr_match_name) >= 3:
-                    # Live match
-                    is_real_time = True
-                    match_team_1 = extr_match_name[0]
-                    match_result = extr_match_name[1]
-                    match_team_2 = extr_match_name[2]
+        rows = matches_group.css(Const.css_match_rows)
+        for row in rows:
+            # Extracts Team names
+            match_teams = row.css(Const.css_match_teams)
+            match_team_1 = None
+            match_team_2 = None
+            if len(match_teams) == 2:
+                match_team_1 = match_teams[0].css(Const.css_get_all_text).get(default=None)
+                match_team_1 = match_team_1.strip() if match_team_1 else match_team_1
+                match_team_2 = match_teams[1].css(Const.css_get_all_text).get(default=None)
+                match_team_2 = match_team_2.strip() if match_team_2 else match_team_2
 
-                # Extracts specific Match starting time, and if available real time (if the match is
-                # started)
-                match_start_time = match_real_time = None
-                extr_match_time = row.css(Const.css_time_cell + Const.css_get_all_text).getall()
-                if is_real_time:
-                    if len(extr_match_time) == 1:
-                        match_real_time = extr_match_time[0]
-                    if len(extr_match_time) == 2:
-                        match_start_time = extr_match_time[0]
-                        match_real_time = extr_match_time[1]
+            # Extracts Match Start Date and time
+            match_start_date = match_start_time = match_real_time = None
+            match_start_date_time = row.css(Const.css_match_start_date_time + Const.css_get_all_text).get(
+                default='').lower()
+            try:
+                if Const.bwin_today_date in match_start_date_time:
+                    # Today
+                    match_start_date = datetime.today().strftime(Const.output_date_format)
+                    match_start_time = match_start_date_time.replace(Const.bwin_today_date, '').strip()
+                elif Const.bwin_tomorrow_date in match_start_date_time:
+                    # Tomorrow
+                    match_start_date = (datetime.today() + timedelta(days=1)).strftime(Const.output_date_format)
+                    match_start_time = match_start_date_time.replace(Const.bwin_tomorrow_date, '').strip()
+                elif Const.bwin_real_time_1 in match_start_date_time or Const.bwin_real_time_2 in match_start_date_time:
+                    # Real Time Match
+                    match_start_date = datetime.today().strftime(Const.output_date_format)
+                    match_real_time = match_start_date_time.replace(Const.bwin_real_time_1, '').replace(
+                        Const.bwin_real_time_2, '').strip()
+                    pass
                 else:
-                    if len(extr_match_time) == 1:
-                        match_start_time = extr_match_time[0]
+                    # Future date
+                    match_start_date_time = datetime.strptime(match_start_date_time, Const.bwin_date_format)
+                    match_start_date = match_start_date_time.date().strftime(Const.output_date_format)
+                    match_start_time = match_start_date_time.time().strftime(Const.output_time_format)
+            except Exception:
+                pass
 
-                # Creates and fill Match object
-                parsed_match = Match()
-                parsed_match.Bookmaker = self.name
-                parsed_match.StartDate = matches_start_date
-                parsed_match.StartTime = match_start_time
-                parsed_match.RealTime = match_real_time
-                parsed_match.Team1 = match_team_1
-                parsed_match.Team2 = match_team_2
-                parsed_match.Result = match_result
+            # Extracts Live Results (if available)
+            match_result = None
+            match_score_values = row.css(Const.css_match_score_values)
+            if len(match_score_values) == 2:
+                team_1_result = match_score_values[0].css(Const.css_match_score_values_inner_vals).getall()
+                if len(team_1_result) > 0:
+                    match_result = team_1_result[0]
+                team_2_result = match_score_values[1].css(Const.css_match_score_values_inner_vals).getall()
+                if len(team_2_result) > 0:
+                    match_result += '-' + team_2_result[0]
 
-                # Append the parsed Match to the list
-                parsed_matches.append(parsed_match)
+            # Extracts Match Quotes
+            match_quote_1 = None
+            match_quote_x = None
+            match_quote_2 = None
+            match_quotes_groups = row.css(Const.css_match_quotes_groups)
+            if len(match_quotes_groups) > 0:
+                match_quotes_values = match_quotes_groups[0].css(Const.css_match_quotes_values)
+                if len(match_quotes_values) == 3:
+                    match_quote_1 = match_quotes_values[0].css(Const.css_get_all_text).get(default=None)
+                    match_quote_x = match_quotes_values[1].css(Const.css_get_all_text).get(default=None)
+                    match_quote_2 = match_quotes_values[2].css(Const.css_get_all_text).get(default=None)
 
-    @staticmethod
-    def parse_matches_quotes(matches_group: Selector, first_match_of_group: int, parsed_matches: List[Match]):
-        # Looping over Column 2, 3, 4 rows (Quotes 1, X, 2)
-        quote_columns = matches_group.css(Const.css_quote_columns)
-        for column in quote_columns:
-            quote_type = ''
-            match_number = first_match_of_group
-            rows = column.xpath(Const.xpath_child_divs)
-            for row in rows:
-                row_class = row.xpath(Const.xpath_get_class).get(default='')
-                if Const.css_quote_header[1:] in row_class:
-                    quote_type = row.css(Const.css_get_all_text).get(default='')
-                else:
-                    quote = row.css(Const.css_get_all_text).get(default='')
-                    setattr(parsed_matches[match_number], 'Quote' + quote_type, quote)
-                    match_number += 1
+            # Creates and fill Match object
+            parsed_match = Match()
+            parsed_match.Bookmaker = self.name
+            parsed_match.StartDate = match_start_date
+            parsed_match.StartTime = match_start_time
+            parsed_match.RealTime = match_real_time
+            parsed_match.Result = match_result
+            parsed_match.Team1 = match_team_1
+            parsed_match.Team2 = match_team_2
+            parsed_match.Quote1 = match_quote_1
+            parsed_match.QuoteX = match_quote_x
+            parsed_match.Quote2 = match_quote_2
+
+            # Append the parsed Match to the list
+            parsed_matches.append(parsed_match)
 
     def spider_idle(self):
         # End of all the requests
 
-        # # Apply Google Translate to each Match team names to global EN ones
-        # match_translator = MatchTranslator(from_lang='it', to_lang='en', word_by_word=True)
-        # parsed_matches = match_translator.translate_all(all_parsed_matches)
-
+        match_mapper = MatchMapper()
         # Try to remap each match team name to the global en-EN one (if found by the ML system)
-        self.parsed_matches = self.match_mapper.map_all(self.parsed_matches)
+        self.parsed_matches = match_mapper.map_all(self.parsed_matches)
         # Write down validation output of ML to file (unique array through all the parsed teams)
-        self.match_mapper.write_validation_dataset()
+        match_mapper.write_validation_dataset()
 
         # Write quotes to Firebase
-        fb_writer = FirebaseWriter()
-        fb_writer.write(self.parsed_matches)
+        FirebaseWriter().write(self.parsed_matches)
         self.log('Saved parsed quotes on Firebase: %s' % self.name)
