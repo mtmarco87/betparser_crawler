@@ -4,6 +4,7 @@ from collections import Counter
 from math import sqrt
 import difflib
 import re
+import unidecode
 
 
 class MLHelpers:
@@ -122,6 +123,8 @@ class WordSimilarityML:
                 key = re.sub(r'((?<!\w)' + s + r'(?!\w))', '', key, flags=re.I)
         # Substitute multiple spaces with single space
         key = re.sub(r'\s+', ' ', key, flags=re.I)
+        # Replace unicode accented characters with standard ones
+        key = unidecode.unidecode(key)
 
         # Finally we trim and return
         return key.strip()

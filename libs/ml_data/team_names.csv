@@ -8,7 +8,7 @@ fiorentina,Fiorentina
 florence,Fiorentina
 genoa,Genoa
 genoa cfc,Genoa
-gênes,Genoa
+genes,Genoa
 inter,Inter
 inter milan,Inter
 juventus,Juventus
@@ -23,7 +23,7 @@ parme,Parma
 roma,Roma
 rome,Roma
 sampdoria,Sampdoria
-sampdoria de gênes,Sampdoria
+sampdoria de genes,Sampdoria
 sassuolo,Sassuolo
 spal,Spal
 spal ferrara,Spal
@@ -31,8 +31,8 @@ torino,Torino
 turin,Torino
 udinese,Udinese
 verona,Verona
-vérone,Verona
-hellas vérone,Verona
+verone,Verona
+hellas verone,Verona
 hellas verona,Verona
 ascoli,Ascoli
 benevento,Benevento
@@ -46,7 +46,7 @@ frosinone,Frosinone
 juve stabia,Juve Stabia
 livorno,Livorno
 livourne,Livorno
-pérouse,Perugia
+perouse,Perugia
 perugia,Perugia
 pescara,Pescara
 pise,Pisa
@@ -64,10 +64,8 @@ hertha berlin,Hertha Berlin
 hertha berlino,Hertha Berlin
 hertha berliner,Hertha Berlin
 hertha berliner sport club,Hertha Berlin
-hertha berliner sport club e v,Hertha Berlin
 hertha,Hertha Berlin
 fortuna dusseldorf,Fortuna Dusseldorf
-fortuna düsseldorf,Fortuna Dusseldorf
 amiens,Amiens
 marsiglia,Marseilles
 olympique marsiglia,Marseilles
@@ -77,10 +75,9 @@ olympique marseille,Marseilles
 olympique de marseille,Marseilles
 marseilles,Marseilles
 real betis,Real Betis
-real betis balompié,Real Betis
+real betis balompie,Real Betis
 betis sevilla,Real Betis
 betis seville,Real Betis
-betis séville,Real Betis
 betis siviglia,Real Betis
 eibar,Eibar
 leganes,Leganes
@@ -89,7 +86,7 @@ brighton,Brighton
 tottenham,Tottenham
 bayern munich,Bayern Munich
 bayern monaco,Bayern Munich
-bayern münchen,Bayern Munich
+bayern munchen,Bayern Munich
 hoffenheim,Hoffenheim
 tsg hoffenheim,Hoffenheim
 tsg 1899 hoffenheim,Hoffenheim
@@ -119,8 +116,7 @@ leicester,Leicester
 sampdoria u19,Sampdoria U19
 lazio u19,Lazio U19
 atletico madrid,Atletico Madrid
-atlético madrid,Atletico Madrid
-atlético de madrid,Atletico Madrid
+atletico de madrid,Atletico Madrid
 shakhtar donetsk,Shakhtar Donetsk
 dinamo zagreb,Dinamo Zagreb
 dinamo zagabria,Dinamo Zagreb
@@ -132,12 +128,12 @@ lokomotiv moskva,Lokomotiv Moscow
 lokomotiv moscow,Lokomotiv Moscow
 manchester city,Manchester City
 olympiakos,Olympiakos
-stella rossa belgrado,Red Star Belgrade
 belgrado,Red Star Belgrade
-étoile rouge de belgrade,Red Star Belgrade
-étoile rouge belgrade,Red Star Belgrade
-red star belgrade,Red Star Belgrade
 belgrade,Red Star Belgrade
+stella rossa belgrado,Red Star Belgrade
+etoile rouge belgrade,Red Star Belgrade
+etoile rouge de belgrade,Red Star Belgrade
+red star belgrade,Red Star Belgrade
 crvena zvezda,Red Star Belgrade
 ajax,Ajax
 chelsea,Chelsea
@@ -146,7 +142,7 @@ zenit saint petersburg,Zenit Saint Petersburg
 zenit st petersburg,Zenit Saint Petersburg
 zenit san pietroburgo,Zenit Saint Petersburg
 zenit s pietroburgo,Zenit Saint Petersburg
-zénith saint pétersbourg,Zenit Saint Petersburg
+zenith saint petersbourg,Zenit Saint Petersburg
 benfica,Benfica
 sl benfica,Benfica
 lione,Lyon
@@ -201,20 +197,19 @@ getafe,Getafe
 siviglia,Seville
 sevilla,Seville
 seville,Seville
-séville,Seville
 schalke 04,Schalke 04
 schalke,Schalke 04
 colonia,Cologne
-köln,Cologne
-1 köln,Cologne
-köln 01 07,Cologne
-1 köln 01 07,Cologne
+koln,Cologne
+1 koln,Cologne
+koln 01 07,Cologne
+1 koln 01 07,Cologne
 cologne,Cologne
 1 cologne,Cologne
-borussia m gladbach,Borussia M'gladbach
-borussia mönchengladbach,Borussia M'gladbach
-mönchengladbach,Borussia M'gladbach
-borussia vfl mönchengladbach,Borussia M'gladbach
+borussia m gladbach,Borussia Mgladbach
+borussia monchengladbach,Borussia Mgladbach
+monchengladbach,Borussia Mgladbach
+borussia vfl monchengladbach,Borussia Mgladbach
 augsburg,Augsburg
 augsbourg,Augsburg
 wolfsburg,Wolfsburg
@@ -227,9 +222,9 @@ eintracht frankfurt,Eintracht Frankfurt
 eintracht francfort,Eintracht Frankfurt
 werder brema,Werder Bremen
 werder bremen,Werder Bremen
-werder brême,Werder Bremen
-sportverein werder von 1899 e V,Werder Bremen
-sportverein werder bremen von 1899 e V,Werder Bremen
+werder breme,Werder Bremen
+sportverein werder von 1899,Werder Bremen
+sportverein werder bremen von 1899,Werder Bremen
 angers,Angers
 angers sco,Angers
 brest,Brest
@@ -237,43 +232,36 @@ stade brestois 29,Brest
 stade brest,Brest
 metz,Metz
 digione,Dijon
-dijon football côte d or,Dijon
+dijon football cote d or,Dijon
 dijon fco,Dijon
 strasburgo,Strasbourg
 racing strasburgo,Strasbourg
 strasbourg,Strasbourg
 racing strasbourg,Strasbourg
 racing club de strasbourg alsace,Strasbourg
-racing straßburg,Strasbourg
+racing strassburg,Strasbourg
 montpellier,Montpellier
-montpellier hérault sport club,Montpellier
+montpellier herault sport club,Montpellier
 montpellier hsc,Montpellier
 monaco,Monaco
-association sportive de monaco football club,Monaco
 association sportive de monaco,Monaco
 nantes,Nantes
 nizza,Nice
 nice,Nice
 ogc nice,Nice
-olympique gymnaste club de nice côte d azur,Nice
 tolosa,Toulouse
 toulouse,Toulouse
 bordeaux,Bordeaux
 girondins de bordeaux,Bordeaux
-football club girondins de bordeaux,Bordeaux
-football club des girondins de bordeaux,Bordeaux
 nimes,Nimes
-nîmes,Nimes
-nîmes olympique,Nimes
+nimes olympique,Nimes
 rennes,Rennes
 stade rennais,Rennes
 reims,Reims
 stade de reims,Reims
 asse,St Etienne
 st etienne,St Etienne
-st étienne,St Etienne
-saint étienne,St Etienne
-association sportive de saint étienne loire,St Etienne
+saint etienne,St Etienne
 como,Como
 giana erminio,Giana Erminio
 erminio giana,Giana Erminio
@@ -309,7 +297,7 @@ modena,Modena
 triestina,Triestina
 ravenna,Ravenna
 carpi,Carpi
-feralpisalò,Feralpisalò
+feralpisalo,Feralpisalo
 imolese,Imolese
 fano,Fano
 padoue,Padova
@@ -384,11 +372,9 @@ inter u19,Inter U19
 juventus u19,Juventus U19
 az,AZ
 az alkmaar,AZ
-alkmaar zaanstreek combinatie,AZ
 alkmaar zaanstreek,AZ
 astana,FC Astana
 besiktas,Besiktas
-beşiktaş,Besiktas
 braga,Braga
 cska mosca,CSKA Moscow
 cska moscow,CSKA Moscow
@@ -416,26 +402,18 @@ pfc oleksandria,PFC Oleksandria
 young boys,Young Boys
 feyenoord,Feyenoord
 vitoria,Guimaraes
-vitória,Guimaraes
 guimaraes,Guimaraes
-guimarães,Guimaraes
 vitoria guimaraes,Guimaraes
-vitória guimaraes,Guimaraes
-vitória guimarães,Guimaraes
 vitoria de guimaraes,Guimaraes
-vitória de guimaraes,Guimaraes
-vitória de guimarães,Guimaraes
 celtic,Celtic
 dinamo kiev,Dinamo Kiev
 copenhagen,FC Copenhagen
 standard liegi,Standard Liegi
 basilea,Basel
 basel,Basel
-bâle,Basel
+bale,Basel
 malmo,Malmo FF
-malmö,Malmo FF
 malmo ff,Malmo FF
-malmö ff,Malmo FF
 lugano,Lugano
 psv eindhoven,PSV Eindhoven
 linz,LASK Linz
@@ -452,7 +430,6 @@ sporting lisbona,Sporting
 rosenborg,Rosenborg
 trabzonspor,Trabzonspor
 krasnodar,Krasnodar
-feralpisalò,AC Feralpisalò
 corigliano calabro,ASD Corigliano Calabro
 asd corigliano calabro,ASD Corigliano Calabro
 licata,ASD Licata
@@ -460,7 +437,6 @@ asd licata,ASD Licata
 palermo,Palermo
 palerme,Palermo
 cittanovese,Cittanovese
-forlì,Forli
 forli,Forli
 mantova,Mantova
 empoli u19,Empoli U19

@@ -10,6 +10,7 @@ from bet_parser.constants.Bet365 import Const
 from bet_parser.middlewares.SeleniumRequest import SeleniumRequest
 from bet_parser.utils.Mappers import MatchMapper
 from bet_parser.utils.Writers import *
+from bet_parser.settings import *
 
 
 class Bet365Spider(scrapy.Spider):
@@ -20,13 +21,9 @@ class Bet365Spider(scrapy.Spider):
         'https://www.bet365.it/#/AC/B1/C1/D13/E113/F16/': 'b365_ita_league',  # Italian Championship
         'https://www.bet365.it/#/AC/B1/C1/D13/E108/F16/': 'b365_europe_elite'  # Europe Elite
     }
-    custom_settings = {
-        'DUPEFILTER_CLASS': 'scrapy.dupefilters.BaseDupeFilter',
-    }
-    parsed_matches: List[Match] = []
     # Set datetime locale to italian (needed for Bet365 italian pages)
     locale.setlocale(locale.LC_TIME, Const.datetime_italian_locale)
-    match_mapper = MatchMapper()
+    parsed_matches: List[Match] = []
 
     def start_requests(self):
         # Connect the idle status (end of all requests) to self.spider_idle method
@@ -37,11 +34,10 @@ class Bet365Spider(scrapy.Spider):
             yield SeleniumRequest(url=url,
                                   callback=self.parse,
                                   driver_type='chrome',
-                                  wait_time=3,
+                                  wait_time=1,
                                   headless=False)
 
     def parse(self, response: HtmlResponse):
-        FileWriter('output').write('b365', [], response.body)
         # Looping over Matches Groups
         # (this is the main loop, here we iterate on each div containing a group of matches, with its description
         # and quotes)
@@ -145,12 +141,12 @@ class Bet365Spider(scrapy.Spider):
         # match_translator = MatchTranslator(from_lang='it', to_lang='en', word_by_word=True)
         # parsed_matches = match_translator.translate_all(all_parsed_matches)
 
+        match_mapper = MatchMapper()
         # Try to remap each match team name to the global en-EN one (if found by the ML system)
-        self.parsed_matches = self.match_mapper.map_all(self.parsed_matches)
+        self.parsed_matches = match_mapper.map_all(self.parsed_matches)
         # Write down validation output of ML to file (unique array through all the parsed teams)
-        self.match_mapper.write_validation_dataset()
+        match_mapper.write_validation_dataset()
 
         # Write quotes to Firebase
-        fb_writer = FirebaseWriter()
-        fb_writer.write(self.parsed_matches)
+        FirebaseWriter().write(self.parsed_matches)
         self.log('Saved parsed quotes on Firebase: %s' % self.name)

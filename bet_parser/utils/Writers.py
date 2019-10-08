@@ -2,6 +2,7 @@ import pyrebase
 from bet_parser.settings import *
 from bet_parser.models.Match import Match
 from typing import List
+import unidecode
 
 
 class FirebaseWriter:
@@ -35,7 +36,7 @@ class FirebaseWriter:
 
     @staticmethod
     def clean_string(string):
-        return string.replace(" ", "").replace(".", "").replace("/", "").lower()
+        return unidecode.unidecode(string.replace(" ", "").replace(".", "").replace("/", "").lower())
 
 
 class FileWriter:
@@ -43,9 +44,9 @@ class FileWriter:
     Writer class able to write Parsed Matches to File (csv+html).
     """
     out_folder: str = ''
-    format_csv: str = '.csv'
-    format_html: str = '.html'
-    format_txt: str = '.txt'
+    format_csv: str = 'csv'
+    format_html: str = 'html'
+    format_txt: str = 'txt'
 
     def __init__(self, out_folder=''):
         self.out_folder = out_folder
@@ -58,7 +59,7 @@ class FileWriter:
     """
     def write(self, filename: str, parsed_matches: List[Match], html: bytes = None):
         # Write Matches quotes to CSV file
-        filename_csv = (self.out_folder + '/' if self.out_folder else '') + filename + self.format_csv
+        filename_csv = (self.out_folder + '/' if self.out_folder else '') + filename + '.' + self.format_csv
         with open(filename_csv, 'w') as f:
             f.write('Bookmaker,StartDate,StartTime,RealTime,Team1,Team2,Quote1,QuoteX,Quote2,Result;\n')
             for match in parsed_matches:
@@ -69,7 +70,7 @@ class FileWriter:
 
         # Dumps, if available, Matches webpage to file
         if html:
-            filename_html = (self.out_folder + '/' if self.out_folder else '') + filename + self.format_html
+            filename_html = (self.out_folder + '/' if self.out_folder else '') + filename + '.' + self.format_html
             with open(filename_html, 'wb') as f:
                 f.write(html)
 
@@ -78,23 +79,29 @@ class FileWriter:
     Input: str          - Content to append
     Appends raw string data to file
     """
-    def append(self, filename: str, content: str):
-        filename_txt = (self.out_folder + '/' if self.out_folder else '') + filename + self.format_txt
-        with open(filename_txt, 'a+') as f:
+    def append(self, filename: str, content: str, file_format: str = None):
+        filename_out = (self.out_folder + '/' if self.out_folder else '') + filename + '.' + \
+                       (file_format or self.format_txt)
+        with open(filename_out, 'a+') as f:
             f.write(content)
     """
     Input: str          - File Name to read
     """
-    def readlines(self, filename: str):
-        filename_txt = (self.out_folder + '/' if self.out_folder else '') + filename + self.format_txt
-        with open(filename_txt, 'r') as f:
+    def readlines(self, filename: str, file_format: str = None):
+        filename_in = (self.out_folder + '/' if self.out_folder else '') + filename + '.' + \
+                      (file_format or self.format_txt)
+        with open(filename_in, 'r') as f:
             return f.readlines()
 
-    def deduplicate(self, in_filename):
-        content = self.readlines(in_filename)
+    def deduplicate(self, in_filename: str, file_format: str = None, by_first_column: bool = False):
+        content = self.readlines(in_filename, file_format)
 
-        already_inserted = []
+        already_inserted = {}
         for line in content:
-            if line not in already_inserted:
-                already_inserted.append(line)
-                self.append(in_filename + '_deduplicate', line)
+            splitted = line.split(',')
+            if by_first_column and len(splitted) > 1 and splitted[0] not in already_inserted.keys():
+                already_inserted[splitted[0]] = line
+                self.append(in_filename + '_deduplicate', line, file_format)
+            elif not by_first_column and line not in already_inserted.keys():
+                already_inserted.setdefault(line)
+                self.append(in_filename + '_deduplicate', line, file_format)

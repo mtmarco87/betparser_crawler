@@ -43,5 +43,5 @@ class SeleniumRequest(scrapy.Request):
         selenium_meta.setdefault('headless', headless)
         selenium_meta.setdefault('user_data_dir', user_data_dir)
 
-        super(SeleniumRequest, self).__init__(url, callback, method, meta=meta,
+        super(SeleniumRequest, self).__init__(url, callback, method, dont_filter=True, meta=meta,
                                               **kwargs)
