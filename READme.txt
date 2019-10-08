@@ -10,7 +10,7 @@
   1.4) At the end of the installation we have 4 command suggested for us:
        - conda activate test_env_ema3     #to activate an env
        - conda deactivate test_env_ema3   #to deactivate an env
-       - conda env list  		  #to list all your env, a * indicates the current active one
+       - conda env list  		           #to list all your env, a * indicates the current active one
        - conda remove test_env_ema3       #to remove an env
 
 2)Install scrapy in your new env with 'pip install scrapy'. This is the tool that will help us to do the request and collect the
@@ -36,3 +36,4 @@
 6)To add a new spider from the main folder in the anaconda prompt run 'scrapy genspider diretta', and we can start to code :)
 
 7)For firebase pip install pyrebase
+7)For firebase pip install Scipy googletrans Nltk selenium

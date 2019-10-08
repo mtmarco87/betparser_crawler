@@ -3,13 +3,18 @@ from datetime import datetime
 
 class Const:
     """
-    Sisal Spider Constants file
+    William Spider Constants file
     """
-    # Sisal CSS Selectors
-    css_matches_groups: str = '.multiscommessa__row'
+    # Cookies Config TODO to be updated
+    access_cookie_key: str = 'aps03'
+    access_cookie_value: str = 'lng=6&ct=97&cg=1&cst=0&hd=N&cf=N&tzi=19&oty=2'
+
+    # William CSS Selectors
+    css_matches_rows: str = '.rowOdd'
+    css_descr_col: str = '.leftPad'
     css_name_event: str = '.multiscommessa__dettagli__nome'
     css_date_event: str = '.multiscommessa__dettagli__data'
-    css_event_type: str = '.multiscommessa__box__esito__singolo'
+    css_event_type: str = '.eventprice'
     css_description_column: str = '.AvvenimentoDetailWrapper-w9f4wf-0'
     css_date_row: str = '.sl-MarketHeaderLabel_Date'
     css_name_result_time_row: str = '.sl-CouponParticipantWithBookCloses'
@@ -30,7 +35,6 @@ class Const:
     match_name_divider: str = ' v '
     current_year: int = datetime.today().year
     datetime_italian_locale: str = 'ita_ITA'
-    sisal_date_format: str = '%d/%m/%Y'
-    sisal_date_format2: str = '%d-%m-%Y'
+    william_date_format: str = '%d %b %Y'
     output_date_format: str = '%Y_%m_%d'
     txt_not_available: str = 'N/A'
