@@ -1,5 +1,4 @@
 import scrapy
-from scrapy_splash.utils import to_native_str
 
 
 class SeleniumRequest(scrapy.Request):
@@ -30,7 +29,6 @@ class SeleniumRequest(scrapy.Request):
                  **kwargs):
         if url is None:
             url = 'about:blank'
-        url = to_native_str(url)
 
         meta = meta or {}
         selenium_meta = meta.setdefault('selenium', {})

@@ -35,9 +35,6 @@ class BwinSpider(scrapy.Spider):
                                   headless=False)
 
     def parse(self, response: HtmlResponse):
-        # tmp = FileWriter('output')
-        # tmp.write('test', [], response.body)
-
         # Looping over Matches Groups
         # (this is the main loop, here we iterate on each div containing a group of matches, with its description
         # and quotes)

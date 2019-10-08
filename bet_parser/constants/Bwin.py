@@ -17,7 +17,6 @@ class Const:
 
     # Global CSS/XPath Selectors
     css_get_all_text: str = ' *::text'
-    xpath_get_text: str = './/text()'
 
     # DateTime Constants
     bwin_real_time_1: str = 'mt1'
