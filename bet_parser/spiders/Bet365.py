@@ -2,13 +2,13 @@
 import locale
 import scrapy
 from scrapy import signals
+from scrapy.http import HtmlResponse
 from scrapy.selector import Selector
-from scrapy_splash import SplashRequest, SplashTextResponse
 from datetime import datetime
 from typing import Dict
 from bet_parser.constants.Bet365 import Const
+from bet_parser.middlewares.SeleniumRequest import SeleniumRequest
 from bet_parser.utils.Mappers import MatchMapper
-from bet_parser.utils.Translators import MatchTranslator
 from bet_parser.utils.Writers import *
 
 
@@ -22,7 +22,7 @@ class Bet365Spider(scrapy.Spider):
     }
     # Set datetime locale to italian (needed for Bet365 italian pages)
     locale.setlocale(locale.LC_TIME, Const.datetime_italian_locale)
-    match_mapper = MatchMapper()
+    parsed_matches: List[Match] = []
 
     def start_requests(self):
         # Connect the idle status (end of all requests) to self.spider_idle method
@@ -30,38 +30,23 @@ class Bet365Spider(scrapy.Spider):
 
         # Start requests
         for url, name in self.start_urls.items():
-            yield SplashRequest(url, self.parse,
-                                args={'wait': 3, 'html': 0, 'png': 0},
-                                session_id=1,
-                                cookies={Const.access_cookie_key: Const.access_cookie_value}
-                                )
+            yield SeleniumRequest(url=url,
+                                  callback=self.parse,
+                                  driver_type='chrome',
+                                  wait_time=1,
+                                  headless=False)
 
-    def parse(self, response: SplashTextResponse):
-        # All the parsed data will be filled in the following array
-        parsed_matches: List[Match] = []
-
+    def parse(self, response: HtmlResponse):
         # Looping over Matches Groups
         # (this is the main loop, here we iterate on each div containing a group of matches, with its description
         # and quotes)
         matches_groups = response.css(Const.css_matches_groups)
         for matches_group in matches_groups:
-            first_match_of_group: int = len(parsed_matches)
+            first_match_of_group: int = len(self.parsed_matches)
             # Matches description extraction
-            self.parse_matches_description(matches_group, parsed_matches)
+            self.parse_matches_description(matches_group, self.parsed_matches)
             # Matches quotes extraction
-            self.parse_matches_quotes(matches_group, first_match_of_group, parsed_matches)
-
-        # # Apply Google Translate to each Match team names to global EN ones
-        # match_translator = MatchTranslator(from_lang='it', to_lang='en', word_by_word=True)
-        # parsed_matches = match_translator.translate_all(parsed_matches)
-
-        # Try to remap each Match team name to the global en-EN one (if found from the ML system)
-        parsed_matches = self.match_mapper.map_all(parsed_matches)
-
-        # Write quotes to Firebase
-        fb_writer = FirebaseWriter()
-        fb_writer.write(parsed_matches)
-        self.log('Saved parsed quotes on Firebase: %s' % self.name)
+            self.parse_matches_quotes(matches_group, first_match_of_group, self.parsed_matches)
 
     def parse_matches_description(self, matches_group: Selector, parsed_matches: List[Match]):
         # Looping over Column 1 rows (Dates, Times, Match names and results)
@@ -80,8 +65,11 @@ class Bet365Spider(scrapy.Spider):
                         # Here we finally parse the Matches Date, from B365 format (Day 3-char Month and
                         # numeric Year) to BetParser output format (Year_Month_Day)
                         extr_date_with_year = extr_date + ' ' + str(Const.current_year)
-                        matches_start_date = datetime.strptime(extr_date_with_year, Const.b365_date_format) \
-                            .strftime(Const.output_date_format)
+                        try:
+                            matches_start_date = datetime.strptime(extr_date_with_year, Const.b365_date_format) \
+                                .strftime(Const.output_date_format)
+                        except Exception:
+                            pass
             elif Const.css_name_result_time_row[1:] in row_class:
                 is_real_time = False
                 # Extracts specific Match name, and if available real-time result (if the match is started already)
@@ -141,10 +129,23 @@ class Bet365Spider(scrapy.Spider):
                 if Const.css_quote_header[1:] in row_class:
                     quote_type = row.css(Const.css_get_all_text).get(default='')
                 else:
-                    quote = row.css(Const.css_get_all_text).get(default='')
+                    quote = row.css(Const.css_get_all_text).get(default=None)
                     setattr(parsed_matches[match_number], 'Quote' + quote_type, quote)
                     match_number += 1
 
     def spider_idle(self):
-        # At the end of all the requests write down validation output of ML (unique array through all the parsed teams)
-        self.match_mapper.write_validation_dataset()
+        # End of all the requests
+
+        # # Apply Google Translate to each Match team names to global EN ones
+        # match_translator = MatchTranslator(from_lang='it', to_lang='en', word_by_word=True)
+        # parsed_matches = match_translator.translate_all(all_parsed_matches)
+
+        match_mapper = MatchMapper()
+        # Try to remap each match team name to the global en-EN one (if found by the ML system)
+        self.parsed_matches = match_mapper.map_all(self.parsed_matches)
+        # Write down validation output of ML to file (unique array through all the parsed teams)
+        match_mapper.write_validation_dataset()
+
+        # Write quotes to Firebase
+        FirebaseWriter().write(self.parsed_matches)
+        self.log('Saved parsed quotes on Firebase: %s' % self.name)

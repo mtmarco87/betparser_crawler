@@ -4,6 +4,7 @@ from collections import Counter
 from math import sqrt
 import difflib
 import re
+import unidecode
 
 
 class MLHelpers:
@@ -57,14 +58,14 @@ class WordSimilarityML:
     algorithms: dict = {
         'cos': ['cosine similarity', True, 95, MLHelpers.cosine_similarity],
         'lev': ['levenstein distance', False, 4, MLHelpers.levenstein_distance],
-        'seq': ['sequence matcher', True, 85, MLHelpers.sequence_matcher]
+        'seq': ['sequence matcher', True, 95, MLHelpers.sequence_matcher]
     }
     dataset_source: ndarray = None
     dataset_target: ndarray = None
     sanitize_array: list = None
 
     def __init__(self, dataset_source: ndarray = None, dataset_target: ndarray = None,
-                 algorithm: str = 'cos', sanitize_array: list = None):
+                 algorithm: str = 'seq', sanitize_array: list = None):
         if algorithm not in self.algorithms.keys():
             raise Exception('Error: Unknown ML algorithm requested')
         if dataset_source is None or dataset_target is None:
@@ -83,6 +84,8 @@ class WordSimilarityML:
         result = MLSimilarityResult(key)
         if not threshold:
             threshold = self.algorithm_treshold
+
+        print("ML ==> testing '{}'".format(key))
 
         index = -1
         found = []
@@ -117,9 +120,11 @@ class WordSimilarityML:
         # Applies custom sanitation rules (removes all the isolated occurrences of these words)
         if sanitize_array:
             for s in sanitize_array:
-                key = re.sub(r'(' + s + r'\s+)|(\s+' + s + r')', '', key, flags=re.I)
+                key = re.sub(r'((?<!\w)' + s + r'(?!\w))', '', key, flags=re.I)
         # Substitute multiple spaces with single space
         key = re.sub(r'\s+', ' ', key, flags=re.I)
+        # Replace unicode accented characters with standard ones
+        key = unidecode.unidecode(key)
 
         # Finally we trim and return
         return key.strip()

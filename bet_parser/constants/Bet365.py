@@ -7,7 +7,7 @@ class Const:
     """
     # Cookies Config
     access_cookie_key: str = 'aps03'
-    access_cookie_value: str = 'lng=6&ct=97&cg=1&cst=0&hd=N&cf=N&tzi=19&oty=2'
+    access_cookie_value: str = 'cf=N&cg=1&cst=0&ct=97&hd=N&lng=6&oty=2&tzi=4'
 
     # B365 CSS Selectors
     css_matches_groups: str = '.gll-MarketGroupContainer'
@@ -33,4 +33,3 @@ class Const:
     datetime_italian_locale: str = 'it_IT'
     b365_date_format: str = '%d %b %Y'
     output_date_format: str = '%Y_%m_%d'
-    txt_not_available: str = 'N/A'
