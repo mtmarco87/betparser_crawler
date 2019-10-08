@@ -28,5 +28,5 @@ def get_text_from_first_html_element(html_element, css_selector):
     return get_text_from_html_element_at_position(html_element, css_selector, 0)
 
 
-def format_date(data, inputDateFormat, outputDateFormat):
-    return datetime.strptime(data, inputDateFormat).strftime(outputDateFormat)
+def format_date(data, input_date_format, output_date_format):
+    return datetime.strptime(data, input_date_format).strftime(output_date_format)
