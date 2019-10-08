@@ -55,6 +55,7 @@ class SeleniumDownloaderMiddleware(object):
                 options.add_argument('headless')
             if user_data_dir:
                 options.add_argument("user-data-dir=" + user_data_dir)
+                options.add_argument("--disable-plugins-discovery")
 
             self.chrome_driver = webdriver.Chrome(chrome_options=options,
                                                   executable_path=self.chrome_driver_path)

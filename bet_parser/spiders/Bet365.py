@@ -39,8 +39,6 @@ class Bet365Spider(scrapy.Spider):
                                   driver_type='chrome',
                                   wait_time=3,
                                   headless=False)
-            # 'cookies': {'name': Const.access_cookie_key, 'value': Const.access_cookie_value,
-            #             'domain': self.allowed_domains[0]}}
 
     def parse(self, response: HtmlResponse):
         FileWriter('output').write('b365', [], response.body)
