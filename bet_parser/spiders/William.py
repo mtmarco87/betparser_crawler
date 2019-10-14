@@ -40,7 +40,7 @@ class SisalSpider(scrapy.Spider):
         # (this is the main loop, here we iterate on each div containing a group of matches, with its description
         # and quotes)
         match_rows = response.css(Const.css_matches_rows)
-        index = 0
+        index = len(self.parsed_matches)
         for match_row in match_rows:
             tds = match_row.css('td')
             if len(tds) > 2:

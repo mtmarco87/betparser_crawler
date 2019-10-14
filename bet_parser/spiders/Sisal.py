@@ -48,7 +48,7 @@ class SisalSpider(scrapy.Spider):
         # (this is the main loop, here we iterate on each div containing a group of matches, with its description
         # and quotes)
         match_rows = response.css(Const.css_matches_groups)
-        index = 0
+        index = len(self.parsed_matches)
         for match_row in match_rows:
             match_names = match_row.css(Const.css_name_event)
             if match_names and match_names[0] is not None:
