@@ -15,9 +15,18 @@ class BwinSpider(scrapy.Spider):
     name = 'bwin'
     allowed_domains = ['bwin.fr']
     start_urls: Dict[str, str] = {
+        'https://sports.bwin.fr/fr/sports/football-4': 'bwin_main',
+        'https://sports.bwin.fr/fr/sports/football-4/paris-sportifs/asie-234/%C3%A9liminatoires-cm-asie-14127': 'bwin_fifa_2020_qualifications',
         'https://sports.bwin.fr/fr/sports/football-4/paris-sportifs/monde-6': 'bwin_world',
         'https://sports.bwin.fr/fr/sports/football-4/paris-sportifs/europe-7': 'bwin_europe',
         'https://sports.bwin.fr/fr/sports/football-4/paris-sportifs/italie-20': 'bwin_italy',
+        'https://sports.bwin.fr/fr/sports/football-4/paris-sportifs/angleterre-14/premier-league-46': 'bwin_eng_premier_league',
+        'https://sports.bwin.fr/fr/sports/football-4/paris-sportifs/espagne-28/laliga-16108': 'bwin_esp_liga',
+        'https://sports.bwin.fr/fr/sports/football-4/paris-sportifs/france-16/ligue-1-4131': 'bwin_fra_ligue_1',
+        'https://sports.bwin.fr/fr/sports/football-4/paris-sportifs/allemagne-17/bundesliga-43': 'bwin_ger_bundesliga',
+        'https://sports.bwin.fr/fr/sports/football-4/paris-sportifs/pays-bas-36/eredivisie-6361': 'bwin_ned_eredivise',
+        'https://sports.bwin.fr/fr/sports/football-4/paris-sportifs/portugal-37/primeira-liga-16199': 'bwin_por_primeira_liga',
+        'https://sports.bwin.fr/fr/sports/football-4/paris-sportifs/am%C3%A9rique-du-sud-42/copa-libertadores-110': 'bwin_copa_libertadores',
     }
     parsed_matches: List[Match] = []
 
