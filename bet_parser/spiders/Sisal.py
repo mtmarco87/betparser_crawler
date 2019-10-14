@@ -15,7 +15,10 @@ class SisalSpider(scrapy.Spider):
     allowed_domains: list = ['sisal.it']
     start_urls: Dict[str, str] = {
         'https://www.sisal.it/scommesse-matchpoint': 'sisal_main',  # Main Page
+        'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=42&fil=0&isMSpec=false': 'sisal_euro_2020_qualifications',
+        'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=132&fil=0&isMSpec=false': 'sisal_asia_fifa_2022_qualifications',
         'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=18&fil=0&isMSpec=false': 'sisal_champions',
+        'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=153&fil=0&isMSpec=false': 'sisal_europa_league',
         'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=21&fil=0&isMSpec=false': 'sisal_ita_serie_a',
         'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=22&fil=0&isMSpec=false': 'sisal_ita_serie_b',
         'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=86&fil=0&isMSpec=false': 'sisal_eng_premier_league',
@@ -24,7 +27,10 @@ class SisalSpider(scrapy.Spider):
         'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=4&fil=0&isMSpec=false': 'sisal_ger_bundesliga',
         'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=29&fil=0&isMSpec=false': 'sisal_ned_eredivise',
         'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=54&fil=0&isMSpec=false': 'sisal_por_primera_liga',
-
+        'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=555&fil=0&isMSpec=false': 'sisal_arg_b_metropolitana',
+        'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=256&fil=0&isMSpec=false': 'sisal_arg_b_nacional',
+        'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=33&fil=0&isMSpec=false': 'sisal_copa_libertadores',
+        'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=257&fil=0&isMSpec=false': 'sisal_brazil_serie_b',
     }
     parsed_matches: List[Match] = []
 
@@ -55,10 +61,12 @@ class SisalSpider(scrapy.Spider):
                 match_name = get_text_from_html_element(match_names[0])
                 if match_name is not None:
                     # Matches description extraction
-                    self.parse_matches_description(match_row, self.parsed_matches)
-                    # Matches quotes extraction
-                    self.parse_matches_quotes(match_row, index, self.parsed_matches)
-                    index += 1
+                    result = self.parse_matches_description(match_row, self.parsed_matches)
+
+                    if result:
+                        # Matches quotes extraction
+                        self.parse_matches_quotes(match_row, index, self.parsed_matches)
+                        index += 1
 
         # # Write quotes to File
         # file_writer = FileWriter('output')
@@ -68,6 +76,11 @@ class SisalSpider(scrapy.Spider):
         if match_row:
             match_name = get_text_from_first_html_element(match_row, Const.css_name_event)
             match_date = get_text_from_first_html_element(match_row, Const.css_date_event)
+
+            # Here we discard empty rows composed only by a Match name with no quotes
+            if 'speciali live' in match_name.lower():
+                return False
+
             if match_name and match_date:
                 teams = match_name.split(' - ')
                 team1 = teams[0].strip()
@@ -100,6 +113,8 @@ class SisalSpider(scrapy.Spider):
                 parsed_match.Team2 = team2
                 parsed_match.Result = Const.txt_not_available
                 parsed_matches.append(parsed_match)
+
+                return True
 
     @staticmethod
     def parse_matches_quotes(match_row: Selector, index: int, parsed_matches: List[Match]):

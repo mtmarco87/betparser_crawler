@@ -17,8 +17,24 @@ class Bet365Spider(scrapy.Spider):
     allowed_domains: list = ['bet365.it']
     start_urls: Dict[str, str] = {
         'https://www.bet365.it/#/HO/': 'b365_main',  # Main Page
-        'https://www.bet365.it/#/AC/B1/C1/D13/E113/F16/': 'b365_ita_league',  # Italian Championship
-        'https://www.bet365.it/#/AC/B1/C1/D13/E108/F16/': 'b365_europe_elite'  # Europe Elite
+        'https://www.bet365.it/#/AC/B1/C1/D13/E43757159/F2/': 'b365_euro_2020_qualifications',
+        'https://www.bet365.it/#/AC/B1/C1/D13/E43833353/F2/': 'b365_asia_fifa_2022_qualifications',
+        'https://www.bet365.it/#/AC/B1/C1/D13/E108/F16/': 'b365_europe_elite',  # Europe Elite
+        'https://www.bet365.it/#/AC/B1/C1/D13/E113/F16/': 'b365_ita_list',
+        'https://www.bet365.it/#/AC/B1/C1/D13/E112/F16/': 'b365_international_list',
+        'https://www.bet365.it/#/AC/B1/C1/D13/E43316955/F2/': 'b365_champions',
+        'https://www.bet365.it/#/AC/B1/C1/D13/E43330565/F2/': 'b365_europa_league',
+        'https://www.bet365.it/#/AC/B1/C1/D13/E42856517/F2/': 'b365_ita_serie_a',
+        'https://www.bet365.it/#/AC/B1/C1/D13/E43062117/F2/': 'b365_ita_serie_b',
+        'https://www.bet365.it/#/AC/B1/C1/D13/E37628398/F2/': 'b365_eng_premier_league',
+        'https://www.bet365.it/#/AC/B1/C1/D13/E42493286/F2/': 'b365_esp_liga',
+        'https://www.bet365.it/#/AC/B1/C1/D13/E42481795/F2/': 'b365_fra_ligue_1',
+        'https://www.bet365.it/#/AC/B1/C1/D13/E42422049/F2/': 'b365_ger_bundesliga',
+        'https://www.bet365.it/#/AC/B1/C1/D13/E42536104/F2/': 'b365_ned_eredivise',
+        'https://www.bet365.it/#/AC/B1/C1/D13/E42549026/F2/': 'b365_por_primeira_liga',
+        'https://www.bet365.it/#/AC/B1/C1/D13/E42549000/F2/:/AC/B1/C1/D13/E42590533/F2/:/AC/B1/C1/D13/E43069627/F2/:' +
+        '/AC/B1/C1/D13/E42869049/F2/:/AC/B1/C1/D13/E43308636/F2/:/AC/B1/C1/D13/E42765933/F2/:' +
+        '/AC/B1/C1/D13/E43401262/F2/:/AC/B1/C1/D13/E42478935/F2/': 'b365_custom_latin_america_1'
     }
     # Set datetime locale to italian (needed for Bet365 italian pages)
     locale.setlocale(locale.LC_TIME, Const.datetime_italian_locale)
