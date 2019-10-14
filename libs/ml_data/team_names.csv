@@ -68,6 +68,7 @@ hertha berlino,Hertha Berlin
 hertha berliner,Hertha Berlin
 hertha berliner sport club,Hertha Berlin
 hertha,Hertha Berlin
+dusseldorf,Fortuna Dusseldorf
 fortuna dusseldorf,Fortuna Dusseldorf
 amiens,Amiens
 marsiglia,Marseilles
@@ -116,25 +117,33 @@ burnley,Burnley
 everton,Everton
 liverpool,Liverpool
 leicester,Leicester
+leicester city,Leicester
 sampdoria u19,Sampdoria U19
 lazio u19,Lazio U19
+atl madrid,Atletico Madrid
 atletico madrid,Atletico Madrid
 atletico de madrid,Atletico Madrid
 shakhtar donetsk,Shakhtar Donetsk
 chakhtar donetsk,Shakhtar Donetsk
 dinamo zagreb,Dinamo Zagreb
 dinamo zagabria,Dinamo Zagreb
-club bruges,Club Bruges
+club bruges,Club Brugge
+club brugge,Club Brugge
+psg,Paris Saint Germain
 paris saint germain,Paris Saint Germain
 galatasaray,Galatasaray
 lokomotiv mosca,Lokomotiv Moscow
 lokomotiv moscou,Lokomotiv Moscow
 lokomotiv moskva,Lokomotiv Moscow
 lokomotiv moscow,Lokomotiv Moscow
+man city,Manchester City
 manchester city,Manchester City
 olympiakos,Olympiakos
+olympiacos,Olympiakos
+olympiacos pireo,Olympiakos
 belgrado,Red Star Belgrade
 belgrade,Red Star Belgrade
+stella rossa,Red Star Belgrade
 stella rossa belgrado,Red Star Belgrade
 etoile rouge belgrade,Red Star Belgrade
 etoile rouge de belgrade,Red Star Belgrade
@@ -178,30 +187,39 @@ barcellona,Barcelona
 barcelone,Barcelona
 barcelona,Barcelona
 norwich,Norwich
+norwich city,Norwich
 aston villa,Aston Villa
 watford,Watford
+sheffield utd,Sheffield United
 sheffield united,Sheffield United
 west ham,West Ham
 crystal palace,Crystal Palace
 arsenal,Arsenal
 bournemouth,Bournemouth
 wolverhampton,Wolverhampton
+wolves,Wolverhampton
 southampton,Southampton
 newcastle,Newcastle
+man utd,Manchester United
 manchester united,Manchester United
 alaves,Alaves
 osasuna,Osasuna
 villarreal,Villarreal
 maiorca,Mallorca
+real maiorca,Mallorca
 mallorca,Mallorca
+real mallorca,Mallorca
 majorque,Mallorca
 espanyol,Espanyol
+espanyol barcellona,Espanyol
 celta vigo,Celta Vigo
 celta de vigo,Celta Vigo
+ath bilbao,Athletic Bilbao
 atletico bilbao,Athletic Bilbao
 athletic bilbao,Athletic Bilbao
 athletic club,Athletic Bilbao
 valladolid,Valladolid
+real valladolid,Valladolid
 real sociedad,Real Sociedad
 getafe,Getafe
 siviglia,Seville
@@ -228,6 +246,7 @@ vfl wolfsbourg,Wolfsburg
 union berlino,Union Berlin
 union berlin,Union Berlin
 1 union berlin,Union Berlin
+francoforte,Eintracht Frankfurt
 eintracht francoforte,Eintracht Frankfurt
 eintracht frankfurt,Eintracht Frankfurt
 eintracht francfort,Eintracht Frankfurt
@@ -243,6 +262,7 @@ stade brestois 29,Brest
 stade brest,Brest
 metz,Metz
 digione,Dijon
+dijon,Dijon
 dijon football cote d or,Dijon
 dijon fco,Dijon
 strasburgo,Strasbourg
@@ -266,6 +286,7 @@ bordeaux,Bordeaux
 girondins de bordeaux,Bordeaux
 nimes,Nimes
 nimes olympique,Nimes
+olympique nimes,Nimes
 rennes,Rennes
 stade rennais,Rennes
 reims,Reims
@@ -291,6 +312,7 @@ lecco,Lecco
 pianese,Pianese
 juventus u23,Juventus U23
 alessandria,Alessandria
+alessandria calcio 1912,Alessandria
 pontedera,Pontedera
 arezzo,Arezzo
 monza,Monza
@@ -422,10 +444,9 @@ pfc oleksandria,PFC Oleksandria
 young boys,Young Boys
 feyenoord,Feyenoord
 feyenoord rotterdam,Feyenoord
-vitoria,Guimaraes
-guimaraes,Guimaraes
-vitoria guimaraes,Guimaraes
-vitoria de guimaraes,Guimaraes
+guimaraes,Vitoria (Guimaraes)
+vitoria guimaraes,Vitoria (Guimaraes)
+vitoria de guimaraes,Vitoria (Guimaraes)
 celtic,Celtic
 copenhague,FC Copenhagen
 copenhagen,FC Copenhagen
@@ -647,6 +668,7 @@ panama,Panama
 salvador,Salvador
 costa rica,Costa Rica
 ligorna,Ligorna
+ligorna 1922,Ligorna
 lavagnese,Lavagnese
 campodarsego,Campodarsego
 adriese,US Adriese
@@ -659,3 +681,153 @@ asd brusaporto,ASD Brusaporto
 asd pineto calcio,ASD Pineto Calcio
 ostia mare,AS Ostia Mare
 savoia 1908,AC Savoia 1908
+botafogo sp,Botafogo SP
+botafogo rj,Botafogo RJ
+figueirense,Figueirense
+coritiba,Coritiba
+guarani sp,Guarani SP
+operario pr,Operario PR
+parana clube pr,Parana Clube PR
+ipswich town,Ipswich Town
+bolton,Bolton Wanderers
+bolton wanderers,Bolton Wanderers
+crewe alexandra,Crewe Alexandra
+watford reserve,Watford Reserve
+stockport county,Stockport County
+hartlepool united,Hartlepool United
+virgen del camino,CD Virgen Del Camino
+real avila,Real Avila CF
+bupolsa,CD Bupolsa
+becerril,CD Becerril
+acero,CD ACERO
+silla,Silla CF
+santa marta tormes,UD Santa Marta Tormes
+ud santa marta tormes,UD Santa Marta Tormes
+jupiter leones,Jupiter Leones
+arandina,Arandina
+almazan,SD Almazan
+sd almazan,SD Almazan
+cristo atletico,CD Cristo Atletico
+burgos promesas,Burgos Promesas
+goias,Goias
+csa al,Csa AL
+internacional porto alegre,Internacional Porto Alegre
+oeste sp,Oeste SP
+atletico goianiense,Atletico Goianiense
+cuiaba esporte clube mt,Cuiaba Esporte Clube Mt
+america mineiro mg,America Mineiro MG
+bragantino sp,Bragantino SP
+ponte preta sp,Ponte Preta SP
+londrina pr,Londrina PR
+sao paulo sp,Sao Paulo SP
+gremio,Gremio
+fluminense,Fluminense
+chapecoense,Chapecoense SC
+vitoria,Vitoria (Brazil)
+vitoria giovanile,Vitoria Youth (Brazil)
+palmeiras,Palmeiras
+bahia ba youth,Bahia BA Youth
+corinthians sp u20,Corinthians SP u20
+waalwijk,Waalwijk
+heerenveen,Heerenveen
+twente,Twente
+willem ii,Willem II
+utrecht,Utrecht
+venlo,Venlo
+vitesse arnhem,Vitesse Arnhem
+zwolle,Zwolle
+ado den haag,ADO Den Haag
+emmen,Emmen
+fortuna sittard,Fortuna Sittard
+groningen,Groningen
+sparta rotterdam,Sparta Rotterdam
+heracles almelo,Heracles Almelo
+algerie,Algeria
+algeria,Algeria
+ruanda,Rwanda
+rwanda,Rwanda
+tanzania,Tanzania
+tanzanie,Tanzania
+es setif,ES Setif
+nc magra,NC Magra
+mongolia,Mongolia
+mongolie,Mongolia
+kirghizistan,Kyrgyzstan
+kyrgyzstan,Kyrgyzstan
+corea del nord,North Korea
+north korea,North Korea
+coree du nord,North Korea
+corea del sud,South Korea
+south korea,South Korea
+coree du sud,South Korea
+cambogia,Cambodia
+cambodia,Cambodia
+cambodge,Cambodia
+iraq,Iraq
+irak,Iraq
+indonesia,Indonesia
+indonesie,Indonesia
+vietnam,Vietnam
+viet nam,Vietnam
+singapore,Singapore
+singapour,Singapore
+uzbekistan,Uzbekistan
+ouzbekistan,Uzbekistan
+filippine,Philippines
+philippines,Philippines
+cina,China
+china,China
+chine,China
+thailandia,Thailand
+thailand,Thailand
+thailande,Thailand
+emirati arabi,United Arab Emirates
+emirats arabes unis,United Arab Emirates
+united arab emirates,United Arab Emirates
+uae,United Arab Emirates
+palestina,Palestine
+palestine,Palestine
+arabia saudita,Saudi Arabia
+saudi arabia,Saudi Arabia
+arabie saoudite,Saudi Arabia
+india,India
+inde,India
+bangladesh,Bangladesh
+venezuela,Venezuela
+dominica,Dominica
+nicaragua,Nicaragua
+suriname,Suriname
+saint vincent and the grenadines,Saint Vincent And The Grenadines
+saint vincent e grenadine,Saint Vincent And The Grenadines
+saint vincent et les grenadines,Saint Vincent And The Grenadines
+guyana,Guyana
+guyane,Guyana
+antigua e barbuda,Antigua and Barbuda
+antigua and barbuda,Antigua and Barbuda
+antigua et barbuda,Antigua and Barbuda
+nottingham forest,Nottingham Forest FC
+nottingham forest reserve,Nottingham Forest FC Reserve
+wigan athletic,Wigan Athletic
+pacos ferreira,Pacos Ferreira
+rio ave,Rio Ave
+gil vicente,Gil Vicente
+portimonense,Portimonense
+belenenses lisbon,Belenenses Lisbon
+aves,CD Aves
+vitoria setubal,Vitoria Setubal
+cs maritimo madeira,CS Maritimo Madeira
+tondela,CD Tondela
+moreirense,Moreirense
+boavista,Boavista
+famalicao,Famalicao
+sporting braga,Sporting Braga
+santa clara,Santa Clara
+iran,Iran
+homburg,FC Homburg
+san telmo,San Telmo
+ca colegiales,CA Colegiales
+talleres,Talleres De Remedios De Escalada
+talleres de remedios de escalada,Talleres De Remedios De Escalada
+club atletico acassuso,Club Atletico Acassuso
+tristan suarez,Tristan Suarez
+club atletico los andes,Club Atletico Los Andes
