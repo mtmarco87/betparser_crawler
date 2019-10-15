@@ -2,6 +2,9 @@ from datetime import datetime
 
 xpath_get_text: str = './/text()'
 
+def get_elements(html_element, css_selector):
+    if html_element:
+        return html_element.css(css_selector)
 
 def get_element_at_position(html_element, css_selector, position):
     if html_element:
