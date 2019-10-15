@@ -39,7 +39,7 @@ class BwinSpider(scrapy.Spider):
             yield SeleniumRequest(url=url,
                                   callback=self.parse,
                                   driver_type='chrome',
-                                  wait_time=0.5,
+                                  wait_time=1,
                                   scroll_to_element='footer-bottom',
                                   headless=False)
 
@@ -60,7 +60,9 @@ class BwinSpider(scrapy.Spider):
             # Extracts Team names (required)
             match_teams = row.css(Const.css_match_teams)
             match_team_1 = None
+            match_team_1_type = None
             match_team_2 = None
+            match_team_2_type = None
             if len(match_teams) == 2:
                 match_team_1 = match_teams[0].css(Const.css_get_all_text).get(default=None)
                 match_team_1 = match_team_1.strip() if match_team_1 else match_team_1
@@ -68,6 +70,15 @@ class BwinSpider(scrapy.Spider):
                 match_team_2 = match_team_2.strip() if match_team_2 else match_team_2
             if match_team_1 is None or match_team_2 is None:
                 continue
+
+            # Extracts if any the teams type (U21, U23, etc)
+            match_team_1_type = match_teams[0].css(Const.css_match_team_type).get(default=None)
+            if self.is_valid_team_type(match_team_1_type):
+                match_team_1 += ' ' + match_team_1_type.strip()
+
+            match_team_2_type = match_teams[1].css(Const.css_match_team_type).get(default=None)
+            if self.is_valid_team_type(match_team_2_type):
+                match_team_2 += ' ' + match_team_2_type.strip()
 
             # Extracts Match Start Date (required) and time
             match_start_date = match_start_time = match_real_time = None
@@ -136,6 +147,18 @@ class BwinSpider(scrapy.Spider):
 
             # Append the parsed Match to the list
             parsed_matches.append(parsed_match)
+
+    @staticmethod
+    def is_valid_team_type(team_type: str):
+        if team_type:
+            team_type = team_type.upper()
+            type_u19 = 'U19'
+            type_u20 = 'U20'
+            type_u21 = 'U21'
+            type_u23 = 'U23'
+            if type_u19 in team_type or type_u20 in team_type or type_u21 in team_type or type_u23 in team_type:
+                return True
+        return False
 
     def spider_idle(self):
         # End of all the requests

@@ -8,6 +8,7 @@ class Const:
     # Sisal CSS Selectors
     css_matches_groups: str = '.multiscommessa__row'
     css_name_event: str = '.multiscommessa__dettagli__nome'
+    css_name_type: str = '.multiscommessa__dettagli__manifestazione'
     css_date_event: str = '.multiscommessa__dettagli__data'
     css_event_type: str = '.multiscommessa__box__esito__singolo'
 

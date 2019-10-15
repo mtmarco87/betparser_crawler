@@ -25,6 +25,7 @@ class SeleniumRequest(scrapy.Request):
                  window_size=None,
                  headless=None,
                  user_data_dir=None,
+                 kill_timeouts=False,
                  meta=None,
                  **kwargs):
         if url is None:
@@ -40,6 +41,7 @@ class SeleniumRequest(scrapy.Request):
         selenium_meta.setdefault('scroll_to_element', scroll_to_element)
         selenium_meta.setdefault('scroll_wait_time', scroll_wait_time)
         selenium_meta.setdefault('render_js', render_js)
+        selenium_meta.setdefault('kill_timeouts', kill_timeouts)
         selenium_meta.setdefault('rebuild', rebuild)
         selenium_meta.setdefault('window_size', window_size)
         selenium_meta.setdefault('headless', headless)

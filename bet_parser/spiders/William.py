@@ -16,6 +16,7 @@ class SisalSpider(scrapy.Spider):
     start_urls: Dict[str, str] = {
         'http://sports.williamhill.it/bet_ita/it/betting/y/5/Calcio.html': 'william_main',
         'http://sports.williamhill.it/bet_ita/it/betting/t/33193/Qualificazioni+UEFA+EURO+2020.html': 'william_euro_2020_qualifications',
+        'http://sports.williamhill.it/bet_ita/it/betting/t/9009/Qual.+Campionati+Europei+U21.html': 'william_euro_u21_qualifications',
         'http://sports.williamhill.it/bet_ita/it/betting/t/33159/Coppa+del+Mondo+2022+-+Qualificazioni+Asia.html': 'william_asia_fifa_2022_qualifications',
         'http://sports.williamhill.it/bet_ita/it/betting/t/344/UEFA+Champions+League.html': 'william_champions',
         'http://sports.williamhill.it/bet_ita/it/betting/t/1935/UEFA+Europa+League.html': 'william_europa_league',
@@ -57,8 +58,10 @@ class SisalSpider(scrapy.Spider):
         for match_row in match_rows:
             tds = match_row.css('td')
             if len(tds) > 2:
-                match_date = get_text_from_first_html_element(tds[0], 'span')
-                match_ora = get_text_from_first_html_element(tds[1], 'span')
+                match_date = get_text_from_first_html_element(tds[0], 'span') \
+                             or get_text_from_first_html_element(tds[0], 'a')
+                match_ora = get_text_from_first_html_element(tds[1], 'span') or get_text_from_first_html_element(tds[1],
+                                                                                                                 'a')
                 match_name = get_text_from_first_html_element(tds[2], 'span')
                 if match_date and match_ora and match_name:
                     # Matches description extraction

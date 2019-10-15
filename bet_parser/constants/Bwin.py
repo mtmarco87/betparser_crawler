@@ -9,6 +9,7 @@ class Const:
     css_matches_groups: str = '.event-group'
     css_match_rows: str = '.grid-event-wrapper'
     css_match_teams: str = '.grid-event-name .participant'
+    css_match_team_type: str = '.participant-country::text'
     css_match_start_date_time: str = '.grid-event-timer'
     css_match_score_values: str = '.grid-scoreboard .cell'
     css_match_score_values_inner_vals: str = ' * > div > div *::text'

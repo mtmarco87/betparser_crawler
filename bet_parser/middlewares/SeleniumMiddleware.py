@@ -92,6 +92,8 @@ class SeleniumDownloaderMiddleware(object):
         scroll_wait_time = request.meta['selenium']['scroll_wait_time'] if 'scroll_wait_time' in request.meta[
             'selenium'] else None
         render_js = request.meta['selenium']['render_js'] if 'render_js' in request.meta['selenium'] else False
+        kill_timeouts = request.meta['selenium']['kill_timeouts'] if 'kill_timeouts' in request.meta['selenium'] \
+            else None
 
         # Driver Build/Rebuild params
         rebuild = request.meta['selenium']['rebuild'] if 'rebuild' in request.meta['selenium'] else False
@@ -119,6 +121,9 @@ class SeleniumDownloaderMiddleware(object):
             driver.get(request.url)
         else:
             driver.get(request.url)
+
+        if kill_timeouts:
+            driver.execute_script(Scripts.kill_timeouts)
 
         if wait_time and wait_until:
             WebDriverWait(driver, wait_time).until(wait_until)
@@ -178,3 +183,7 @@ class Scripts:
              '} ' + \
              'return isScrolledIntoView(arguments[0]);'
     scroll_to_element = 'arguments[0].scrollIntoView(true);'
+    kill_timeouts = 'var id = window.setTimeout(function() {}, 0); ' + \
+                    'while (id--) { ' + \
+                    '   window.clearTimeout(id); ' + \
+                    '}'

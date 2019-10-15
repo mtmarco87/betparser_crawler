@@ -16,6 +16,8 @@ class SisalSpider(scrapy.Spider):
     start_urls: Dict[str, str] = {
         'https://www.sisal.it/scommesse-matchpoint': 'sisal_main',  # Main Page
         'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=42&fil=0&isMSpec=false': 'sisal_euro_2020_qualifications',
+        'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=178&fil=0&isMSpec=false': 'sisal_euro_u21_qualifications',
+        'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=185&fil=0&isMSpec=false': 'sisal_euro_u19_qualifications',
         'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=132&fil=0&isMSpec=false': 'sisal_asia_fifa_2022_qualifications',
         'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=18&fil=0&isMSpec=false': 'sisal_champions',
         'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=153&fil=0&isMSpec=false': 'sisal_europa_league',
@@ -50,6 +52,14 @@ class SisalSpider(scrapy.Spider):
                                   user_data_dir=False)
 
     def parse(self, response: HtmlResponse):
+        # Checking if we are in a page specific to certain Match Name Types (U21, U23, etc)
+        page_type = None
+        try:
+            page_type = self.start_urls[response.url]
+        except Exception as e:
+            self.log('Error: ' + e)
+        default_match_type = self.get_match_name_type(page_type)
+
         # Looping over Matches Groups
         # (this is the main loop, here we iterate on each div containing a group of matches, with its description
         # and quotes)
@@ -61,7 +71,7 @@ class SisalSpider(scrapy.Spider):
                 match_name = get_text_from_html_element(match_names[0])
                 if match_name is not None:
                     # Matches description extraction
-                    result = self.parse_matches_description(match_row, self.parsed_matches)
+                    result = self.parse_matches_description(match_row, default_match_type, self.parsed_matches)
 
                     if result:
                         # Matches quotes extraction
@@ -72,9 +82,12 @@ class SisalSpider(scrapy.Spider):
         # file_writer = FileWriter('output')
         # file_writer.write(self.start_urls[response.url], parsed_matches, response.body)
 
-    def parse_matches_description(self, match_row: Selector, parsed_matches: List[Match]):
+    def parse_matches_description(self, match_row: Selector, default_match_type: str, parsed_matches: List[Match]):
         if match_row:
             match_name = get_text_from_first_html_element(match_row, Const.css_name_event)
+            if not default_match_type:
+                default_match_type = self.get_match_name_type(get_text_from_first_html_element(match_row,
+                                                                                               Const.css_name_type))
             match_date = get_text_from_first_html_element(match_row, Const.css_date_event)
 
             # Here we discard empty rows composed only by a Match name with no quotes
@@ -87,6 +100,9 @@ class SisalSpider(scrapy.Spider):
                 team2 = teams[1].strip()
                 # print(team1)
                 # print(team2)
+                if default_match_type:
+                    team1 += ' ' + default_match_type
+                    team2 += ' ' + default_match_type
 
                 split_match_date = match_date.lower().split('ore')
                 data = split_match_date[0].strip()
@@ -127,6 +143,24 @@ class SisalSpider(scrapy.Spider):
                 # print(odd)
         except IndexError:
             print('Index Error')
+
+    @staticmethod
+    def get_match_name_type(event_type: str):
+        if event_type:
+            event_type = event_type.upper()
+            type_u19 = 'U19'
+            type_u20 = 'U20'
+            type_u21 = 'U21'
+            type_u23 = 'U23'
+            if type_u19 in event_type:
+                return type_u19
+            elif type_u20 in event_type:
+                return type_u20
+            elif type_u21 in event_type:
+                return type_u21
+            elif type_u23 in event_type:
+                return type_u23
+        return None
 
     def spider_idle(self):
         # End of all the requests

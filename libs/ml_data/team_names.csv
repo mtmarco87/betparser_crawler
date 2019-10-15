@@ -70,6 +70,7 @@ hertha berliner sport club,Hertha Berlin
 hertha,Hertha Berlin
 dusseldorf,Fortuna Dusseldorf
 fortuna dusseldorf,Fortuna Dusseldorf
+f dusseldorf,Fortuna Dusseldorf
 amiens,Amiens
 marsiglia,Marseilles
 olympique marsiglia,Marseilles
@@ -84,9 +85,11 @@ betis sevilla,Real Betis
 betis seville,Real Betis
 betis siviglia,Real Betis
 eibar,Eibar
+sd eibar,Eibar
 leganes,Leganes
 levante,Levante
 brighton,Brighton
+brighton hove albion,Brighton
 tottenham,Tottenham
 bayern munich,Bayern Munich
 bayern monaco,Bayern Munich
@@ -96,6 +99,7 @@ tsg hoffenheim,Hoffenheim
 tsg 1899 hoffenheim,Hoffenheim
 1899 hoffenheim,Hoffenheim
 bayer leverkusen,Bayer Leverkusen
+leverkusen,Bayer Leverkusen
 lipsia,RB Leipzig
 leipzig,RB Leipzig
 rasenballsport leipzig,RB Leipzig
@@ -106,10 +110,12 @@ borussia dortmund,Borussia Dortmund
 borussia 09 dortmund,Borussia Dortmund
 bv 09 borussia dortmund,Borussia Dortmund
 09 borussia dortmund,Borussia Dortmund
+dortmund,Borussia Dortmund
 paderborn,Paderborn
 paderborn 07,Paderborn
 mainz,Mainz
 mainz 05,Mainz
+mayence,Mainz
 real madrid,Real Madrid
 granada,Granada
 grenade,Granada
@@ -136,6 +142,7 @@ lokomotiv mosca,Lokomotiv Moscow
 lokomotiv moscou,Lokomotiv Moscow
 lokomotiv moskva,Lokomotiv Moscow
 lokomotiv moscow,Lokomotiv Moscow
+lok mosca,Lokomotiv Moscow
 man city,Manchester City
 manchester city,Manchester City
 olympiakos,Olympiakos
@@ -158,6 +165,7 @@ zenit st petersburg,Zenit Saint Petersburg
 zenit san pietroburgo,Zenit Saint Petersburg
 zenit s pietroburgo,Zenit Saint Petersburg
 zenith saint petersbourg,Zenit Saint Petersburg
+zenit,Zenit Saint Petersburg
 benfica,Benfica
 sl benfica,Benfica
 lione,Lyon
@@ -203,6 +211,7 @@ newcastle,Newcastle
 man utd,Manchester United
 manchester united,Manchester United
 alaves,Alaves
+deportivo alaves,Alaves
 osasuna,Osasuna
 villarreal,Villarreal
 maiorca,Mallorca
@@ -210,6 +219,7 @@ real maiorca,Mallorca
 mallorca,Mallorca
 real mallorca,Mallorca
 majorque,Mallorca
+real majorque,Mallorca
 espanyol,Espanyol
 espanyol barcellona,Espanyol
 celta vigo,Celta Vigo
@@ -218,6 +228,7 @@ ath bilbao,Athletic Bilbao
 atletico bilbao,Athletic Bilbao
 athletic bilbao,Athletic Bilbao
 athletic club,Athletic Bilbao
+athletic club bilbao,Athletic Bilbao
 valladolid,Valladolid
 real valladolid,Valladolid
 real sociedad,Real Sociedad
@@ -238,6 +249,7 @@ borussia m gladbach,Borussia Mgladbach
 borussia monchengladbach,Borussia Mgladbach
 monchengladbach,Borussia Mgladbach
 borussia vfl monchengladbach,Borussia Mgladbach
+m gladbach,Borussia Mgladbach
 augsburg,Augsburg
 augsbourg,Augsburg
 wolfsburg,Wolfsburg
@@ -408,7 +420,6 @@ az alkmaar,AZ
 alkmaar zaanstreek,AZ
 astana,FC Astana
 besiktas,Besiktas
-braga,Braga
 cska mosca,CSKA Moscow
 cska moscow,CSKA Moscow
 cska moscou,CSKA Moscow
@@ -418,12 +429,14 @@ ferencvarosi tc,Ferencvarosi TC
 ferencvarosi torna club,Ferencvarosi TC
 qarabag,FK Qarabag
 fk qarabag,FK Qarabag
+qarabag fk,FK Qarabag
 apoel,APOEL Nicosia
 apoel nicosia,APOEL Nicosia
 gent,Gent
 la gantoise,Gent
 istanbul basaksehir,Istanbul Basaksehir
 istanbul basaksehir fk,Istanbul Basaksehir
+basaksehir,Istanbul Basaksehir
 wolfsberger,RZ Pellets Wolfsberger AC
 rz pellets wac,RZ Pellets Wolfsberger AC
 ludogorets,Ludogorets Razgrad
@@ -438,18 +451,20 @@ porto,Porto
 glasgow rangers,Glasgow Rangers
 rangers,Glasgow Rangers
 slovan bratislava,Slovan Bratislava
-sk slovan bratislava,SK Slovan Bratislava
+sk slovan bratislava,Slovan Bratislava
 oleksandria,PFC Oleksandria
 pfc oleksandria,PFC Oleksandria
 young boys,Young Boys
 feyenoord,Feyenoord
 feyenoord rotterdam,Feyenoord
-guimaraes,Vitoria (Guimaraes)
-vitoria guimaraes,Vitoria (Guimaraes)
-vitoria de guimaraes,Vitoria (Guimaraes)
-celtic,Celtic
+guimaraes,Vitoria Guimaraes
+vitoria guimaraes,Vitoria Guimaraes
+vitoria de guimaraes,Vitoria Guimaraes
+celtic,Celtic Glasgow
+celtic glasgow,Celtic Glasgow
 copenhague,FC Copenhagen
 copenhagen,FC Copenhagen
+copenaghen,FC Copenhagen
 standard liegi,Standard Liege
 standard liege,Standard Liege
 standard de liege,Standard Liege
@@ -460,6 +475,7 @@ malmo,Malmo FF
 malmo ff,Malmo FF
 lugano,Lugano
 psv eindhoven,PSV Eindhoven
+psv,PSV Eindhoven
 linz,LASK Linz
 lask,LASK Linz
 lask linz,LASK Linz
@@ -467,14 +483,16 @@ cluj,CFR Cluj
 cfr cluj,CFR Cluj
 dudelange,F91 Dudelange
 f91 dudelange,F91 Dudelange
-sporting,Sporting
-sporting cp,Sporting
-sporting lisbon,Sporting
-sporting lisbona,Sporting
-sporting lisbonne,Sporting
+sporting,Sporting Lisbona
+sporting cp,Sporting Lisbona
+sporting lisbon,Sporting Lisbona
+sporting lisbona,Sporting Lisbona
+sporting lisbonne,Sporting Lisbona
+sp lisbona,Sporting Lisbona
 rosenborg,Rosenborg
 trabzonspor,Trabzonspor
-krasnodar,Krasnodar
+krasnodar,Dinamo Krasnodar
+dinamo krasnodar,Dinamo Krasnodar
 corigliano calabro,ASD Corigliano Calabro
 asd corigliano calabro,ASD Corigliano Calabro
 licata,ASD Licata
@@ -497,6 +515,7 @@ lamia,Lamia
 panetolikos,Panetolikos
 panaitolikos,Panetolikos
 bahrain,Bahrain
+bahrein,Bahrain
 azerbaigian,Azerbaijan
 azerbaidjan,Azerbaijan
 azerbaijan,Azerbaijan
@@ -545,6 +564,8 @@ latvia,Latvia
 macedonia del nord,North Macedonia
 macedoine du nord,North Macedonia
 north macedonia,North Macedonia
+macedonia nord,North Macedonia
+macedonia,North Macedonia
 slovenia,Slovenia
 slovenie,Slovenia
 austria,Austria
@@ -635,6 +656,7 @@ bosnia herzegovina,Bosnia Herzegovina
 bosnia and herzegovina,Bosnia Herzegovina
 bosnia,Bosnia Herzegovina
 bosnia erzegovina,Bosnia Herzegovina
+bosnia e,Bosnia Herzegovina
 finlande,Finland
 finlandia,Finland
 finland,Finland
@@ -665,7 +687,8 @@ repubblica dominicana,Dominican Republic
 dominican republic,Dominican Republic
 guatemala,Guatemala
 panama,Panama
-salvador,Salvador
+salvador,El Salvador
+el salvador,El Salvador
 costa rica,Costa Rica
 ligorna,Ligorna
 ligorna 1922,Ligorna
@@ -688,6 +711,7 @@ coritiba,Coritiba
 guarani sp,Guarani SP
 operario pr,Operario PR
 parana clube pr,Parana Clube PR
+parana,Parana Clube PR
 ipswich town,Ipswich Town
 bolton,Bolton Wanderers
 bolton wanderers,Bolton Wanderers
@@ -713,35 +737,57 @@ goias,Goias
 csa al,Csa AL
 internacional porto alegre,Internacional Porto Alegre
 oeste sp,Oeste SP
+oeste,Oeste SP
 atletico goianiense,Atletico Goianiense
-cuiaba esporte clube mt,Cuiaba Esporte Clube Mt
+atletico go,Atletico Goianiense
+cuiaba esporte clube mt,Cuiaba EC
+cuiaba,Cuiaba EC
+cuiaba ec,Cuiaba EC
 america mineiro mg,America Mineiro MG
+america mg,America Mineiro MG
 bragantino sp,Bragantino SP
+bragantino,Bragantino SP
 ponte preta sp,Ponte Preta SP
+ponte preta,Ponte Preta SP
 londrina pr,Londrina PR
+londrina,Londrina PR
 sao paulo sp,Sao Paulo SP
 gremio,Gremio
+gremio rs,Gremio
 fluminense,Fluminense
 chapecoense,Chapecoense SC
-vitoria,Vitoria (Brazil)
-vitoria giovanile,Vitoria Youth (Brazil)
+vitoria,Vitoria BA
+vitoria ba,Vitoria BA
+vitoria giovanile,Vitoria BA Youth
 palmeiras,Palmeiras
 bahia ba youth,Bahia BA Youth
 corinthians sp u20,Corinthians SP u20
-waalwijk,Waalwijk
+waalwijk,RKC Waalwijk
+rkc waalwijk,RKC Waalwijk
+rkc,RKC Waalwijk
 heerenveen,Heerenveen
 twente,Twente
 willem ii,Willem II
 utrecht,Utrecht
-venlo,Venlo
+venlo,VVV Venlo
+vvv venlo,VVV Venlo
+vvv,VVV Venlo
 vitesse arnhem,Vitesse Arnhem
+vitesse,Vitesse Arnhem
 zwolle,Zwolle
+pec zwolle,Zwolle
 ado den haag,ADO Den Haag
+ado la haye,ADO Den Haag
+den haag,ADO Den Haag
 emmen,Emmen
 fortuna sittard,Fortuna Sittard
+f sittard,Fortuna Sittard
 groningen,Groningen
+groningue,Groningen
 sparta rotterdam,Sparta Rotterdam
+sparta,Sparta Rotterdam
 heracles almelo,Heracles Almelo
+heracles,Heracles Almelo
 algerie,Algeria
 algeria,Algeria
 ruanda,Rwanda
@@ -782,6 +828,7 @@ thailandia,Thailand
 thailand,Thailand
 thailande,Thailand
 emirati arabi,United Arab Emirates
+emirati arabi uniti,United Arab Emirates
 emirats arabes unis,United Arab Emirates
 united arab emirates,United Arab Emirates
 uae,United Arab Emirates
@@ -799,6 +846,7 @@ nicaragua,Nicaragua
 suriname,Suriname
 saint vincent and the grenadines,Saint Vincent And The Grenadines
 saint vincent e grenadine,Saint Vincent And The Grenadines
+st vincent e grenadine,Saint Vincent And The Grenadines
 saint vincent et les grenadines,Saint Vincent And The Grenadines
 guyana,Guyana
 guyane,Guyana
@@ -808,32 +856,329 @@ antigua et barbuda,Antigua and Barbuda
 nottingham forest,Nottingham Forest FC
 nottingham forest reserve,Nottingham Forest FC Reserve
 wigan athletic,Wigan Athletic
-pacos ferreira,Pacos Ferreira
+pacos ferreira,Pacos de Ferreira
+pacos de ferreira,Pacos de Ferreira
 rio ave,Rio Ave
 gil vicente,Gil Vicente
 portimonense,Portimonense
 belenenses lisbon,Belenenses Lisbon
+belenenses,Belenenses Lisbon
 aves,CD Aves
 vitoria setubal,Vitoria Setubal
-cs maritimo madeira,CS Maritimo Madeira
+cs maritimo madeira,Maritimo Funchal
+maritimo funchal,Maritimo Funchal
+maritimo,Maritimo Funchal
 tondela,CD Tondela
 moreirense,Moreirense
 boavista,Boavista
 famalicao,Famalicao
+braga,Sporting Braga
 sporting braga,Sporting Braga
 santa clara,Santa Clara
+sta clara,Santa Clara
 iran,Iran
 homburg,FC Homburg
 san telmo,San Telmo
+ca san telmo,San Telmo
 ca colegiales,CA Colegiales
-talleres,Talleres De Remedios De Escalada
-talleres de remedios de escalada,Talleres De Remedios De Escalada
+talleres,Talleres Remedios
+talleres de remedios de escalada,Talleres Remedios
+talleres remedios,Talleres Remedios
 club atletico acassuso,Club Atletico Acassuso
+acassuso,Club Atletico Acassuso
 tristan suarez,Tristan Suarez
 club atletico los andes,Club Atletico Los Andes
+los andes,Club Atletico Los Andes
 agropecuario argentino,Agropecuario Argentino
+agropecuario,Agropecuario Argentino
 platense,Platense
+ca platense,Platense
 atletico rafaela,Atletico Rafaela
-instituto,Instituto
-quilmes,Quilmes
-san martin tucuman,San Martin Tucuman
+atl rafaela,Atletico Rafaela
+instituto,Instituto AC Cordoba
+instituto cordoba,Instituto AC Cordoba
+quilmes,Argentino Quilmes
+argentino quilmes,Argentino Quilmes
+argentino de quilmes,Argentino Quilmes
+arg quilmes,Argentino Quilmes
+san martin tucuman,San Martin de Tucuman
+san martin de tucuman,San Martin de Tucuman
+san martin,San Martin
+taipei cinese,Taiwan
+chinese taipei,Taiwan
+taiwan,Taiwan
+australia,Australia
+australie,Australia
+tagikistan,Tajikistan
+tajikistan,Tajikistan
+tadjikistan,Tajikistan
+giappone,Japan
+japan,Japan
+japon,Japan
+siria,Syria
+syria,Syria
+syrie,Syria
+guam,Guam
+sri lanka,Sri Lanka
+libano,Lebanon
+lebanon,Lebanon
+liban,Lebanon
+giordania,Jordan
+jordan,Jordan
+jordanie,Jordan
+nepal,Nepal
+qatar,Qatar
+oman,Oman
+egitto,Egypt
+egypt,Egypt
+egypte,Egypt
+botswana,Botswana
+guinea,Guinea
+repubblica della guinea,Guinea
+guinee,Guinea
+marocco,Morocco
+morocco,Morocco
+maroc,Morocco
+gabon,Gabon
+sint maarten,Sint Maarten
+guadeloupe,Guadeloupe
+isole vergini usa,USA Virgin Islands
+isole vergini americane,USA Virgin Islands
+iles vierges des etats unis,USA Virgin Islands
+usa virgin islands,USA Virgin Islands
+american virgin islands,USA Virgin Islands
+barbados,Barbados
+st lucia,St Lucia
+canada,Canada
+usa,USA
+united states of america,USA
+united states,USA
+stati uniti,USA
+etats unis,USA
+messico,Mexico
+mexico,Mexico
+mexique,Mexico
+brasile u23,Brazil U23
+bresil u23,Brazil U23
+brazil u23,Brazil U23
+giappone u23,Japan U23
+japan u23,Japan U23
+japon u23,Japan U23
+venezuela u23,Venezuela U23
+bolivia u23,Bolivia U23
+bolivie u23,Bolivia U23
+san marino u21,San Marino U21
+saint marin u21,San Marino U21
+croazia u21,Croatia U21
+croatie u21,Croatia U21
+croatia u21,Croatia U21
+romania u21,Romania U21
+roumanie u21,Romania U21
+irlanda del nord u21,Northern Ireland U21
+irlande du nord u21,Northern Ireland U21
+northern ireland u21,Northern Ireland U21
+cipro u21,Cyprus U21
+chypre u21,Cyprus U21
+cyprus u21,Cyprus U21
+bielorussia u21,Belarus U21
+bielorussie u21,Belarus U21
+belarus u21,Belarus U21
+macedonia del nord u21,North Macedonia U21
+macedonia nord u21,North Macedonia U21
+macedonia u21,North Macedonia U21
+macedoine du nord u21,North Macedonia U21
+north macedonia u21,North Macedonia U21
+kazakistan u21,Kazakhstan U21
+kazakhstan u21,Kazakhstan U21
+islanda u21,Iceland U21
+islande u21,Iceland U21
+iceland u21,Iceland U21
+irlanda u21,Ireland U21
+irlande u21,Ireland U21
+ireland u21,Ireland U21
+lettonia u21,Latvia U21
+lettonie u21,Latvia U21
+latvia u21,Latvia U21
+bulgaria u21,Bulgaria U21
+bulgarie u21,Bulgaria U21
+azerbaigian u21,Azerbaijan U21
+azerbaidjan u21,Azerbaijan U21
+azerbaijan u21,Azerbaijan U21
+svizzera u21,Switzerland U21
+suisse u21,Switzerland U21
+switzerland u21,Switzerland U21
+bosnia erzegovina u21,Bosnia Herzegovina U21
+bosnie herzegovine u21,Bosnia Herzegovina U21
+bosnia herzegovina u21,Bosnia Herzegovina U21
+bosnia e u21,Bosnia Herzegovina U21
+germania u21,Germany U21
+germany u21,Germany U21
+allemagne u21,Germany U21
+polonia u21,Poland U21
+pologne u21,Poland U21
+poland u21,Poland U21
+serbia u21,Serbia U21
+serbie u21,Serbia U21
+estonia u21,Estonia U21
+estonie u21,Estonia U21
+russia u21,Russia U21
+russie u21,Russia U21
+israele u21,Israel U21
+israel u21,Israel U21
+isole faroe u21,Faroe Islands U21
+isole faer oer u21,Faroe Islands U21
+iles feroe u21,Faroe Islands U21
+faroe islands u21,Faroe Islands U21
+faeroe islands u21,Faroe Islands U21
+norvegia u21,Norway U21
+norvege u21,Norway U21
+norway u21,Norway U21
+olanda u21,Holland U21
+paesi bassi u21,Holland U21
+hollande u21,Holland U21
+pays bas u21,Holland U21
+holland u21,Holland U21
+montenegro u21,Montenegro U21
+spagna u21,Spain U21
+espagne u21,Spain U21
+spain u21,Spain U21
+albania u21,Albania U21
+albanie u21,Albania U21
+kosovo u21,Kosovo U21
+lussemburgo u21,Luxembourg U21
+luxembourg u21,Luxembourg U21
+svezia u21,Sweden U21
+suede u21,Sweden U21
+sweden u21,Sweden U21
+belgio u21,Belgium U21
+belgique u21,Belgium U21
+belgium u21,Belgium U21
+moldavia u21,Moldova U21
+moldavie u21,Moldova U21
+moldova u21,Moldova U21
+inghilterra u21,England U21
+angleterre u21,England U21
+england u21,England U21
+austria u21,Austria U21
+autriche u21,Austria U21
+slovacchia u21,Slovakia U21
+slovaquie u21,Slovakia U21
+slovakia u21,Slovakia U21
+france u21,France U21
+francia u21,France U21
+slovenia u21,Slovenia U21
+slovenie u21,Slovenia U21
+ungheria u21,Hungary U21
+hongrie u21,Hungary U21
+hungary u21,Hungary U21
+inghilterra u20,England U20
+angleterre u20,England U20
+england u20,England U20
+repubblica ceca u20,Czech republic U20
+rep tcheque u20,Czech republic U20
+republique tcheque u20,Czech republic U20
+rep ceca u20,Czech republic U20
+czech republic u20,Czech republic U20
+portogallo u20,Portugal U20
+portugal u20,Portugal U20
+italia u20,Italy U20
+italie u20,Italy U20
+italy u20,Italy U20
+repubblica ceca u19,Czech republic U19
+rep tcheque u19,Czech republic U19
+republique tcheque u19,Czech republic U19
+rep ceca u19,Czech republic U19
+czech republic u19,Czech republic U19
+norvegia u19,Norway U19
+norvege u19,Norway U19
+norway u19,Norway U19
+san marino u19,San Marino U19
+saint marin u19,San Marino U19
+azerbaigian u19,Azerbaijan U19
+azerbaidjan u19,Azerbaijan U19
+azerbaijan u19,Azerbaijan U19
+georgia u19,Georgia U19
+georgie u19,Georgia U19
+croazia u19,Croatia U19
+croatie u19,Croatia U19
+croatia u19,Croatia U19
+ungheria u19,Hungary U19
+hongrie u19,Hungary U19
+hungary u19,Hungary U19
+kazakistan u19,Kazakhstan U19
+kazakhstan u19,Kazakhstan U19
+andorra u19,Andorra U19
+andorre u19,Andorra U19
+bielorussia u19,Belarus U19
+bielorussie u19,Belarus U19
+belarus u19,Belarus U19
+scozia u19,Scotland U19
+ecosse u19,Scotland U19
+scotland u19,Scotland U19
+germania u19,Germany U19
+germany u19,Germany U19
+allemagne u19,Germany U19
+boca juniors,Boca Juniors
+river plate,River Plate
+flamengo,Flamengo
+central cordoba sde,Central Cordoba
+central cordoba,Central Cordoba
+estudiantes lp,Estudiantes LP
+defensores de belgrano,Defensores de Belgrano
+defensores de b,Defensores de Belgrano
+almagro,Almagro
+ca tigre,CA Tigre
+villa dalmine,Villa Dalmine
+defensores unidos,Defensores Unidos
+sacachispas,Sacachispas
+jj urquiza,JJ Urquiza
+justo jose de urquiza,JJ Urquiza
+uai urquiza,UAI Urquiza
+villa san carlos,Villa San Carlos
+fenix,Fenix
+club comunicaciones,Club Comunicaciones
+cs desamparados,CS Desamparados
+club villa mitre,Club Villa Mitre
+deportivo espanol,Deportivo Espanol
+club leandro n alem,Club Leandro N. Alem
+san martin de burzaco,San Martin de Burzaco
+berazategui,Berazategui
+real pilar,Real Pilar
+ferrocarril midland,Ferrocarril Midland
+victoriano arenas,Victoriano Arenas
+general lamadrid,General Lamadrid
+deportivo merlo,Deportivo Merlo
+deportivo laferrere,Deportivo Laferrere
+central espanol,Central Espanol
+deportivo muniz,Deportivo Muniz
+yupanqui,Yupanqui
+deportivo liniers,Deportivo Liniers
+ca atlas,CA Atlas
+central ballester,Central Ballester
+deportivo paraguayo,Deportivo Paraguayo
+ca claypole,CA Claypole
+juventud unida san miguel,Juventud Unida San Miguel
+defensores de cambaceres,Defensores de Cambaceres
+puerto nuevo,Puerto Nuevo
+sportivo barracas,Sportivo Barracas
+sport recife,Sport Recife
+recife,Sport Recife
+criciuma,Criciuma
+brasil de pelotas,Brasil de Pelotas RS
+brasil rs,Brasil de Pelotas RS
+crb,CRB AL
+crb al,CRB AL
+crb maceio,CRB AL
+vila nova go,Vila Nova GO
+vila nova,Vila Nova GO
+sao bento sp,Sao Bento SP
+sao bento,Sao Bento SP
+atletico huila,Atletico Huila
+atletico bucaramanga,Atletico Bucaramanga
+cavaliers,Cavaliers FC
+mount pleasant,Mount Pleasant FC
+america de cali sa,America De Cali SA
+libertad limpeno,Libertad Limpeno
+bolivia,Bolivia
+bolivie,Bolivia
+haiti,Haiti
