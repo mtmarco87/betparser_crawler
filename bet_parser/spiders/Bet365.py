@@ -69,6 +69,8 @@ class Bet365Spider(scrapy.Spider):
         # Looping over Sub Pages related to any single match already parsed (for principal page)
         sub_pages = response.request.meta['sub_pages']
         self.parse_sub_pages(sub_pages, initial_index, self.parsed_matches)
+        del sub_pages
+        del response.request.meta['sub_pages']
 
     def parse_matches_description(self, matches_group: Selector, parsed_matches: List[Match]):
         # Looping over Column 1 rows (Dates, Times, Match names and results)
