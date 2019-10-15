@@ -16,8 +16,6 @@ class SisalSpider(scrapy.Spider):
     start_urls: Dict[str, str] = {
         'http://sports.williamhill.it/bet_ita/it/betting/y/5/Calcio.html': 'william_main',
         'http://sports.williamhill.it/bet_ita/it/betting/t/33193/Qualificazioni+UEFA+EURO+2020.html': 'william_euro_2020_qualifications',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/9009/Qual.+Campionati+Europei+U21.html': 'william_euro_u21_qualifications',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/33159/Coppa+del+Mondo+2022+-+Qualificazioni+Asia.html': 'william_asia_fifa_2022_qualifications',
         'http://sports.williamhill.it/bet_ita/it/betting/t/344/UEFA+Champions+League.html': 'william_champions',
         'http://sports.williamhill.it/bet_ita/it/betting/t/1935/UEFA+Europa+League.html': 'william_europa_league',
         'http://sports.williamhill.it/bet_ita/it/betting/t/321/Serie+A.html': 'william_ita_serie_a',

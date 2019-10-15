@@ -16,9 +16,6 @@ class SisalSpider(scrapy.Spider):
     start_urls: Dict[str, str] = {
         'https://www.sisal.it/scommesse-matchpoint': 'sisal_main',  # Main Page
         'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=42&fil=0&isMSpec=false': 'sisal_euro_2020_qualifications',
-        'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=178&fil=0&isMSpec=false': 'sisal_euro_u21_qualifications',
-        'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=185&fil=0&isMSpec=false': 'sisal_euro_u19_qualifications',
-        'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=132&fil=0&isMSpec=false': 'sisal_asia_fifa_2022_qualifications',
         'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=18&fil=0&isMSpec=false': 'sisal_champions',
         'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=153&fil=0&isMSpec=false': 'sisal_europa_league',
         'https://www.sisal.it/scommesse-matchpoint/palinsesto?dis=1&man=21&fil=0&isMSpec=false': 'sisal_ita_serie_a',

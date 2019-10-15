@@ -1,7 +1,10 @@
+import scrapy
 from scrapy import signals
 from scrapy.http import HtmlResponse
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
+from typing import List
+from .SeleniumExecParams import SeleniumExecParams
 import time
 
 
@@ -94,6 +97,11 @@ class SeleniumDownloaderMiddleware(object):
         render_js = request.meta['selenium']['render_js'] if 'render_js' in request.meta['selenium'] else False
         kill_timeouts = request.meta['selenium']['kill_timeouts'] if 'kill_timeouts' in request.meta['selenium'] \
             else None
+        extract_sub_links_by_class = request.meta['selenium'][
+            'extract_sub_links_by_class'] if 'extract_sub_links_by_class' in request.meta['selenium'] else None
+
+        exec_params = SeleniumExecParams(request.url, cookies, kill_timeouts, wait_time, wait_until, script,
+                                         scroll_to_element, scroll_wait_time, render_js, extract_sub_links_by_class)
 
         # Driver Build/Rebuild params
         rebuild = request.meta['selenium']['rebuild'] if 'rebuild' in request.meta['selenium'] else False
@@ -111,40 +119,75 @@ class SeleniumDownloaderMiddleware(object):
             else:
                 return
         except Exception as e:
-            spider.log('Error opening Selenium Driver: ' + str(e))
+            spider.log('[ERROR] Selenium Downloader: error opening Selenium Driver: ' + str(e))
         pass
 
-        if cookies:
-            driver.get(request.url)
-            driver.add_cookie(cookies)
-            time.sleep(self.download_delay)
-            driver.get(request.url)
-        else:
-            driver.get(request.url)
+        # Extract the retrieved page (using exec parameters) and eventual sub pages
+        page = self.extract_pages(driver, spider, exec_params)
 
-        if kill_timeouts:
+        # Cast subpages if any to selectors and pass them back to the spider
+        request.meta['sub_pages'] = list(
+            map(lambda sub_page: scrapy.Selector(text=sub_page['body']), page['sub_pages']))
+
+        return HtmlResponse(driver.current_url, body=page['body'], encoding='utf-8', request=request)
+
+    def extract_pages(self, driver, spider, exec_params: SeleniumExecParams):
+        if exec_params.url:
+            if exec_params.cookies:
+                driver.get(exec_params.url)
+                driver.add_cookie(exec_params.cookies)
+                time.sleep(self.download_delay)
+                driver.get(exec_params.url)
+            else:
+                driver.get(exec_params.url)
+
+        if exec_params.kill_timeouts:
             driver.execute_script(Scripts.kill_timeouts)
 
-        if wait_time and wait_until:
-            WebDriverWait(driver, wait_time).until(wait_until)
-        elif wait_time:
-            time.sleep(wait_time)
+        if exec_params.wait_time and exec_params.wait_until:
+            WebDriverWait(driver, exec_params.wait_time).until(exec_params.wait_until)
+        elif exec_params.wait_time:
+            time.sleep(exec_params.wait_time)
 
-        if script:
-            driver.execute_script(script)
+        if exec_params.script:
+            driver.execute_script(exec_params.script)
 
-        if scroll_to_element:
-            element = driver.find_element_by_css_selector('.' + scroll_to_element)
-            while not driver.execute_script(Scripts.is_element_visible, element):
-                driver.execute_script(Scripts.scroll_to_element, element)
-                time.sleep(scroll_wait_time or 0.5)
+        if exec_params.scroll_to_element:
+            try:
+                element = driver.find_element_by_css_selector('.' + exec_params.scroll_to_element)
+                while not driver.execute_script(Scripts.is_element_visible, element):
+                    driver.execute_script(Scripts.scroll_to_element, element)
+                    time.sleep(exec_params.scroll_wait_time or 0.5)
+            except Exception as e:
+                spider.log('[ERROR] Selenium Downloader: error while trying to scroll to an element: ' + str(e))
 
-        if render_js:
+        if exec_params.render_js:
             body = driver.execute_script("return document.body.innerHTML;")
         else:
             body = driver.page_source
 
-        return HtmlResponse(driver.current_url, body=body, encoding='utf-8', request=request)
+        sub_pages: List[dict] = []
+        if exec_params.extract_sub_links_by_class:
+            try:
+                index = 0
+                while True:
+                    elements = driver.find_elements_by_css_selector('.' + exec_params.extract_sub_links_by_class)
+                    if len(elements) > index:
+                        element = elements[index]
+                        element.click()
+                        new_exec_params = exec_params.simplified_clone()
+                        sub_page = self.extract_pages(driver, spider, new_exec_params)
+                        sub_pages.append(sub_page)
+                        driver.back()
+                        if exec_params.wait_time:
+                            time.sleep(exec_params.wait_time)
+                        index += 1
+                    else:
+                        break
+            except Exception as e:
+                spider.log('[ERROR] Selenium Downloader: error while trying to extract sublinks by class: ' + str(e))
+
+        return {'body': body, 'sub_pages': sub_pages}
 
     def process_response(self, request, response, spider):
         if 'selenium' in request.meta:

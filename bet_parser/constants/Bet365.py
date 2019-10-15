@@ -19,6 +19,19 @@ class Const:
     css_quote_columns: str = '.sl-MarketCouponValuesExplicit33'
     css_quote_header: str = '.gll-MarketColumnHeader'
 
+    # Sub pages Selectors
+    css_sub_market_group: str = '.gll-MarketGroup'
+    css_sub_market_group_header: str = '.gll-MarketGroupButton_Text'
+    css_sub_market_group_header2: str = '.cm-CouponMarketGroupButton_Text' # for Under/Over section
+    css_sub_double_chance: str = 'Doppia chance'
+    css_sub_goal_nogoal: str = 'Entrambe le squadre segnano'
+    css_sub_quote: str = '.gll-Participant_General'
+    css_sub_under_over: str = 'Goal: under/over'
+    css_sub_under_over_type: str = '.gll-ParticipantRowValue'
+    css_sub_under_over_quote_cols: str = '.gll-MarketValuesExplicit2'
+    css_sub_under_over_quote_row: str = '.gll-ParticipantOddsOnly_Odds'
+
+
     # Global CSS/XPath Selectors
     css_child_divs: str = ' > div'
     css_get_all_text: str = ' *::text'

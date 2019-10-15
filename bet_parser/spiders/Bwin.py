@@ -16,7 +16,6 @@ class BwinSpider(scrapy.Spider):
     allowed_domains = ['bwin.fr']
     start_urls: Dict[str, str] = {
         'https://sports.bwin.fr/fr/sports/football-4': 'bwin_main',
-        'https://sports.bwin.fr/fr/sports/football-4/paris-sportifs/asie-234/%C3%A9liminatoires-cm-asie-14127': 'bwin_fifa_2020_qualifications',
         'https://sports.bwin.fr/fr/sports/football-4/paris-sportifs/monde-6': 'bwin_world',
         'https://sports.bwin.fr/fr/sports/football-4/paris-sportifs/europe-7': 'bwin_europe',
         'https://sports.bwin.fr/fr/sports/football-4/paris-sportifs/italie-20': 'bwin_italy',
