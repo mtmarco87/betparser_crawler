@@ -37,3 +37,6 @@
 
 7)For firebase pip install pyrebase
 7)For firebase pip install Scipy googletrans Nltk selenium
+
+8)add under selenium_drivers/chrome_profiles your profile (ask to some dev in the team if you don t have)
+9)pip install unidecode
