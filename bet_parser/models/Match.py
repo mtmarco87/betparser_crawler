@@ -6,11 +6,11 @@ class Match:
     Match common data model
     """
     Bookmaker: str = na
+    Team1: str = na
+    Team2: str = na
     StartDate: str = na
     StartTime: str = na
     RealTime: str = na
-    Team1: str = na
-    Team2: str = na
     Result: str = na
     Quote1: str = na
     QuoteX: str = na
@@ -30,6 +30,7 @@ class Match:
     QuoteO35: str = na
     QuoteU45: str = na
     QuoteO45: str = na
+    InnerLink: str = na
 
     def __init__(self, bookmaker: str = na, startdate: str = na, starttime: str = na, realtime: str = na,
                  team1: str = na, team2: str = na, result: str = na):

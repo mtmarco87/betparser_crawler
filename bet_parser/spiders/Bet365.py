@@ -17,7 +17,6 @@ class Bet365Spider(scrapy.Spider):
     allowed_domains: list = ['bet365.it']
     start_urls: Dict[str, str] = {
         'https://www.bet365.it/#/HO/': 'b365_main',  # Main Page
-        'https://www.bet365.it/#/AC/B1/C1/D13/E43757159/F2/': 'b365_euro_2020_qualifications',
         'https://www.bet365.it/#/AC/B1/C1/D13/E108/F16/': 'b365_europe_elite',  # Europe Elite
         'https://www.bet365.it/#/AC/B1/C1/D13/E113/F16/': 'b365_ita_list',
         'https://www.bet365.it/#/AC/B1/C1/D13/E43316955/F2/': 'b365_champions',
