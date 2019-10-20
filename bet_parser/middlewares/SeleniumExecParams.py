@@ -32,5 +32,5 @@ class SeleniumExecParams:
                                   self.extract_sub_links_by_class, self.extract_proxies)
 
     def simplified_clone(self):
-        return SeleniumExecParams(None, None, self.kill_timeouts, self.wait_time, None, None, None, None,
-                                  self.render_js, None, False)
+        return SeleniumExecParams(None, None, self.kill_timeouts, self.wait_time, None, None, self.scroll_to_element,
+                                  self.scroll_wait_time, self.render_js, None, False)

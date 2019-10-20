@@ -3,7 +3,7 @@ import scrapy
 from scrapy import Selector, signals
 from typing import Dict
 from scrapy.http import HtmlResponse
-from bet_parser.constants.Sisal import Const
+from bet_parser.spiders.constants.Sisal import Const
 from bet_parser.middlewares.SeleniumRequest import SeleniumRequest
 from bet_parser.utils.Mappers import MatchMapper
 from bet_parser.utils.ParserUtils import *

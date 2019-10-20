@@ -20,6 +20,7 @@ class Const:
     css_quote_header: str = '.gll-MarketColumnHeader'
 
     # Sub pages Selectors
+    css_sub_team_names: str = '.cl-EnhancedDropDown'
     css_sub_market_group: str = '.gll-MarketGroup'
     css_sub_market_group_header: str = '.gll-MarketGroupButton_Text'
     css_sub_market_group_header2: str = '.cm-CouponMarketGroupButton_Text' # for Under/Over section

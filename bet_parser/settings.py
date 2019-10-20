@@ -16,7 +16,7 @@ import shadow_useragent
 
 BOT_PATH = str(Path(os.path.dirname(os.path.realpath(__file__))).parent)
 BOT_NAME = 'bet_parser'
-SPIDER_MODULES = ['bet_parser.spiders']
+SPIDER_MODULES = ['bet_parser.spiders', 'bet_parser.spiders_api']
 NEWSPIDER_MODULE = 'bet_parser.spiders'
 
 # Splash config
@@ -92,7 +92,7 @@ DOWNLOAD_DELAY = 2
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 SPIDER_MIDDLEWARES = {
-    'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
+    # 'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
 }
 
 # Enable or disable downloader middlewares
@@ -100,11 +100,11 @@ SPIDER_MIDDLEWARES = {
 DOWNLOADER_MIDDLEWARES = {
     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
     'scrapy_useragents.downloadermiddlewares.useragents.UserAgentsMiddleware': 500,
-    'scrapy_splash.SplashCookiesMiddleware': 723,
-    'scrapy_splash.SplashMiddleware': 725,
+    # 'scrapy_splash.SplashCookiesMiddleware': 723,
+    # 'scrapy_splash.SplashMiddleware': 725,
     'bet_parser.middlewares.SeleniumMiddleware.SeleniumDownloaderMiddleware': 900,
-    'bet_parser.middlewares.TorMiddleware.TorDownloaderMiddleware': 901,
-    'bet_parser.middlewares.CustomProxyMiddleware.CustomProxyDownloaderMiddleware': 902,
+    # 'bet_parser.middlewares.TorMiddleware.TorDownloaderMiddleware': 901,
+    # 'bet_parser.middlewares.CustomProxyMiddleware.CustomProxyDownloaderMiddleware': 902,
     'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 910,
 }
 

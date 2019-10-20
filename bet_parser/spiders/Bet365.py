@@ -6,7 +6,7 @@ from scrapy.http import HtmlResponse
 from scrapy.selector import Selector
 from datetime import datetime
 from typing import Dict
-from bet_parser.constants.Bet365 import Const
+from bet_parser.spiders.constants.Bet365 import Const
 from bet_parser.middlewares.SeleniumRequest import SeleniumRequest
 from bet_parser.utils.Mappers import MatchMapper
 from bet_parser.utils.Writers import *
@@ -49,11 +49,11 @@ class Bet365Spider(scrapy.Spider):
                                   driver_type='chrome',
                                   wait_time=1,
                                   headless=False,
-                                  extract_sub_links_by_class='sl-CouponFixtureLinkParticipant_Name')
+                                  extract_sub_links_by_class='.sl-CouponFixtureLinkParticipant_Name')
 
     def parse(self, response: HtmlResponse):
-        # Needed for sub pages processing. It has to be refreshed for each page scraped
-        initial_index = len(self.parsed_matches)
+        # Here we store the sub pages related to each match in the page (if any was found)
+        sub_pages = response.request.meta['sub_pages']
 
         # Looping over Matches Groups (for principal page)
         # (this is the main loop, here we iterate on each div containing a group of matches, with its description
@@ -62,17 +62,14 @@ class Bet365Spider(scrapy.Spider):
         for matches_group in matches_groups:
             current_index: int = len(self.parsed_matches)
             # Matches description extraction
-            self.parse_matches_description(matches_group, self.parsed_matches)
+            self.parse_matches_description(matches_group, self.parsed_matches, sub_pages)
             # Matches quotes extraction
             self.parse_matches_quotes(matches_group, current_index, self.parsed_matches)
-
-        # Looping over Sub Pages related to any single match already parsed (for principal page)
-        sub_pages = response.request.meta['sub_pages']
-        self.parse_sub_pages(sub_pages, initial_index, self.parsed_matches)
         del sub_pages
         del response.request.meta['sub_pages']
 
-    def parse_matches_description(self, matches_group: Selector, parsed_matches: List[Match]):
+    def parse_matches_description(self, matches_group: Selector, parsed_matches: List[Match],
+                                  sub_pages: List[Selector]):
         # Looping over Column 1 rows (Dates, Times, Match names and results)
         matches_start_date = None
         column1_rows = matches_group.css(Const.css_description_column + Const.css_child_divs)
@@ -137,55 +134,57 @@ class Bet365Spider(scrapy.Spider):
                 parsed_match.Team2 = match_team_2
                 parsed_match.Result = match_result
 
+                # Analyzing the sub page related to the currently parsed match to extract Extra Quotes
+                sub_page_index = self.find_sub_page(sub_pages, parsed_match)
+                if sub_page_index is not None:
+                    self.parse_sub_page(sub_pages[sub_page_index], parsed_match)
+                    del sub_pages[sub_page_index]
+                else:
+                    print("ERROR: SubPage not found!!!")
+
                 # Append the parsed Match to the list
                 parsed_matches.append(parsed_match)
 
     @staticmethod
-    def parse_matches_quotes(matches_group: Selector, current_index: int, parsed_matches: List[Match]):
-        # Looping over Column 2, 3, 4 rows (Quotes 1, X, 2)
-        quote_columns = matches_group.css(Const.css_quote_columns)
-        for column in quote_columns:
-            quote_type = ''
-            match_number = current_index
-            rows = column.xpath(Const.xpath_child_divs)
-            for row in rows:
-                row_class = row.xpath(Const.xpath_get_class).get(default='')
-                if Const.css_quote_header[1:] in row_class:
-                    quote_type = row.css(Const.css_get_all_text).get(default='')
-                else:
-                    quote = row.css(Const.css_get_all_text).get(default=None)
-                    setattr(parsed_matches[match_number], 'Quote' + quote_type, quote)
-                    match_number += 1
+    def find_sub_page(sub_pages: List[Selector], parsed_match: Match):
+        if sub_pages:
+            index = 0
+            for sub_page in sub_pages:
+                team_names = sub_page.css(Const.css_sub_team_names + Const.css_get_all_text).get(
+                    default='').strip().split(Const.match_name_divider)
+                if team_names and len(team_names) == 2:
+                    team1 = team_names[0]
+                    team2 = team_names[1]
+                    if team1 == parsed_match.Team1 and team2 == parsed_match.Team2:
+                        return index
+                index += 1
+        return None
 
     @staticmethod
-    def parse_sub_pages(sub_pages: List[Selector], initial_index: int, parsed_matches: List[Match]):
-        match_number = initial_index
-        for sub_page in sub_pages:
-            current_match = parsed_matches[match_number]
-            quote_groups = sub_page.css(Const.css_sub_market_group)
-            for quote_group in quote_groups:
-                quote_type = quote_group.css(Const.css_sub_market_group_header + Const.css_get_all_text).get(
-                    default=None) or quote_group.css(Const.css_sub_market_group_header2 + Const.css_get_all_text).get(
-                    default=None)
-                if quote_type.lower() in Const.css_sub_double_chance.lower():
-                    # Double chance
-                    quotes = quote_group.css(Const.css_sub_quote + Const.css_get_all_text).getall()
-                    if len(quotes) == 6:
-                        current_match.Quote1X = quotes[1]
-                        current_match.Quote2X = quotes[3]
-                        current_match.Quote12 = quotes[5]
-                elif quote_type.lower() in Const.css_sub_under_over.lower():
-                    # Under Over
-                    under_over_types = quote_group.css(Const.css_sub_under_over_type + Const.css_get_all_text).getall()
-                    under_over_quotes_cols = quote_group.css(Const.css_sub_under_over_quote_cols)
-                    Bet365Spider.fill_under_over(current_match, under_over_types, under_over_quotes_cols)
-                elif quote_type.lower() in Const.css_sub_goal_nogoal.lower():
-                    # Goal No Goal
-                    quotes = quote_group.css(Const.css_sub_quote + Const.css_get_all_text).getall()
-                    if len(quotes) == 4:
-                        current_match.QuoteGoal = quotes[1]
-                        current_match.QuoteNoGoal = quotes[3]
-            match_number += 1
+    def parse_sub_page(sub_page: Selector, parsed_match: Match):
+        quote_groups = sub_page.css(Const.css_sub_market_group)
+        for quote_group in quote_groups:
+            quote_type = quote_group.css(Const.css_sub_market_group_header + Const.css_get_all_text).get(
+                default=None) or quote_group.css(Const.css_sub_market_group_header2 + Const.css_get_all_text).get(
+                default=None)
+            if quote_type.lower() in Const.css_sub_double_chance.lower():
+                # Double chance
+                quotes = quote_group.css(Const.css_sub_quote + Const.css_get_all_text).getall()
+                if len(quotes) == 6:
+                    parsed_match.Quote1X = quotes[1]
+                    parsed_match.Quote2X = quotes[3]
+                    parsed_match.Quote12 = quotes[5]
+            elif quote_type.lower() in Const.css_sub_under_over.lower():
+                # Under Over
+                under_over_types = quote_group.css(Const.css_sub_under_over_type + Const.css_get_all_text).getall()
+                under_over_quotes_cols = quote_group.css(Const.css_sub_under_over_quote_cols)
+                Bet365Spider.fill_under_over(parsed_match, under_over_types, under_over_quotes_cols)
+            elif quote_type.lower() in Const.css_sub_goal_nogoal.lower():
+                # Goal No Goal
+                quotes = quote_group.css(Const.css_sub_quote + Const.css_get_all_text).getall()
+                if len(quotes) == 4:
+                    parsed_match.QuoteGoal = quotes[1]
+                    parsed_match.QuoteNoGoal = quotes[3]
 
     @staticmethod
     def fill_under_over(current_match: Match, under_over_types, under_over_quotes_cols):
@@ -210,6 +209,23 @@ class Bet365Spider(scrapy.Spider):
                 elif '4.5' in val:
                     current_match.QuoteU45 = under_quotes[idx]
                     current_match.QuoteO45 = over_quotes[idx]
+
+    @staticmethod
+    def parse_matches_quotes(matches_group: Selector, current_index: int, parsed_matches: List[Match]):
+        # Looping over Column 2, 3, 4 rows (Quotes 1, X, 2)
+        quote_columns = matches_group.css(Const.css_quote_columns)
+        for column in quote_columns:
+            quote_type = ''
+            match_number = current_index
+            rows = column.xpath(Const.xpath_child_divs)
+            for row in rows:
+                row_class = row.xpath(Const.xpath_get_class).get(default='')
+                if Const.css_quote_header[1:] in row_class:
+                    quote_type = row.css(Const.css_get_all_text).get(default='')
+                else:
+                    quote = row.css(Const.css_get_all_text).get(default=None)
+                    setattr(parsed_matches[match_number], 'Quote' + quote_type, quote)
+                    match_number += 1
 
     def spider_idle(self):
         # End of all the requests

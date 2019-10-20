@@ -2,12 +2,12 @@
 import scrapy
 from scrapy import Selector, signals
 from typing import Dict
-from bet_parser.constants.Eurobet import Const
+from bet_parser.spiders.constants.Eurobet import Const
 from bet_parser.middlewares.SeleniumRequest import SeleniumRequest
 from bet_parser.utils.Mappers import MatchMapper
 from bet_parser.utils.ParserUtils import *
 from bet_parser.utils.Writers import *
-from datetime import date, timedelta
+from datetime import date
 
 
 class SisalSpider(scrapy.Spider):

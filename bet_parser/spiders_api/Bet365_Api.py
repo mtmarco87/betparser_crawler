@@ -6,8 +6,7 @@ from scrapy import signals
 from scrapy.http import HtmlResponse
 from datetime import datetime
 from typing import Dict
-from bet_parser.constants.Bet365_Api import Const, MainAPI, InnerAPI
-from bet_parser.middlewares.TorRequest import TorRequest
+from bet_parser.spiders_api.constants.Bet365_Api import Const, MainAPI, InnerAPI
 from bet_parser.utils.Mappers import MatchMapper
 from bet_parser.utils.Writers import *
 
@@ -335,6 +334,7 @@ class Bet365ApiSpider(scrapy.Spider):
         FirebaseWriter().write(match_to_write)
         self.log('Saved extracted quotes on Firebase: %s' % self.name)
 
+    # # Dynamic Custom Proxies extraction
     # def start_proxies(self):
     #     yield SeleniumRequest(url='https://free-proxy-list.net',
     #                           callback=self.parse_proxies,
