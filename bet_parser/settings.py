@@ -29,6 +29,7 @@ SELENIUM_FIREFOX_DRIVER = BOT_PATH + '/libs/selenium_drivers/geckodriver.exe'
 SELENIUM_HEADLESS = None     # True/False
 SELENIUM_WINDOW_SIZE = None  # '1200x600'
 SELENIUM_CHROME_USER_DATA_DIR = BOT_PATH + '/libs/selenium_drivers/chrome_profiles/Profile1/'
+SELENIUM_PROFILES_TMP_DIR = BOT_PATH + '/libs/selenium_drivers/chrome_profiles/Tmp/'
 
 # Tor config
 TOR_REGENERATE_AFTER_N_REQ = 50

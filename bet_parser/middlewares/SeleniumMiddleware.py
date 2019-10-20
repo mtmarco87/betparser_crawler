@@ -1,3 +1,6 @@
+import os
+from distutils.dir_util import copy_tree
+import shutil
 import scrapy
 from scrapy import signals, Selector
 from scrapy.http import HtmlResponse
@@ -16,16 +19,19 @@ class SeleniumDownloaderMiddleware(object):
     headless = None
     window_size = None
     chrome_user_data_dir = None
+    profiles_tmp_dir = None
+    current_profile_dir = None
     download_delay = 0
 
     def __init__(self, crawler, chrome_driver_path, firefox_driver_path, headless, window_size,
-                 chrome_user_data_dir, download_delay):
+                 chrome_user_data_dir, profiles_tmp_dir, download_delay):
         self.crawler = crawler
         self.chrome_driver_path = chrome_driver_path
         self.firefox_driver_path = firefox_driver_path
         self.headless = headless
         self.window_size = window_size
         self.chrome_user_data_dir = chrome_user_data_dir
+        self.profiles_tmp_dir = profiles_tmp_dir
         self.download_delay = download_delay
 
         self.crawler.signals.connect(self.spider_opened, signals.spider_opened)
@@ -38,11 +44,12 @@ class SeleniumDownloaderMiddleware(object):
         headless = crawler.settings.get('SELENIUM_HEADLESS')
         window_size = crawler.settings.get('SELENIUM_WINDOW_SIZE')
         chrome_user_data_dir = crawler.settings.get('SELENIUM_CHROME_USER_DATA_DIR')
+        profiles_tmp_dir = crawler.settings.get('SELENIUM_PROFILES_TMP_DIR')
         download_delay = crawler.settings.get('DOWNLOAD_DELAY',
                                               cls.download_delay)
 
         return cls(crawler, chrome_driver_path, firefox_driver_path, headless, window_size,
-                   chrome_user_data_dir, download_delay)
+                   chrome_user_data_dir, profiles_tmp_dir, download_delay)
 
     def get_chrome_driver(self, rebuild: bool = False, window_size=None, headless=None, user_data_dir=None):
         if not self.chrome_driver or rebuild:
@@ -57,12 +64,23 @@ class SeleniumDownloaderMiddleware(object):
             if headless:
                 options.add_argument('headless')
             if user_data_dir:
-                options.add_argument("user-data-dir=" + user_data_dir)
+                self.generate_cloned_user_profile(user_data_dir)
+                options.add_argument("user-data-dir=" + self.current_profile_dir)
                 options.add_argument("--disable-plugins-discovery")
 
             self.chrome_driver = webdriver.Chrome(chrome_options=options,
                                                   executable_path=self.chrome_driver_path)
         return self.chrome_driver
+
+    def generate_cloned_user_profile(self, user_data_dir):
+        index = 0
+        temp_profile = 'TempProfile' + str(index)
+        while os.path.isdir(self.profiles_tmp_dir + temp_profile):
+            index += 1
+            temp_profile = 'TempProfile' + str(index)
+
+        self.current_profile_dir = self.profiles_tmp_dir + temp_profile
+        copy_tree(user_data_dir, self.current_profile_dir)
 
     def get_firefox_driver(self, rebuild: bool = False, window_size=None, headless=None):
         if not self.firefox_driver or rebuild:
@@ -237,6 +255,14 @@ class SeleniumDownloaderMiddleware(object):
             rebuild = self.get_request_param(request, 'rebuild', False)
             if rebuild and self.chrome_driver:
                 self.chrome_driver.close()
+                if self.current_profile_dir:
+                    while os.path.isdir(self.current_profile_dir):
+                        try:
+                            shutil.rmtree(self.current_profile_dir)
+                            break
+                        except Exception as e:
+                            time.sleep(0.5)
+                    self.current_profile_dir = None
             elif rebuild and self.firefox_driver:
                 self.firefox_driver.close()
         return response
@@ -250,9 +276,16 @@ class SeleniumDownloaderMiddleware(object):
     def spider_idle(self, spider):
         if self.chrome_driver:
             self.chrome_driver.close()
+            if self.current_profile_dir:
+                while os.path.isdir(self.current_profile_dir):
+                    try:
+                        shutil.rmtree(self.current_profile_dir)
+                        break
+                    except Exception as e:
+                        time.sleep(0.5)
+                self.current_profile_dir = None
         if self.firefox_driver:
             self.firefox_driver.close()
-        pass
 
 
 class Scripts:
