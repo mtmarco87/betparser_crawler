@@ -27,6 +27,7 @@ class SeleniumRequest(scrapy.Request):
                  window_size=None,
                  headless=None,
                  user_data_dir=None,
+                 extract_proxies=False,
                  meta=None,
                  **kwargs):
         if url is None:
@@ -48,6 +49,7 @@ class SeleniumRequest(scrapy.Request):
         selenium_meta.setdefault('window_size', window_size)
         selenium_meta.setdefault('headless', headless)
         selenium_meta.setdefault('user_data_dir', user_data_dir)
+        selenium_meta.setdefault('extract_proxies', extract_proxies)
 
         super(SeleniumRequest, self).__init__(url, callback, method, dont_filter=True, meta=meta,
                                               **kwargs)

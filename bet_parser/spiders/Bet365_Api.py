@@ -7,9 +7,10 @@ from scrapy.http import HtmlResponse
 from datetime import datetime
 from typing import Dict
 from bet_parser.constants.Bet365_Api import Const, MainAPI, InnerAPI
+from bet_parser.middlewares.TorRequest import TorRequest
 from bet_parser.utils.Mappers import MatchMapper
 from bet_parser.utils.Writers import *
-import requests
+
 
 class Bet365Decoder:
     seed: int = None
@@ -45,7 +46,6 @@ class Bet365Decoder:
         decoded_fractional_odd = self.get_decoded_odd(encoded_odd)
         fraction_parts = decoded_fractional_odd.split('/')
 
-        decimal_odd = None
         try:
             decimal_odd = floor(((int(fraction_parts[0]) / int(fraction_parts[1])) + 1) * 100) / 100
         except Exception as e:
@@ -59,27 +59,30 @@ class Bet365ApiSpider(scrapy.Spider):
     allowed_domains: list = ['bet365.it']
     start_urls: Dict[str, str] = {
         Const.b365_api_template % '%23AP%23B1%23A%5E4%23C%5E1%23D%5E11%23E%5E21%23H%5E4750': 'b365_main_page',
-        # Const.b365_api_template % '%23AC%23B1%23C1%23D13%23E108%23F16%23': 'b365_europe_elite',
-        # Const.b365_api_template % '%23AC%23B1%23C1%23D13%23E112%23F16%23': 'b365_international_list',
+        Const.b365_api_template % '%23AC%23B1%23C1%23D13%23E108%23F16%23': 'b365_europe_elite',
+        Const.b365_api_template % '%23AC%23B1%23C1%23D13%23E112%23F16%23': 'b365_international_list',
     }
     custom_settings = {
-        'DOWNLOAD_DELAY': 1
+        'DOWNLOAD_DELAY': 1.8,
+        # The download delay setting will honor only one of:
+        'CONCURRENT_REQUESTS_PER_DOMAIN': 1,
+        'CONCURRENT_REQUESTS_PER_IP': 1,
+        # Enable and configure the AutoThrottle extension (disabled by default)
+        # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
+        'AUTOTHROTTLE_ENABLED': True,
+        # The initial download delay
+        'AUTOTHROTTLE_START_DELAY': 1.5,
+        # The maximum download delay to be set in case of high latencies
+        'AUTOTHROTTLE_MAX_DELAY': 5,
+        # The average number of requests Scrapy should be sending in parallel to
+        # each remote server
+        'AUTOTHROTTLE_TARGET_CONCURRENCY': 1.0
     }
     extracted_matches: Dict[str, Match] = {}
 
     def start_requests(self):
         # Connect the idle status (end of all requests) to self.spider_idle method
         self.crawler.signals.connect(self.spider_idle, signal=signals.spider_idle)
-
-        # url = 'https://www.bet365.it/SportsBook.API/web'
-        # params = (
-        #     ('lid', '6'),
-        #     ('zid', '0'),
-        #     ('pd', '#AP#B1#A^4#C^1#D^11#E^21#H^4750'),
-        #     ('cid', '97'),
-        #     ('ctid', '97'),
-        # )
-        # requests.get(url, params=params)
 
         # Start requests
         for url, name in self.start_urls.items():
@@ -331,3 +334,17 @@ class Bet365ApiSpider(scrapy.Spider):
         # Write quotes to Firebase
         FirebaseWriter().write(match_to_write)
         self.log('Saved extracted quotes on Firebase: %s' % self.name)
+
+    # def start_proxies(self):
+    #     yield SeleniumRequest(url='https://free-proxy-list.net',
+    #                           callback=self.parse_proxies,
+    #                           extract_proxies=True)
+    #
+    # def parse_proxies(self, response):
+    #     proxies: list = []
+    #     for i in response.xpath('//tbody/tr'):
+    #         if i.xpath('.//td[7][contains(text(),"yes")]'):
+    #             # Grabbing IP and corresponding PORT
+    #             proxy = ":".join([i.xpath('.//td[1]/text()')[0].get(), i.xpath('.//td[2]/text()')[0].get()])
+    #             proxies.append(proxy)
+    #     # url = 'https://httpbin.org/ip'

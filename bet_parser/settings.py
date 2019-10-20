@@ -12,6 +12,7 @@
 import os
 from pathlib import Path
 from numpy import genfromtxt
+import shadow_useragent
 
 BOT_PATH = str(Path(os.path.dirname(os.path.realpath(__file__))).parent)
 BOT_NAME = 'bet_parser'
@@ -28,6 +29,9 @@ SELENIUM_FIREFOX_DRIVER = BOT_PATH + '/libs/selenium_drivers/geckodriver.exe'
 SELENIUM_HEADLESS = None     # True/False
 SELENIUM_WINDOW_SIZE = None  # '1200x600'
 SELENIUM_CHROME_USER_DATA_DIR = BOT_PATH + '/libs/selenium_drivers/chrome_profiles/Profile1/'
+
+# Tor config
+TOR_REGENERATE_AFTER_N_REQ = 50
 
 # Firebase config
 FIREBASE_CONFIG = {
@@ -55,8 +59,9 @@ ORIGINAL_TEAM_NAMES_VALIDATION_FILE = None
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'bet_parser (+http://www.yourdomain.com)'
-USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ' \
-             'Chrome/77.0.3865.75 Safari/537.36'
+# USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ' \
+#              'Chrome/77.0.3865.75 Safari/537.36'
+USER_AGENTS = list(map(lambda ua: ua['useragent'], shadow_useragent.ShadowUserAgent().get_sorted_uas()))
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -67,10 +72,10 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 10
+DOWNLOAD_DELAY = 2
 # The download delay setting will honor only one of:
-# CONCURRENT_REQUESTS_PER_DOMAIN = 16
-# CONCURRENT_REQUESTS_PER_IP = 16
+# CONCURRENT_REQUESTS_PER_DOMAIN = 1
+# CONCURRENT_REQUESTS_PER_IP = 1
 
 # Disable cookies (enabled by default)
 # COOKIES_ENABLED = False
@@ -88,16 +93,19 @@ DOWNLOAD_DELAY = 10
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 SPIDER_MIDDLEWARES = {
     'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
-    # 'bet_parser.middlewares.middlewares.BetParserSpiderMiddleware': 543,
 }
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+    'scrapy_useragents.downloadermiddlewares.useragents.UserAgentsMiddleware': 500,
     'scrapy_splash.SplashCookiesMiddleware': 723,
     'scrapy_splash.SplashMiddleware': 725,
-    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 810,
-    'bet_parser.middlewares.SeleniumMiddleware.SeleniumDownloaderMiddleware': 900
+    'bet_parser.middlewares.SeleniumMiddleware.SeleniumDownloaderMiddleware': 900,
+    'bet_parser.middlewares.TorMiddleware.TorDownloaderMiddleware': 901,
+    'bet_parser.middlewares.CustomProxyMiddleware.CustomProxyDownloaderMiddleware': 902,
+    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware': 910,
 }
 
 # Enable or disable extensions
@@ -116,9 +124,9 @@ DOWNLOADER_MIDDLEWARES = {
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 # AUTOTHROTTLE_ENABLED = True
 # The initial download delay
-# AUTOTHROTTLE_START_DELAY = 5
+# AUTOTHROTTLE_START_DELAY = 2
 # The maximum download delay to be set in case of high latencies
-# AUTOTHROTTLE_MAX_DELAY = 60
+# AUTOTHROTTLE_MAX_DELAY = 10
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
 # AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0

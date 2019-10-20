@@ -18,6 +18,7 @@ class Bet365Spider(scrapy.Spider):
     start_urls: Dict[str, str] = {
         'https://www.bet365.it/#/HO/': 'b365_main',  # Main Page
         'https://www.bet365.it/#/AC/B1/C1/D13/E108/F16/': 'b365_europe_elite',  # Europe Elite
+        'https://www.bet365.it/#/AC/B1/C1/D13/E112/F16/': 'b365_intl_list',
         'https://www.bet365.it/#/AC/B1/C1/D13/E113/F16/': 'b365_ita_list',
         'https://www.bet365.it/#/AC/B1/C1/D13/E43316955/F2/': 'b365_champions',
         'https://www.bet365.it/#/AC/B1/C1/D13/E43330565/F2/': 'b365_europa_league',

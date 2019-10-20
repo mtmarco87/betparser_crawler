@@ -1,5 +1,5 @@
 import scrapy
-from scrapy import signals
+from scrapy import signals, Selector
 from scrapy.http import HtmlResponse
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
@@ -99,9 +99,12 @@ class SeleniumDownloaderMiddleware(object):
             else None
         extract_sub_links_by_class = request.meta['selenium'][
             'extract_sub_links_by_class'] if 'extract_sub_links_by_class' in request.meta['selenium'] else None
+        extract_proxies = request.meta['selenium']['extract_proxies'] if 'extract_proxies' in request.meta[
+            'selenium'] else None
 
         exec_params = SeleniumExecParams(request.url, cookies, kill_timeouts, wait_time, wait_until, script,
-                                         scroll_to_element, scroll_wait_time, render_js, extract_sub_links_by_class)
+                                         scroll_to_element, scroll_wait_time, render_js, extract_sub_links_by_class,
+                                         extract_proxies)
 
         # Driver Build/Rebuild params
         rebuild = request.meta['selenium']['rebuild'] if 'rebuild' in request.meta['selenium'] else False
@@ -186,6 +189,24 @@ class SeleniumDownloaderMiddleware(object):
                         break
             except Exception as e:
                 spider.log('[ERROR] Selenium Downloader: error while trying to extract sublinks by class: ' + str(e))
+
+        next_proxy_pages = None
+        if exec_params.extract_proxies:
+            elements = driver.find_elements_by_css_selector('#proxylisttable_next:not(.disabled) > a')
+            if len(elements) > 0:
+                try:
+                    elements[0].click()
+                    new_exec_params = exec_params.clone()
+                    new_exec_params.url = None
+                    next_proxy_pages = self.extract_pages(driver, spider, new_exec_params)
+                except Exception as e:
+                    pass
+
+        if next_proxy_pages:
+            next_proxy_selector = Selector(text=next_proxy_pages['body'])
+            parts = next_proxy_selector.css('body > *').getall()
+            for part in parts:
+                body = body.replace('</body></html>', part + '</body></html>')
 
         return {'body': body, 'sub_pages': sub_pages}
 
