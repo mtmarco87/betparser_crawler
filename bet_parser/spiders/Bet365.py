@@ -33,8 +33,6 @@ class Bet365Spider(scrapy.Spider):
         '/AC/B1/C1/D13/E42869049/F2/:/AC/B1/C1/D13/E43308636/F2/:/AC/B1/C1/D13/E42765933/F2/:' +
         '/AC/B1/C1/D13/E43401262/F2/:/AC/B1/C1/D13/E42478935/F2/': 'b365_custom_latin_america_1'
     }
-    # # Set datetime locale to italian (needed for Bet365 italian pages)
-    # locale.setlocale(locale.LC_TIME, Const.datetime_italian_locale)
     parsed_matches: List[Match] = []
 
     def start_requests(self):
@@ -181,7 +179,6 @@ class Bet365Spider(scrapy.Spider):
             converted_date = day_number + ' ' + month_name
 
         return converted_date
-
 
     @staticmethod
     def find_sub_page(sub_pages: List[Selector], parsed_match: Match):
