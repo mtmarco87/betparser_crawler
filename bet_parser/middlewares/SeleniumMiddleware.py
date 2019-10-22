@@ -152,13 +152,7 @@ class SeleniumDownloaderMiddleware(object):
 
     def extract_pages(self, driver, spider, exec_params: SeleniumExecParams):
         if exec_params.url:
-            if exec_params.cookies:
-                driver.get(exec_params.url)
-                driver.add_cookie(exec_params.cookies)
-                time.sleep(self.download_delay)
-                driver.get(exec_params.url)
-            else:
-                driver.get(exec_params.url)
+            self.navigate(driver, exec_params)
 
         if exec_params.kill_timeouts:
             driver.execute_script(Scripts.kill_timeouts)
@@ -184,11 +178,22 @@ class SeleniumDownloaderMiddleware(object):
 
         return {'body': body, 'sub_pages': sub_pages}
 
+    def navigate(self, driver, exec_params: SeleniumExecParams):
+        if exec_params.cookies:
+            driver.get(exec_params.url)
+            driver.add_cookie(exec_params.cookies)
+            time.sleep(self.download_delay)
+            driver.get(exec_params.url)
+        else:
+            driver.get(exec_params.url)
+
     @staticmethod
     def scroll_to_element(driver, spider, exec_params: SeleniumExecParams = None, element: any = None):
         if element or exec_params.scroll_to_element:
             try:
                 element = element or driver.find_element_by_css_selector(exec_params.scroll_to_element)
+                driver.execute_script(Scripts.scroll_to_element, element)
+                time.sleep(exec_params.scroll_wait_time or 0.5)
                 while not driver.execute_script(Scripts.is_element_visible, element):
                     driver.execute_script(Scripts.scroll_to_element, element)
                     time.sleep(exec_params.scroll_wait_time or 0.5)
@@ -213,7 +218,10 @@ class SeleniumDownloaderMiddleware(object):
                         new_exec_params = exec_params.simplified_clone()
                         sub_page = self.extract_pages(driver, spider, new_exec_params)
                         sub_pages.append(sub_page)
-                        driver.back()
+                        if self.current_profile_dir is not None:
+                            driver.back()
+                        else:
+                            self.navigate(driver, exec_params)
                         if exec_params.wait_time:
                             time.sleep(exec_params.wait_time)
                         self.scroll_to_element(driver, spider, exec_params)
