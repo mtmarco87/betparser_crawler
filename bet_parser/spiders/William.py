@@ -33,8 +33,10 @@ class SisalSpider(scrapy.Spider):
         'http://sports.williamhill.it/bet_ita/it/betting/t/3131/Argentina+Primera+B+Metropolitana.html': 'william_arg_prim_b_metr',
     }
     parsed_matches: List[Match] = []
-    script_kill_banners = 'document.querySelector("#modalOverlay_dimmer").remove(); ' + \
-                          'document.querySelector("#popup").remove(); '
+    script_kill_banners = 'try { ' + \
+                          'document.querySelector("#modalOverlay_dimmer").remove(); ' + \
+                          'document.querySelector("#popup").remove(); } ' + \
+                          'catch(ex) { }'
 
     def start_requests(self):
         # Connect the idle status (end of all requests) to self.spider_idle method
