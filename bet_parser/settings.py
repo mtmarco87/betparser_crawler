@@ -14,7 +14,7 @@ from pathlib import Path
 from numpy import genfromtxt
 import shadow_useragent
 
-BOT_PATH = str(Path(os.path.dirname(os.path.realpath(__file__))).parent)
+BOT_PATH = str(Path(os.path.dirname(os.path.realpath(__file__))))
 BOT_NAME = 'bet_parser'
 SPIDER_MODULES = ['bet_parser.spiders', 'bet_parser.spiders_api']
 NEWSPIDER_MODULE = 'bet_parser.spiders'
