@@ -106,6 +106,11 @@ class SeleniumDownloaderMiddleware(object):
         if 'selenium' not in request.meta:
             return
 
+        # URL escape/unescape
+        original_url = self.get_request_param(request, 'original_url')
+        if original_url:
+            request._url = original_url
+
         # Driver Execution params
         driver_type = self.get_request_param(request, 'driver_type')
         cookies = self.get_request_param(request, 'cookies')

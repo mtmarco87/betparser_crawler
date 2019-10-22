@@ -14,14 +14,14 @@ class SisalSpider(scrapy.Spider):
     name: str = 'eurobet'
     allowed_domains: list = ['eurobet.it']
     start_urls: Dict[str, str] = {
+        'https://www.eurobet.it/it/scommesse/#!/calcio/it-serie-a/': 'eurobet_ita_serie_a',
+        'https://www.eurobet.it/it/scommesse/#!/calcio/it-serie-b1/': 'eurobet_ita_serie_b',
         #'http://sports.williamhill.it/bet_ita/it/betting/y/5/Calcio.html': 'william_main',
         #'http://sports.williamhill.it/bet_ita/it/betting/t/33193/Qualificazioni+UEFA+EURO+2020.html': 'william_euro_2020_qualifications',
         #'http://sports.williamhill.it/bet_ita/it/betting/t/9009/Qual.+Campionati+Europei+U21.html': 'william_euro_u21_qualifications',
         #'http://sports.williamhill.it/bet_ita/it/betting/t/33159/Coppa+del+Mondo+2022+-+Qualificazioni+Asia.html': 'william_asia_fifa_2022_qualifications',
         #'http://sports.williamhill.it/bet_ita/it/betting/t/344/UEFA+Champions+League.html': 'william_champions',
         #'http://sports.williamhill.it/bet_ita/it/betting/t/1935/UEFA+Europa+League.html': 'william_europa_league',
-        'https://www.eurobet.it/it/scommesse/?splash=false#!/calcio/it-serie-a/': 'eurobet_ita_serie_a',
-        'https://www.eurobet.it/it/scommesse/?splash=false#!/calcio/it-serie-b1/': 'eurobet_ita_serie_b'
         #'http://sports.williamhill.it/bet_ita/it/betting/t/295/Inghilterra+Premier+League.html': 'william_eng_premier_league',
         #'http://sports.williamhill.it/bet_ita/it/betting/t/338/Spagna+La+Liga.html': 'william_esp_liga',
         #'http://sports.williamhill.it/bet_ita/it/betting/t/312/Francia+Ligue+1.html': 'william_fra_ligue1',
@@ -42,10 +42,11 @@ class SisalSpider(scrapy.Spider):
 
         for url, name in self.start_urls.items():
             yield SeleniumRequest(url=url,
+                                  escape_url=False,
                                   callback=self.parse,
                                   driver_type='chrome',
                                   render_js=True,
-                                  wait_time=20,
+                                  wait_time=2,
                                   headless=False)
 
     def parse(self, response):

@@ -11,6 +11,7 @@ class SeleniumRequest(scrapy.Request):
 
     def __init__(self,
                  url=None,
+                 escape_url=True,
                  method='GET',
                  callback=None,
                  driver_type='chrome',
@@ -33,8 +34,13 @@ class SeleniumRequest(scrapy.Request):
         if url is None:
             url = 'about:blank'
 
+        original_url = None
+        if not escape_url:
+            original_url = url
+
         meta = meta or {}
         selenium_meta = meta.setdefault('selenium', {})
+        selenium_meta.setdefault('original_url', original_url)
         selenium_meta.setdefault('driver_type', driver_type)
         selenium_meta.setdefault('cookies', cookies)
         selenium_meta.setdefault('wait_time', wait_time)
