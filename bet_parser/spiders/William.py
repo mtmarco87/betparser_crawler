@@ -33,6 +33,8 @@ class SisalSpider(scrapy.Spider):
         'http://sports.williamhill.it/bet_ita/it/betting/t/3131/Argentina+Primera+B+Metropolitana.html': 'william_arg_prim_b_metr',
     }
     parsed_matches: List[Match] = []
+    script_kill_banners = 'document.querySelector("#modalOverlay_dimmer").remove(); ' + \
+                          'document.querySelector("#popup").remove(); '
 
     def start_requests(self):
         # Connect the idle status (end of all requests) to self.spider_idle method
@@ -42,12 +44,17 @@ class SisalSpider(scrapy.Spider):
             yield SeleniumRequest(url=url,
                                   callback=self.parse,
                                   driver_type='chrome',
+                                  script=self.script_kill_banners,
                                   render_js=True,
                                   wait_time=2,
                                   headless=False,
-                                  user_data_dir=False)
+                                  user_data_dir=False,
+                                  extract_sub_links_by_class='.rowOdd td:nth-of-type(8)')
 
     def parse(self, response):
+        # Here we store the sub pages related to each match in the page (if any was found)
+        sub_pages = response.request.meta['sub_pages']
+
         # Looping over Matches Groups
         # (this is the main loop, here we iterate on each div containing a group of matches, with its description
         # and quotes)
@@ -63,16 +70,19 @@ class SisalSpider(scrapy.Spider):
                 match_name = get_text_from_first_html_element(tds[2], 'span')
                 if match_date and match_ora and match_name:
                     # Matches description extraction
-                    self.parse_matches_description(match_date, match_ora, match_name, self.parsed_matches)
+                    self.parse_matches_description(match_date, match_ora, match_name, self.parsed_matches, sub_pages)
                     # Matches quotes extraction
                     self.parse_matches_quotes(match_row, index, self.parsed_matches)
                     index += 1
+        del sub_pages
+        del response.request.meta['sub_pages']
 
         # # Write quotes to File
         # file_writer = FileWriter('output')
         # file_writer.write(self.start_urls[response.url], parsed_matches, response.body)
 
-    def parse_matches_description(self, match_date: str, match_ora: str, match_name: str, parsed_matches: List[Match]):
+    def parse_matches_description(self, match_date: str, match_ora: str, match_name: str, parsed_matches: List[Match],
+                                  sub_pages: List[Selector]):
         match_date = match_date.strip()
         if match_date == 'Oggi':
             today = date.today()
@@ -90,6 +100,8 @@ class SisalSpider(scrapy.Spider):
             # print(team1)
             # print(team2)
 
+            # Here we convert the italian locale date to english locale
+            match_date = convert_date_ita_to_eng(match_date)
             data = format_date(match_date, Const.william_date_format, Const.output_date_format)
             # print(data)
             # print(match_ora)
@@ -102,7 +114,91 @@ class SisalSpider(scrapy.Spider):
             parsed_match.Team1 = team1
             parsed_match.Team2 = team2
             parsed_match.Result = Const.txt_not_available
+
+            # Analyzing the sub page related to the currently parsed match to extract Extra Quotes
+            sub_page_index = self.find_sub_page(sub_pages, parsed_match)
+            if sub_page_index is not None:
+                self.parse_sub_page(sub_pages[sub_page_index], parsed_match)
+                del sub_pages[sub_page_index]
+            else:
+                print("ERROR: SubPage not found!!!")
+
             parsed_matches.append(parsed_match)
+
+    @staticmethod
+    def find_sub_page(sub_pages: List[Selector], parsed_match: Match):
+        if sub_pages:
+            index = 0
+            for sub_page in sub_pages:
+                team_names = sub_page.css(Const.css_sub_team_names + ' *::text').get(
+                    default='').strip().split(' - ')
+                if team_names and len(team_names) >= 2:
+                    team1 = team_names[0]
+                    team2 = team_names[1]
+                    if team1 == parsed_match.Team1 and team2 == parsed_match.Team2:
+                        return index
+                index += 1
+        return None
+
+    @staticmethod
+    def parse_sub_page(sub_page: Selector, parsed_match: Match):
+        # Selects all the Odds in the sub page
+        odd_rows = sub_page.css(Const.css_sub_events)
+        for odd_row in odd_rows:
+            odd_name = odd_row.css(Const.css_sub_event_name + ' *::text').get(default='').replace('\n', '').replace(
+                '\t', '').lower()
+            if Const.css_sub_event_double_chance == odd_name:
+                odds_values = odd_row.css(Const.css_sub_event_values)
+                if len(odds_values) >= 3:
+                    parsed_match.Quote1X = odds_values[0].css(' *::text').get(default=None).replace('\n', '').replace(
+                        '\t', '')
+                    parsed_match.Quote2X = odds_values[1].css(' *::text').get(default=None).replace('\n', '').replace(
+                        '\t', '')
+                    parsed_match.Quote12 = odds_values[2].css(' *::text').get(default=None).replace('\n', '').replace(
+                        '\t', '')
+            elif Const.css_sub_event_goal_no_goal == odd_name:
+                odds_values = odd_row.css(Const.css_sub_event_values)
+                if len(odds_values) >= 2:
+                    parsed_match.QuoteGoal = odds_values[0].css(' *::text').get(default=None).replace('\n', '').replace(
+                        '\t', '')
+                    parsed_match.QuoteNoGoal = odds_values[1].css(' *::text').get(default=None).replace('\n',
+                                                                                                        '').replace(
+                        '\t', '')
+            elif Const.css_sub_event_uo_05 == odd_name:
+                odds_values = odd_row.css(Const.css_sub_event_values)
+                if len(odds_values) >= 2:
+                    parsed_match.QuoteU05 = odds_values[0].css(' *::text').get(default=None).replace('\n', '').replace(
+                        '\t', '')
+                    parsed_match.QuoteO05 = odds_values[1].css(' *::text').get(default=None).replace('\n', '').replace(
+                        '\t', '')
+            elif Const.css_sub_event_uo_15 == odd_name:
+                odds_values = odd_row.css(Const.css_sub_event_values)
+                if len(odds_values) >= 2:
+                    parsed_match.QuoteU15 = odds_values[0].css(' *::text').get(default=None).replace('\n', '').replace(
+                        '\t', '')
+                    parsed_match.QuoteO15 = odds_values[1].css(' *::text').get(default=None).replace('\n', '').replace(
+                        '\t', '')
+            elif Const.css_sub_event_uo_25 == odd_name:
+                odds_values = odd_row.css(Const.css_sub_event_values)
+                if len(odds_values) >= 2:
+                    parsed_match.QuoteU25 = odds_values[0].css(' *::text').get(default=None).replace('\n', '').replace(
+                        '\t', '')
+                    parsed_match.QuoteO25 = odds_values[1].css(' *::text').get(default=None).replace('\n', '').replace(
+                        '\t', '')
+            elif Const.css_sub_event_uo_35 == odd_name:
+                odds_values = odd_row.css(Const.css_sub_event_values)
+                if len(odds_values) >= 2:
+                    parsed_match.QuoteU35 = odds_values[0].css(' *::text').get(default=None).replace('\n', '').replace(
+                        '\t', '')
+                    parsed_match.QuoteO35 = odds_values[1].css(' *::text').get(default=None).replace('\n', '').replace(
+                        '\t', '')
+            elif Const.css_sub_event_uo_45 == odd_name:
+                odds_values = odd_row.css(Const.css_sub_event_values)
+                if len(odds_values) >= 2:
+                    parsed_match.QuoteU45 = odds_values[0].css(' *::text').get(default=None).replace('\n', '').replace(
+                        '\t', '')
+                    parsed_match.QuoteO45 = odds_values[1].css(' *::text').get(default=None).replace('\n', '').replace(
+                        '\t', '')
 
     @staticmethod
     def parse_matches_quotes(match_row: Selector, index: int, parsed_matches: List[Match]):

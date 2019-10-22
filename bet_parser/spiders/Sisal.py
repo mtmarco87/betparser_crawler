@@ -134,7 +134,6 @@ class SisalSpider(scrapy.Spider):
                 parsed_match.Team1 = team1
                 parsed_match.Team2 = team2
                 parsed_match.Result = Const.txt_not_available
-                parsed_matches.append(parsed_match)
 
                 # Analyzing the sub page related to the currently parsed match to extract Extra Quotes
                 sub_page_index = self.find_sub_page(sub_pages, parsed_match)
@@ -143,6 +142,8 @@ class SisalSpider(scrapy.Spider):
                     del sub_pages[sub_page_index]
                 else:
                     print("ERROR: SubPage not found!!!")
+
+                parsed_matches.append(parsed_match)
 
                 return True
 
@@ -161,7 +162,8 @@ class SisalSpider(scrapy.Spider):
                 index += 1
         return None
 
-    def parse_sub_page(self, sub_page: Selector, parsed_match: Match):
+    @staticmethod
+    def parse_sub_page(sub_page: Selector, parsed_match: Match):
         # Selects all the Odds in the sub page
         odd_rows = sub_page.css(Const.css_sub_events)
         for odd_row in odd_rows:

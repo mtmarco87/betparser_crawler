@@ -9,6 +9,7 @@ from bet_parser.spiders.constants.Bet365 import Const
 from bet_parser.middlewares.SeleniumRequest import SeleniumRequest
 from bet_parser.utils.Mappers import MatchMapper
 from bet_parser.utils.Writers import *
+from bet_parser.utils.ParserUtils import *
 
 
 class Bet365Spider(scrapy.Spider):
@@ -80,12 +81,13 @@ class Bet365Spider(scrapy.Spider):
                     divider_index = extr_date.find(Const.match_date_divider)
                     if divider_index != -1:
                         extr_date = extr_date[divider_index + 1:len(extr_date)]
-                        # Let's converted the italian localized Day + 3-char Month to english locale
-                        extr_date = self.convert_date_to_english(extr_date)
-                        # Here we finally parse the Matches Date, from B365 format (Day 3-char Month and
-                        # numeric Year) to BetParser output format (Year_Month_Day)
+                        # Here we add the year
                         extr_date_with_year = extr_date + ' ' + str(Const.current_year)
+                        # Let's convert the italian localized date to english locale
+                        extr_date_with_year = convert_date_ita_to_eng(extr_date_with_year)
                         try:
+                            # Here we finally parse the Matches Date, from B365 format (Day + 3-char Month +
+                            # numeric Year) to BetParser output format (Year_Month_Day)
                             matches_start_date = datetime.strptime(extr_date_with_year, Const.b365_date_format) \
                                 .strftime(Const.output_date_format)
                         except Exception:
@@ -143,42 +145,6 @@ class Bet365Spider(scrapy.Spider):
 
                 # Append the parsed Match to the list
                 parsed_matches.append(parsed_match)
-
-    @staticmethod
-    def convert_date_to_english(extr_date):
-        converted_date = extr_date
-        splitted = converted_date.split(' ')
-        if len(splitted) == 2:
-            day_number = splitted[0].strip()
-            month_name = splitted[1].strip().lower()
-            if month_name in 'gen':
-                month_name = 'Jan'
-            elif month_name in 'feb':
-                month_name = 'Feb'
-            elif month_name in 'mar':
-                month_name = 'Mar'
-            elif month_name in 'apr':
-                month_name = 'Apr'
-            elif month_name in 'mag':
-                month_name = 'May'
-            elif month_name in 'giu':
-                month_name = 'Jun'
-            elif month_name in 'lug':
-                month_name = 'Jul'
-            elif month_name in 'ago':
-                month_name = 'Aug'
-            elif month_name in 'set':
-                month_name = 'Sep'
-            elif month_name in 'ott':
-                month_name = 'Oct'
-            elif month_name in 'nov':
-                month_name = 'Nov'
-            elif month_name in 'dic':
-                month_name = 'Dec'
-
-            converted_date = day_number + ' ' + month_name
-
-        return converted_date
 
     @staticmethod
     def find_sub_page(sub_pages: List[Selector], parsed_match: Match):
