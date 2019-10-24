@@ -53,6 +53,7 @@ class Match:
             'Result': self.Result if self.Result else na,
             'Quote1': self.Quote1 if self.Quote1 else na,
             'QuoteX': self.QuoteX if self.QuoteX else na,
+            'Quote2': self.Quote2 if self.Quote2 else na,
             'Quote1X': self.Quote1X if self.Quote1X else na,
             'Quote2X': self.Quote2X if self.Quote2X else na,
             'Quote12': self.Quote12 if self.Quote12 else na,

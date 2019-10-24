@@ -59,7 +59,7 @@ class SisalSpider(scrapy.Spider):
         try:
             page_type = self.start_urls[response.url]
         except Exception as e:
-            self.log('Error: ' + e)
+            self.log('Error: ' + str(e))
         default_match_type = self.get_match_name_type(page_type)
 
         # Looping over Matches Groups
