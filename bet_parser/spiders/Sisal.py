@@ -43,12 +43,9 @@ class SisalSpider(scrapy.Spider):
                                   callback=self.parse,
                                   driver_type='chrome',
                                   render_js=True,
-                                  wait_time=2,
-                                  # 'wait_until': EC.presence_of_element_located([By.ID, 'manifestazioneKey']),
+                                  wait_time=2.5,
                                   headless=False,
-                                  user_data_dir=False,
-                                  extract_sub_links_by_class='.multiscommessa:not([style="display: none;"]) ' +
-                                                             '.multiscommessa__accordion')
+                                  extract_sub_links_by_class=[Const.css_sub_link, Const.css_sub_link_dynamic])
 
     def parse(self, response: HtmlResponse):
         # Here we store the sub pages related to each match in the page (if any was found)
@@ -66,9 +63,11 @@ class SisalSpider(scrapy.Spider):
         # (this is the main loop, here we iterate on each div containing a group of matches, with its description
         # and quotes)
         match_rows = response.css(Const.css_matches_groups)
+        if len(match_rows) == 0:
+            match_rows = response.css(Const.css_matches_groups_dynamic)
         index = len(self.parsed_matches)
         for match_row in match_rows:
-            match_names = match_row.css(Const.css_name_event)
+            match_names = match_row.css(Const.css_name_event) or match_row.css(Const.css_name_event_dynamic)
             if match_names and match_names[0] is not None:
                 match_name = get_text_from_html_element(match_names[0])
                 if match_name is not None:
@@ -90,11 +89,16 @@ class SisalSpider(scrapy.Spider):
     def parse_matches_description(self, match_row: Selector, default_match_type: str, parsed_matches: List[Match],
                                   sub_pages: List[Selector]):
         if match_row:
-            match_name = get_text_from_first_html_element(match_row, Const.css_name_event)
+            match_name = get_text_from_first_html_element(match_row, Const.css_name_event) or \
+                         get_text_from_first_html_element(match_row, Const.css_name_event_dynamic)
             if not default_match_type:
-                default_match_type = self.get_match_name_type(get_text_from_first_html_element(match_row,
-                                                                                               Const.css_name_type))
-            match_date = get_text_from_first_html_element(match_row, Const.css_date_event)
+                default_match_type = self.get_match_name_type(
+                    get_text_from_first_html_element(match_row, Const.css_name_type)) or \
+                                     self.get_match_name_type(
+                                         get_text_from_first_html_element(match_row, Const.css_name_type_dynamic))
+            match_date = get_text_from_first_html_element(
+                match_row, Const.css_date_event) or get_text_from_first_html_element(
+                match_row, Const.css_date_event_dynamic)
 
             # Here we discard empty rows composed only by a Match name with no quotes
             if 'speciali live' in match_name.lower():
@@ -121,8 +125,10 @@ class SisalSpider(scrapy.Spider):
                 elif data == '':
                     data = datetime.today().strftime(Const.output_date_format)
 
-                if ora:
+                if '.' in ora:
                     ora = format_date(ora, Const.sisal_time_format, Const.output_time_format)
+                elif ':' in ora:
+                    ora = format_date(ora, Const.sisal_time_format2, Const.output_time_format)
                 # print(data)
                 # print(ora)
 
@@ -152,8 +158,11 @@ class SisalSpider(scrapy.Spider):
         if sub_pages:
             index = 0
             for sub_page in sub_pages:
-                team_names = sub_page.css(Const.css_sub_team_names + ' *::text').get(
-                    default='').strip().split(' - ')
+                team_names = sub_page.css(Const.css_sub_team_names + ' *::text').get(default=None) or \
+                             sub_page.css(Const.css_sub_team_names_dynamic + ' *::text').get(default=None) or \
+                             sub_page.css(Const.css_sub_team_names_dynamic_live + ' *::text').get(default=None)
+                if team_names:
+                    team_names = team_names.strip().split(' - ')
                 if team_names and len(team_names) == 2:
                     team1 = team_names[0]
                     team2 = team_names[1]
@@ -166,41 +175,41 @@ class SisalSpider(scrapy.Spider):
     def parse_sub_page(sub_page: Selector, parsed_match: Match):
         # Selects all the Odds in the sub page
         odd_rows = sub_page.css(Const.css_sub_events)
+        if len(odd_rows) == 0:
+            odd_rows = sub_page.css(Const.css_sub_events_dynamic)
         for odd_row in odd_rows:
-            odd_name = odd_row.css(Const.css_sub_event_name + ' *::text').get(default='').lower()
+            odd_name = odd_row.css(Const.css_sub_event_name + ' *::text').get(default='').lower() or \
+                       odd_row.css(Const.css_sub_event_name_dynamic + ' *::text').get(default='').lower()
+
+            odds_values = odd_row.css(Const.css_sub_event_values)
+            if len(odds_values) == 0:
+                odds_values = odd_row.css(Const.css_sub_event_values_dynamic)
             if Const.css_sub_event_double_chance == odd_name:
-                odds_values = odd_row.css(Const.css_sub_event_values)
                 if len(odds_values) >= 3:
                     parsed_match.Quote1X = odds_values[0].css(' *::text').get(default=None)
                     parsed_match.Quote2X = odds_values[1].css(' *::text').get(default=None)
                     parsed_match.Quote12 = odds_values[2].css(' *::text').get(default=None)
             elif Const.css_sub_event_goal_no_goal == odd_name:
-                odds_values = odd_row.css(Const.css_sub_event_values)
                 if len(odds_values) >= 2:
                     parsed_match.QuoteGoal = odds_values[0].css(' *::text').get(default=None)
                     parsed_match.QuoteNoGoal = odds_values[1].css(' *::text').get(default=None)
             elif Const.css_sub_event_uo_05 == odd_name:
-                odds_values = odd_row.css(Const.css_sub_event_values)
                 if len(odds_values) >= 2:
                     parsed_match.QuoteU05 = odds_values[0].css(' *::text').get(default=None)
                     parsed_match.QuoteO05 = odds_values[1].css(' *::text').get(default=None)
             elif Const.css_sub_event_uo_15 == odd_name:
-                odds_values = odd_row.css(Const.css_sub_event_values)
                 if len(odds_values) >= 2:
                     parsed_match.QuoteU15 = odds_values[0].css(' *::text').get(default=None)
                     parsed_match.QuoteO15 = odds_values[1].css(' *::text').get(default=None)
             elif Const.css_sub_event_uo_25 == odd_name:
-                odds_values = odd_row.css(Const.css_sub_event_values)
                 if len(odds_values) >= 2:
                     parsed_match.QuoteU25 = odds_values[0].css(' *::text').get(default=None)
                     parsed_match.QuoteO25 = odds_values[1].css(' *::text').get(default=None)
             elif Const.css_sub_event_uo_35 == odd_name:
-                odds_values = odd_row.css(Const.css_sub_event_values)
                 if len(odds_values) >= 2:
                     parsed_match.QuoteU35 = odds_values[0].css(' *::text').get(default=None)
                     parsed_match.QuoteO35 = odds_values[1].css(' *::text').get(default=None)
             elif Const.css_sub_event_uo_45 == odd_name:
-                odds_values = odd_row.css(Const.css_sub_event_values)
                 if len(odds_values) >= 2:
                     parsed_match.QuoteU45 = odds_values[0].css(' *::text').get(default=None)
                     parsed_match.QuoteO45 = odds_values[1].css(' *::text').get(default=None)
@@ -211,7 +220,8 @@ class SisalSpider(scrapy.Spider):
         dictKeys = {0: 'Quote1', 1: 'QuoteX', 2: 'Quote2'}
         try:
             for x in range(0, 3):
-                odd = get_text_from_html_element_at_position(match_row, Const.css_event_type, x)
+                odd = get_text_from_html_element_at_position(match_row, Const.css_event_type, x) \
+                      or get_text_from_html_element_at_position(match_row, Const.css_event_type_dynamic, x)
                 setattr(parsed_matches[index], dictKeys[x], odd)
                 # print(odd)
         except IndexError:

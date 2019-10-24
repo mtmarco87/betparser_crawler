@@ -41,7 +41,7 @@ class BwinSpider(scrapy.Spider):
                                   wait_time=1,
                                   scroll_to_element='.footer-bottom',
                                   headless=False,
-                                  extract_sub_links_by_class='.grid-event-wrapper .grid-info-wrapper')
+                                  extract_sub_links_by_class=['.grid-event-wrapper .grid-info-wrapper'])
 
     def parse(self, response: HtmlResponse):
         # Here we store the sub pages related to each match in the page (if any was found)

@@ -213,7 +213,11 @@ class SeleniumDownloaderMiddleware(object):
             retry_limit = 0
             while True:
                 try:
-                    elements = driver.find_elements_by_css_selector(exec_params.extract_sub_links_by_class)
+                    elements = None
+                    for sub_links_css in exec_params.extract_sub_links_by_class:
+                        elements = driver.find_elements_by_css_selector(sub_links_css)
+                        if len(elements) > 0:
+                            break
                     if initial_length == 0:
                         initial_length = len(elements)
                     if len(elements) == initial_length and initial_length > index:

@@ -47,7 +47,7 @@ class Bet365Spider(scrapy.Spider):
                                   driver_type='chrome',
                                   wait_time=1,
                                   headless=False,
-                                  extract_sub_links_by_class='.sl-CouponFixtureLinkParticipant_Name')
+                                  extract_sub_links_by_class=['.sl-CouponFixtureLinkParticipant_Name'])
 
     def parse(self, response: HtmlResponse):
         # Here we store the sub pages related to each match in the page (if any was found)

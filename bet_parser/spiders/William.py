@@ -51,7 +51,7 @@ class SisalSpider(scrapy.Spider):
                                   wait_time=2,
                                   headless=False,
                                   user_data_dir=False,
-                                  extract_sub_links_by_class='.rowOdd td:nth-of-type(8)')
+                                  extract_sub_links_by_class=['.rowOdd td:nth-of-type(8)'])
 
     def parse(self, response):
         # Here we store the sub pages related to each match in the page (if any was found)
