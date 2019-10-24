@@ -43,8 +43,9 @@ class SisalSpider(scrapy.Spider):
                                   callback=self.parse,
                                   driver_type='chrome',
                                   render_js=True,
-                                  wait_time=2.5,
+                                  wait_time=3,
                                   headless=False,
+                                  user_data_dir=False,
                                   extract_sub_links_by_class=[Const.css_sub_link, Const.css_sub_link_dynamic])
 
     def parse(self, response: HtmlResponse):
