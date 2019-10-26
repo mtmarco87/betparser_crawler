@@ -19,6 +19,7 @@ class FirebaseWriter:
     Input: List[Match] - Matches list 
     Minimum required data: Bookmaker, StartDate, Team1, Team2 (for unique key in DB)
     """
+
     def write(self, parsed_matches: List[Match], deduplicate: bool = True):
         # Init Firebase app
         firebase = pyrebase.initialize_app(FIREBASE_CONFIG)
@@ -27,7 +28,7 @@ class FirebaseWriter:
 
         inserted_paths = []
         for match in parsed_matches:
-            db_path = self.db_root + '/' + match.StartDate + '/' + self.clean_string(match.Team1) + \
+            db_path = self.db_root + '/' + match.StartDate + '_' + self.clean_string(match.Team1) + \
                       '_' + self.clean_string(match.Team2)
             if db_path not in inserted_paths:
                 if deduplicate:
@@ -58,6 +59,7 @@ class FileWriter:
     Input: bytes        - Page html (optional)
     Minimum required data: None (no need of unique key, sequential write)
     """
+
     def write(self, filename: str, parsed_matches: List[Match], html: bytes = None):
         # Write Matches quotes to CSV file
         filename_csv = self.get_file_path(filename, self.format_csv)
@@ -80,13 +82,16 @@ class FileWriter:
     Input: str          - Content to append
     Appends raw string data to file
     """
+
     def append(self, filename: str, content: str, file_format: str = None):
         filename_out = self.get_file_path(filename, file_format)
         with open(filename_out, 'a+') as f:
             f.write(content)
+
     """
     Input: str          - File Name to read
     """
+
     def readlines(self, filename: str, file_format: str = None):
         filename_in = self.get_file_path(filename, file_format)
         with open(filename_in, 'r') as f:
@@ -117,7 +122,7 @@ class FileWriter:
 
     def get_file_path(self, filename: str, file_format: str = None):
         return (self.out_folder + '/' if self.out_folder else '') + filename + '.' + \
-                       (file_format or self.format_txt)
+               (file_format or self.format_txt)
 
     @staticmethod
     def deduplicate_ml_data():
