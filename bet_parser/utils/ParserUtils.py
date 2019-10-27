@@ -72,3 +72,25 @@ def convert_date_ita_to_eng(extr_date):
         converted_date = day_number + ' ' + month_name + ' ' + year
 
     return converted_date
+
+def convert_date_fra_to_d_m_y(extr_date):
+    converted_date = extr_date
+    splitted = converted_date.split(' ')
+    if len(splitted) == 3:
+        day_number = splitted[0].strip()
+        month_name = splitted[1].strip().lower()
+        months = ['janvier', 'fevrier', 'mars', 'avril', 'mai', 'june', 'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre']
+        index = 1;
+        for month in months:
+            if month_name == month:
+                break
+            index += 1
+
+        if index < 10:
+            index = '0' + str(index)
+        month = str(index)
+        year = splitted[2].strip()
+
+        converted_date = day_number + ' ' + month + ' ' + year
+
+    return converted_date
