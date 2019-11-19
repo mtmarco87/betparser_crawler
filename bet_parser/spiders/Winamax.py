@@ -11,8 +11,8 @@ from datetime import date, timedelta
 
 
 class SisalSpider(scrapy.Spider):
-    name: str = 'william'
-    allowed_domains: list = ['williamhill.it']
+    name: str = 'winamax'
+    allowed_domains: list = ['winamax.com']
     start_urls: Dict[str, str] = {
         'http://sports.williamhill.it/bet_ita/it/betting/y/5/Calcio.html': 'william_main',
         'http://sports.williamhill.it/bet_ita/it/betting/t/33193/Qualificazioni+UEFA+EURO+2020.html': 'william_euro_2020_qualifications',
@@ -49,7 +49,7 @@ class SisalSpider(scrapy.Spider):
                                   wait_time=2,
                                   headless=False,
                                   user_data_dir=False,
-                                  extract_sub_links_by_class='.rowOdd td:nth-of-type(8)')
+                                  extract_sub_links_by_class=['.rowOdd td:nth-of-type(8)'])
 
     def parse(self, response):
         # Here we store the sub pages related to each match in the page (if any was found)

@@ -1,3 +1,6 @@
+from typing import List
+
+
 class SeleniumExecParams:
     url: str = None
     cookies: any = None
@@ -8,12 +11,12 @@ class SeleniumExecParams:
     scroll_to_element: str = None
     scroll_wait_time: float = None
     render_js: bool = False
-    extract_sub_links_by_class: str = None
+    extract_sub_links_by_class: List[str] = None
     extract_proxies: bool = False
 
     def __init__(self, url: str = None, cookies: any = None, kill_timeouts: bool = False, wait_time: float = None,
                  wait_until=None, script: str = None, scroll_to_element: str = None, scroll_wait_time: float = None,
-                 render_js: bool = False, extract_sub_links_by_class: str = None, extract_proxies: bool = False):
+                 render_js: bool = False, extract_sub_links_by_class: List[str] = None, extract_proxies: bool = False):
         self.url = url
         self.cookies = cookies
         self.kill_timeouts = kill_timeouts
