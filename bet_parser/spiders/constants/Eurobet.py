@@ -1,9 +1,6 @@
-from datetime import datetime
-
-
 class Const:
     """
-    William Spider Constants file
+    Eurobet Spider Constants file
     """
     # Cookies Config TODO to be updated
 

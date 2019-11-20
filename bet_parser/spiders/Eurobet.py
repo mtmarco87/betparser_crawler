@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from scrapy import Selector, signals
+from scrapy.http import HtmlResponse
 from typing import Dict
 from bet_parser.spiders.constants.Eurobet import Const
 from bet_parser.middlewares.SeleniumRequest import SeleniumRequest
@@ -10,29 +11,12 @@ from bet_parser.utils.Writers import *
 from datetime import date
 
 
-class SisalSpider(scrapy.Spider):
+class EurobetSpider(scrapy.Spider):
     name: str = 'eurobet'
     allowed_domains: list = ['eurobet.it']
     start_urls: Dict[str, str] = {
         'https://www.eurobet.it/it/scommesse/#!/calcio/it-serie-a/': 'eurobet_ita_serie_a',
         'https://www.eurobet.it/it/scommesse/#!/calcio/it-serie-b1/': 'eurobet_ita_serie_b',
-        #'http://sports.williamhill.it/bet_ita/it/betting/y/5/Calcio.html': 'william_main',
-        #'http://sports.williamhill.it/bet_ita/it/betting/t/33193/Qualificazioni+UEFA+EURO+2020.html': 'william_euro_2020_qualifications',
-        #'http://sports.williamhill.it/bet_ita/it/betting/t/9009/Qual.+Campionati+Europei+U21.html': 'william_euro_u21_qualifications',
-        #'http://sports.williamhill.it/bet_ita/it/betting/t/33159/Coppa+del+Mondo+2022+-+Qualificazioni+Asia.html': 'william_asia_fifa_2022_qualifications',
-        #'http://sports.williamhill.it/bet_ita/it/betting/t/344/UEFA+Champions+League.html': 'william_champions',
-        #'http://sports.williamhill.it/bet_ita/it/betting/t/1935/UEFA+Europa+League.html': 'william_europa_league',
-        #'http://sports.williamhill.it/bet_ita/it/betting/t/295/Inghilterra+Premier+League.html': 'william_eng_premier_league',
-        #'http://sports.williamhill.it/bet_ita/it/betting/t/338/Spagna+La+Liga.html': 'william_esp_liga',
-        #'http://sports.williamhill.it/bet_ita/it/betting/t/312/Francia+Ligue+1.html': 'william_fra_ligue1',
-        #'http://sports.williamhill.it/bet_ita/it/betting/t/315/Germania+Bundesliga.html': 'william_ger_bundesliga',
-        #'http://sports.williamhill.it/bet_ita/it/betting/t/306/Olanda+Eredivisie.html': 'william_ned_eredivise',
-        #'http://sports.williamhill.it/bet_ita/it/betting/t/331/Portogallo+Primeira+Liga.html': 'william_por_primeira_liga',
-        #'http://sports.williamhill.it/bet_ita/it/betting/t/1713/Brasile+Serie+B.html': 'william_brazil_serie_b',
-        #'http://sports.williamhill.it/bet_ita/it/betting/t/356/Coppa+Libertadores.html': 'william_copa_libertadores',
-        #'http://sports.williamhill.it/bet_ita/it/betting/t/7480/Copa+Argentina.html': 'william_copa_argentina',
-        #'http://sports.williamhill.it/bet_ita/it/betting/t/3252/Argentina+Primera+B+Nacional.html': 'william_arg_prim_b_nac',
-        #'http://sports.williamhill.it/bet_ita/it/betting/t/3131/Argentina+Primera+B+Metropolitana.html': 'william_arg_prim_b_metr',
     }
     parsed_matches: List[Match] = []
 
@@ -49,7 +33,7 @@ class SisalSpider(scrapy.Spider):
                                   wait_time=2,
                                   headless=False)
 
-    def parse(self, response):
+    def parse(self, response: HtmlResponse):
         # Looping over Matches Groups
         # (this is the main loop, here we iterate on each div containing a group of matches, with its description
         # and quotes)

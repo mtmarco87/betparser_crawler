@@ -26,8 +26,8 @@ DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 # Selenium config
 SELENIUM_CHROME_DRIVER = BOT_PATH + '/libs/selenium_drivers/chromedriver.exe'
 SELENIUM_FIREFOX_DRIVER = BOT_PATH + '/libs/selenium_drivers/geckodriver.exe'
-SELENIUM_HEADLESS = None     # True/False
-SELENIUM_WINDOW_SIZE = None  # '1200x600'
+SELENIUM_HEADLESS = None
+SELENIUM_WINDOW_SIZE = None
 SELENIUM_CHROME_USER_DATA_DIR = BOT_PATH + '/libs/selenium_drivers/chrome_profiles/Profile1/'
 SELENIUM_PROFILES_TMP_DIR = BOT_PATH + '/libs/selenium_drivers/chrome_profiles/Tmp/'
 
@@ -36,9 +36,9 @@ TOR_REGENERATE_AFTER_N_REQ = 50
 
 # Firebase config
 FIREBASE_CONFIG = {
-    "apiKey": "AIzaSyBEL7WYzgT4UdvS4GaOtj_wKfnRDHQgxO4",
-    "authDomain": "parser-b8114.firebaseapp.com",
-    "databaseURL": "https://parser-b8114.firebaseio.com",
+    "apiKey": "yourkey",
+    "authDomain": "yourdomain",
+    "databaseURL": "yourdburl",
     "storageBucket": ""
 }
 FIREBASE_DEFAULT_DB_ROOT = 'parsed_bets'

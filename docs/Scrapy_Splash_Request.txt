@@ -1,5 +1,0 @@
-            # yield SplashRequest(url, self.parse,
-            #                     args={'wait': 3, 'html': 0, 'png': 0},
-            #                     session_id=1,
-            #                     cookies={Const.access_cookie_key: Const.access_cookie_value}
-            #                     )

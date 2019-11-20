@@ -4,7 +4,6 @@ from stem import Signal
 from stem.control import Controller
 import time
 import scrapy
-from torrequest import TorRequest
 
 
 class TorDownloaderMiddleware(object):
@@ -99,6 +98,8 @@ class TorDownloaderMiddleware(object):
     def spider_idle(self, spider):
         pass
 
+    ## Alternative Tor implementation
+    # from torrequest import TorRequest
     # @staticmethod
     # def regenerate_tor():
     #     tor: TorRequest = None
