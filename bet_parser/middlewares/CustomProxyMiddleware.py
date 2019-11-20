@@ -1,7 +1,7 @@
-from itertools import cycle
-import requests
 from scrapy import signals, Selector
 from scrapy.http import HtmlResponse
+from itertools import cycle
+import requests
 
 
 class CustomProxyDownloaderMiddleware(object):

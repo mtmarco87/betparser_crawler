@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from scrapy import Selector, signals
+from scrapy.http import HtmlResponse
 from typing import Dict
-from bet_parser.spiders.constants.William import Const
+from bet_parser.spiders.constants.Winamax import Const
 from bet_parser.middlewares.SeleniumRequest import SeleniumRequest
 from bet_parser.utils.Mappers import MatchMapper
 from bet_parser.utils.ParserUtils import *
@@ -10,27 +11,12 @@ from bet_parser.utils.Writers import *
 from datetime import date, timedelta
 
 
-class SisalSpider(scrapy.Spider):
+class WinamaxSpider(scrapy.Spider):
     name: str = 'winamax'
     allowed_domains: list = ['winamax.com']
     start_urls: Dict[str, str] = {
         'http://sports.williamhill.it/bet_ita/it/betting/y/5/Calcio.html': 'william_main',
         'http://sports.williamhill.it/bet_ita/it/betting/t/33193/Qualificazioni+UEFA+EURO+2020.html': 'william_euro_2020_qualifications',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/344/UEFA+Champions+League.html': 'william_champions',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/1935/UEFA+Europa+League.html': 'william_europa_league',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/321/Serie+A.html': 'william_ita_serie_a',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/23532/Serie+B.html': 'william_ita_serie_b',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/295/Inghilterra+Premier+League.html': 'william_eng_premier_league',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/338/Spagna+La+Liga.html': 'william_esp_liga',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/312/Francia+Ligue+1.html': 'william_fra_ligue1',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/315/Germania+Bundesliga.html': 'william_ger_bundesliga',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/306/Olanda+Eredivisie.html': 'william_ned_eredivise',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/331/Portogallo+Primeira+Liga.html': 'william_por_primeira_liga',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/1713/Brasile+Serie+B.html': 'william_brazil_serie_b',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/356/Coppa+Libertadores.html': 'william_copa_libertadores',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/7480/Copa+Argentina.html': 'william_copa_argentina',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/3252/Argentina+Primera+B+Nacional.html': 'william_arg_prim_b_nac',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/3131/Argentina+Primera+B+Metropolitana.html': 'william_arg_prim_b_metr',
     }
     parsed_matches: List[Match] = []
     script_kill_banners = 'document.querySelector("#modalOverlay_dimmer").remove(); ' + \
@@ -51,7 +37,7 @@ class SisalSpider(scrapy.Spider):
                                   user_data_dir=False,
                                   extract_sub_links_by_class=['.rowOdd td:nth-of-type(8)'])
 
-    def parse(self, response):
+    def parse(self, response: HtmlResponse):
         # Here we store the sub pages related to each match in the page (if any was found)
         sub_pages = response.request.meta['sub_pages']
 

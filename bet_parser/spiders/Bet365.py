@@ -3,7 +3,6 @@ import scrapy
 from scrapy import signals
 from scrapy.http import HtmlResponse
 from scrapy.selector import Selector
-from datetime import datetime
 from typing import Dict
 from bet_parser.spiders.constants.Bet365 import Const
 from bet_parser.middlewares.SeleniumRequest import SeleniumRequest

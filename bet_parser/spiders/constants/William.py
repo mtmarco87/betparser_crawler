@@ -1,12 +1,7 @@
-from datetime import datetime
-
-
 class Const:
     """
     William Spider Constants file
     """
-    # Cookies Config TODO to be updated
-
     # William CSS Selectors
     css_matches_rows: str = '.rowOdd'
     css_descr_col: str = '.leftPad'

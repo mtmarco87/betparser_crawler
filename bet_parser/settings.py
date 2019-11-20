@@ -26,8 +26,8 @@ DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 # Selenium config
 SELENIUM_CHROME_DRIVER = BOT_PATH + '/libs/selenium_drivers/chromedriver.exe'
 SELENIUM_FIREFOX_DRIVER = BOT_PATH + '/libs/selenium_drivers/geckodriver.exe'
-SELENIUM_HEADLESS = None     # True/False
-SELENIUM_WINDOW_SIZE = None  # '1200x600'
+SELENIUM_HEADLESS = None
+SELENIUM_WINDOW_SIZE = None
 SELENIUM_CHROME_USER_DATA_DIR = BOT_PATH + '/libs/selenium_drivers/chrome_profiles/Profile1/'
 SELENIUM_PROFILES_TMP_DIR = BOT_PATH + '/libs/selenium_drivers/chrome_profiles/Tmp/'
 

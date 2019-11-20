@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from scrapy import Selector, signals
+from scrapy.http import HtmlResponse
 from typing import Dict
 from bet_parser.spiders.constants.William import Const
 from bet_parser.middlewares.SeleniumRequest import SeleniumRequest
@@ -53,7 +54,7 @@ class SisalSpider(scrapy.Spider):
                                   user_data_dir=False,
                                   extract_sub_links_by_class=['.rowOdd td:nth-of-type(8)'])
 
-    def parse(self, response):
+    def parse(self, response: HtmlResponse):
         # Here we store the sub pages related to each match in the page (if any was found)
         sub_pages = response.request.meta['sub_pages']
 
