@@ -71,3 +71,4 @@ fabric.properties
 output/
 .idea/
 __pycache__/
+bet_parser/libs/ml_data/to_validate.txt
