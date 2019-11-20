@@ -36,9 +36,9 @@ TOR_REGENERATE_AFTER_N_REQ = 50
 
 # Firebase config
 FIREBASE_CONFIG = {
-    "apiKey": "AIzaSyBEL7WYzgT4UdvS4GaOtj_wKfnRDHQgxO4",
-    "authDomain": "parser-b8114.firebaseapp.com",
-    "databaseURL": "https://parser-b8114.firebaseio.com",
+    "apiKey": "yourkey",
+    "authDomain": "yourdomain",
+    "databaseURL": "yourdburl",
     "storageBucket": ""
 }
 FIREBASE_DEFAULT_DB_ROOT = 'parsed_bets'

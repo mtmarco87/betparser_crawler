@@ -118,7 +118,7 @@ Most important SeleniumRequest parameters:
 - window_size ==> size of the above window
 - script ==> pass a custom js script to execute (before the extraction)
 
-## Machine Learning - Word Similarity Algorithms
+## Machine Learning mapper - Word Similarity Algorithms
 
 After the betting odds are parsed from the web pages with Selenium, there is often a common issue: the Sport Matches are not always unique, because the Team Names can be expressed in different form or in different languages.
 
@@ -182,3 +182,15 @@ To use a docker image of Splash (you should install docker for your os first, if
 Using the commands above, we have an instance of our Splash browser running on the port 8050 of our localhost.
 
 The final step is to configure the `bet_parser/settings.py` in the Splash section, to ensure that the host and the port of the Splash browser are correct, and in the downloader and spider middleware sections to enable the scrapy-splash downloader and all the needed spider middleware.
+
+## Tor and Custom Proxy middlewares (OPTIONAL)
+
+In BetParser Crawler have been implemented other 2 custom downloaders:
+
+1) Tor to try to avoid ban when requesting and parsing pages at high frequency from some web sites; this technique needs to be refined;
+
+2) Same story for Custom Proxy, that tries to use a Free Proxy rotation to obtain the same result;
+
+## Google Translator mapper (OPTIONAL)
+
+A google translator based mapper has also been implemented to use the famous translation engine to try to align the Team Names. This solution has revealed itself to not being very effective. But it's still available.
