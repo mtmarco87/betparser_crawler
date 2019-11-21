@@ -34,27 +34,41 @@ This will be the tool that allow us to create our Python environment
 
 ### 4) Install libraries
 
-4.1) With the Anaconda prompt open, activate your new environment: `conda activate {env_name}
+4.1) With the Anaconda prompt open, activate your new environment: `conda activate {env_name}`
 
 4.2) Run the commands below to install all of the needed libraries:
 
 `pip install scrapy`
+
 `pip install scrapy-useragents`
+
 `pip install shadow-useragent`
+
 `pip install scrapy-splash`
+
 `pip install selenium`
+
 `pip install pyrebase`
+
 `pip install numpy`
+
 `pip install nltk`
+
 `pip install unidecode`
+
 `pip install googletrans`
+
 `pip install stem`
+
 `pip install torrequest`
+
 `pip install urllib3`
+
 `pip install requests`
+
 `pip install pytz`
 
-4.3) If you're experiencing problems with the a library try to force the following specific versions:
+4.3) If you're experiencing problems with some of the libraries, try to force the following specific versions:
 
 - scrapy                    1.7.3
 - scrapy-useragents         0.0.1
