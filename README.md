@@ -1,6 +1,6 @@
 # BetParser Crawler
 
-BetParser Crawler is a Python application able to parse and extract betting odds from the web, making use of the Scrapy framework, SciPy and custom Selenium integrations.
+BetParser Crawler is a Python application able to parse and extract betting odds from the web, making use of the Scrapy framework, FireBase, a custom Selenium integrations and SciPy.
 
 ## Environment Setup
 
@@ -19,7 +19,7 @@ This will be the tool that allow us to create our Python environment
 
 3.1) Open Anaconda prompt (you can use the shortcut: `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Anaconda3 (64-bit)`, where {username} is your Windows username)
 
-3.2) Create a new Anaconda env with Python 3.7: `conda create -n {env_name} python=3.7`
+3.2) Create a new Anaconda env with Python 3.6: `conda create -n {env_name} python=3.6`
 
 {env_name} is the name you want to give to the Python env that will hold your BetParser Crawler
 
@@ -76,9 +76,28 @@ This will be the tool that allow us to create our Python environment
 
 1) Open PyCharm and configure the IDE to use the existing environment created at the point 3.2 of the Environment Setup section.
 
-2) Open the settings menu with `ctrl + alt + s` and search for `Project Interpreter` and then add a new interpreter (go to settings in the up-right corner and press on add)
+2) Open the settings menu with `CTRL + ALT + S` and search for `Project Interpreter` and then add a new interpreter (go to settings in the top-right corner and press on add)
 
-3) Then choose 'existing env' and put the location of your env python binary 'C:\{anaconda_dir}\envs\{envname}\python.exe'
+3) Then choose 'Existing environment' and put the location of your env python interpreter 'C:\{anaconda_dir}\envs\{env_name}\python.exe'
+
+
+## Debugging
+
+To setup debugging in PyCharm we must create a single debugging configuration for each Spider created. The steps are the following:
+	
+1) Add a new Python Run/Debug Configuration (top-right button edit configurations, then + button)
+
+2) Set the Script path to: `C:\{anaconda_dir}\envs\{env_name}\Lib\site-packages\scrapy\cmdline.py
+
+3) Set the Parameters to: `crawl {spidername}`
+
+4) Select the correct project Python interpreter
+
+5) Set the Working directory to: C:\{betparser_project_dir}
+
+6) Under Execution check Run with Python Console (else the Debug will work, but the Run will be broken)
+
+7) Now you can debug!
 
 ## Selenium middleware Configuration
 
