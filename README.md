@@ -92,7 +92,7 @@ This will be the tool that allow us to create our Python environment
 
 2) Open the settings menu with `CTRL + ALT + S` and search for `Project Interpreter` and then add a new interpreter (go to settings in the top-right corner and press on add)
 
-3) Then choose 'Existing environment' and put the location of your env python interpreter 'C:\{anaconda_dir}\envs\{env_name}\python.exe'
+3) Then choose 'Existing environment' and put the location of your env python interpreter `C:\{anaconda_dir}\envs\{env_name}\python.exe`
 
 
 ## Debugging
@@ -101,13 +101,13 @@ To setup debugging in PyCharm we must create a single debugging configuration fo
 	
 1) Add a new Python Run/Debug Configuration (top-right button edit configurations, then + button)
 
-2) Set the Script path to: `C:\{anaconda_dir}\envs\{env_name}\Lib\site-packages\scrapy\cmdline.py
+2) Set the Script path to: `C:\{anaconda_dir}\envs\{env_name}\Lib\site-packages\scrapy\cmdline.py`
 
 3) Set the Parameters to: `crawl {spidername}`
 
 4) Select the correct project Python interpreter
 
-5) Set the Working directory to: C:\{betparser_project_dir}
+5) Set the Working directory to: `C:\{betparser_project_dir}`
 
 6) Under Execution check Run with Python Console (else the Debug will work, but the Run will be broken)
 
@@ -143,12 +143,19 @@ The other parameter could be used to fine tune some global behaviour of the midd
 
 7) To understand the usage of the middleware in the code check out the SeleniumRequest/SeleniumMiddleware class.
 Most important SeleniumRequest parameters:
+
 - driver ==> 'chrome' or 'firefox', specify which web driver you want to use with selenium (and so which browser)
+
 - render_js ==> true: execute a js script to extract the rendered DOM for the response; false: just ask selenium to extract html content of the page
+
 - wait_time ==> alone: sets a waiting time for selenium to render the page; together with wait_until: sets a deadline until which to wait for the wait_until condition
+
 - wait_until ==> works only together with wait_time, and represent a Selenium expectation that has to happen before the page is fetched
+
 - headless ==> true: no browser window opened, operate in ghost mode; false: use a browser window
+
 - window_size ==> size of the above window
+
 - script ==> pass a custom js script to execute (before the extraction)
 
 ## Machine Learning mapper - Word Similarity Algorithms
