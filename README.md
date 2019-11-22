@@ -123,25 +123,25 @@ To enable Selenium middleware in BetParser:
 
 1) Install Chrome browser in your machine, if you don't have it yet
 
-1) Download a Selenium Chrome driver: (Chromium - Chrome WebDriver download)[https://chromedriver.chromium.org/downloads]
+2) Download a Selenium Chrome driver: [Chromium - Chrome WebDriver download](https://chromedriver.chromium.org/downloads)
 
 Choose the correct one according to your OS
 
-2) Place the downloaded Chrome driver in the project folder in the path: `bet_parser/libs/selenium_drivers`
+3) Place the downloaded Chrome driver in the project folder in the path: `bet_parser/libs/selenium_drivers`
 
-3) Another needed step is to create a Chrome profile folder, and to copy it manually in the path: `bet_parser/libs/selenium_drivers/chrome_profiles`
+4) Another needed step is to create a Chrome profile folder, and to copy it manually in the path: `bet_parser/libs/selenium_drivers/chrome_profiles`
 
 To generate a new Chrome profile, it's enough to open Chrome browser, use the menu to create and use a new user profile. After it's necessary to search in your system for the Chrome data folder to find the newly created profile folder. You can search on google for detailed instructions. (in case of problems you can ask to some of the devs)
 
-4) IMPORTANT: Some websites protect their pages from robotic access, generating some cookies only after the human user perform some actions. To enable Selenium to use the generated Chrome profile to correctly access these pages (as some of those visited by the BetParser spiders), in the previous step you need to visit these web pages and manually confirm some of the welcome banners to get your cookies generated.
+5) IMPORTANT: Some websites protect their pages from robotic access, generating some cookies only after the human user perform some actions. To enable Selenium to use the generated Chrome profile to correctly access these pages (as some of those visited by the BetParser spiders), in the previous step you need to visit these web pages and manually confirm some of the welcome banners to get your cookies generated.
 The generated cookies validity is normally very long.
 
-5) Last step: edit the file `bet_parser/settings.py`, and in the 'Selenium config' section, change only the `SELENIUM_CHROME_DRIVER` and the `SELENIUM_CHROME_USER_DATA_DIR` respectively to your specific Chrome Driver binary, and to your custom Chrome user profile. 
+6) Last step: edit the file `bet_parser/settings.py`, and in the 'Selenium config' section, change only the `SELENIUM_CHROME_DRIVER` and the `SELENIUM_CHROME_USER_DATA_DIR` respectively to your specific Chrome Driver binary, and to your custom Chrome user profile. 
 The other parameter could be used to fine tune some global behaviour of the middleware, and to add in case a Firefox Driver. We suggest to leave them untouched.
 
-6) From now on if everything has been correctly configured the Selenium middleware should execute requests correctly and should be able to create as needed a temporary copy of the custom user profile to avoid folder bloating
+7) From now on if everything has been correctly configured the Selenium middleware should execute requests correctly and should be able to create as needed a temporary copy of the custom user profile to avoid folder bloating
 
-7) To understand the usage of the middleware in the code check out the SeleniumRequest/SeleniumMiddleware class.
+8) To understand the usage of the middleware in the code check out the SeleniumRequest/SeleniumMiddleware class.
 Most important SeleniumRequest parameters:
 
 - driver ==> 'chrome' or 'firefox', specify which web driver you want to use with selenium (and so which browser)
