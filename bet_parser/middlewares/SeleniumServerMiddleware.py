@@ -9,9 +9,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from typing import List
 from .SeleniumExecParams import SeleniumExecParams
 import time
+from pyvirtualdisplay import Display
 
 
-class SeleniumDownloaderMiddleware(object):
+class SeleniumServerDownloaderMiddleware(object):
+    display = None
     chrome_driver = None
     chrome_driver_path = ''
     firefox_driver = None
@@ -25,6 +27,8 @@ class SeleniumDownloaderMiddleware(object):
 
     def __init__(self, crawler, chrome_driver_path, firefox_driver_path, headless, window_size,
                  chrome_user_data_dir, profiles_tmp_dir, download_delay):
+        self.display = Display(visible=0, size=(1920, 1080))
+        self.display.start()
         self.crawler = crawler
         self.chrome_driver_path = chrome_driver_path
         self.firefox_driver_path = firefox_driver_path
@@ -291,6 +295,8 @@ class SeleniumDownloaderMiddleware(object):
         pass
 
     def spider_idle(self, spider):
+        self.display.stop()
+        self.display = None
         if self.chrome_driver:
             self.chrome_driver.close()
             self.chrome_driver.quit()
