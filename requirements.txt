@@ -1,0 +1,15 @@
+scrapy==1.7.3 
+scrapy-useragents==0.0.1
+shadow-useragent==0.0.17
+scrapy-splash==0.7.2
+selenium==3.141.0
+pyrebase==3.0.27
+numpy==1.17.2
+nltk==3.4.5
+unidecode==1.1.1
+googletrans==2.4.0
+stem==1.7.1
+torrequest==0.1.0
+urllib3==1.25.6
+requests==2.11.1
+pytz==2019.2
