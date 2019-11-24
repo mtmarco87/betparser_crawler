@@ -44,7 +44,7 @@ class Bet365Spider(scrapy.Spider):
             yield SeleniumRequest(url=url,
                                   callback=self.parse,
                                   driver_type='chrome',
-                                  wait_time=1,
+                                  wait_time=2,
                                   headless=False,
                                   extract_sub_links_by_class=['.sl-CouponFixtureLinkParticipant_Name'])
 
