@@ -63,8 +63,6 @@ class SeleniumServerDownloaderMiddleware(object):
             headless = headless if headless is not None else self.headless
             user_data_dir = user_data_dir if user_data_dir is not None else self.chrome_user_data_dir
 
-            options.add_argument("--no-sandbox")
-            
             if window_size:
                 options.add_argument('window-size=' + window_size)
             if headless:
