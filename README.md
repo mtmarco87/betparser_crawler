@@ -36,39 +36,28 @@ This will be the tool that allow us to create our Python environment
 
 4.1) With the Anaconda prompt open, activate your new environment: `conda activate {env_name}`
 
-4.2) Run the commands below to install all of the needed libraries:
+4.2) Run the following command to install all of the needed libraries:
+	`pip install -r requirements.txt`
 
-`pip install scrapy`
+4.3) Or install them one by one manually:
 
-`pip install scrapy-useragents`
+- pip install scrapy
+- pip install scrapy-useragents
+- pip install shadow-useragent
+- pip install scrapy-splash
+- pip install selenium
+- pip install pyrebase
+- pip install numpy
+- pip install nltk
+- pip install unidecode
+- pip install googletrans
+- pip install stem
+- pip install torrequest
+- pip install urllib3
+- pip install requests
+- pip install pytz
 
-`pip install shadow-useragent`
-
-`pip install scrapy-splash`
-
-`pip install selenium`
-
-`pip install pyrebase`
-
-`pip install numpy`
-
-`pip install nltk`
-
-`pip install unidecode`
-
-`pip install googletrans`
-
-`pip install stem`
-
-`pip install torrequest`
-
-`pip install urllib3`
-
-`pip install requests`
-
-`pip install pytz`
-
-4.3) If you're experiencing problems with some of the libraries, try to force the following specific versions:
+4.4) If you're experiencing problems with some of the libraries, try to force the following specific versions:
 
 - scrapy                    1.7.3
 - scrapy-useragents         0.0.1
@@ -86,32 +75,34 @@ This will be the tool that allow us to create our Python environment
 - requests                  2.11.1
 - pytz                      2019.2
 
-## PyCharm IDE Configuration
+## 5) Run/Debug
 
-1) Open PyCharm and configure the IDE to use the existing environment created at the point 3.2 of the Environment Setup section.
+5.1) PyCharm IDE Configuration
 
-2) Open the settings menu with `CTRL + ALT + S` and search for `Project Interpreter` and then add a new interpreter (go to settings in the top-right corner and press on add)
+* Open PyCharm and configure the IDE to use the existing environment created at the point 3.2 of the Environment Setup section.
 
-3) Then choose 'Existing environment' and put the location of your env python interpreter `C:\{anaconda_dir}\envs\{env_name}\python.exe`
+* Open the settings menu with `CTRL + ALT + S` and search for `Project Interpreter` and then add a new interpreter (go to settings in the top-right corner and press on add)
+
+* Then choose 'Existing environment' and put the location of your env python interpreter `C:\{anaconda_dir}\envs\{env_name}\python.exe`
 
 
-## Debugging
+5.2) Run/Debug
 
 To setup debugging in PyCharm we must create a single debugging configuration for each Spider created. The steps are the following:
 	
-1) Add a new Python Run/Debug Configuration (top-right button edit configurations, then + button)
+* Add a new Python Run/Debug Configuration (top-right button edit configurations, then + button)
 
-2) Set the Script path to: `C:\{anaconda_dir}\envs\{env_name}\Lib\site-packages\scrapy\cmdline.py`
+* Set the Script path to: `C:\{anaconda_dir}\envs\{env_name}\Lib\site-packages\scrapy\cmdline.py`
 
-3) Set the Parameters to: `crawl {spidername}`
+* Set the Parameters to: `crawl {spidername}`
 
-4) Select the correct project Python interpreter
+* Select the correct project Python interpreter
 
-5) Set the Working directory to: `C:\{betparser_project_dir}`
+* Set the Working directory to: `C:\{betparser_project_dir}`
 
-6) Under Execution check Run with Python Console (else the Debug will work, but the Run will be broken)
+* Under Execution check Run with Python Console (else the Debug will work, but the Run will be broken)
 
-7) Now you can debug!
+* Now you can debug!
 
 ## Selenium middleware Configuration
 
