@@ -1,227 +1,205 @@
 # BetParser Crawler
 
-BetParser Crawler is a Python application able to parse and extract betting odds from the web, making use of the Scrapy framework, FireBase, a custom Selenium integrations and SciPy.
+BetParser Crawler is a Python application designed to parse and extract betting odds from websites. It leverages the Scrapy framework, Firebase, custom Selenium integrations, and SciPy for efficient data extraction and processing.
+
+## Table of Contents
+
+1. [Project Overview](#project-overview)
+2. [Environment Setup](#environment-setup)
+   - [Clone the Repository](#1-clone-the-repository)
+   - [Install Anaconda3](#2-install-anaconda3)
+   - [Configure an Environment](#3-configure-an-environment)
+   - [Install Libraries](#4-install-libraries)
+3. [Selenium Middleware Configuration](#selenium-middleware-configuration)
+4. [Firebase Configuration](#firebase-configuration)
+5. [Run/Debug](#rundebug)
+6. [Development with Scrapy Framework](#development-with-scrapy-framework)
+7. [Machine Learning Mapper - Word Similarity Algorithms](#machine-learning-mapper---word-similarity-algorithms)
+8. [Optional Configurations](#optional-configurations)
+   - [Splash Middleware](#splash-middleware-configuration)
+   - [Tor and Custom Proxy Middlewares](#tor-and-custom-proxy-middlewares)
+   - [Google Translator Mapper](#google-translator-mapper)
+9. [License](#license)
+
+## Project Overview
+
+BetParser Crawler simplifies the process of extracting betting odds from web pages. It supports parsing complex JavaScript-powered pages using Selenium and includes machine learning algorithms to standardize team names. The project is highly configurable and integrates with Firebase for real-time database updates.
 
 ## Environment Setup
 
-The following guide is specific to Windows machines for the Anaconda env configuration. In case you're using Linux, you'll have to use the same commands but you'll need to adapt some of them to your OS.
+### 1) Clone the Repository
 
-### 1) Clone this repo
+Clone this repository to your local machine using:
 
-Just use `git clone` to clone this repository to your local machine.
+```bash
+git clone https://github.com/mtmarco87/betparser_crawler.git
+```
 
 ### 2) Install Anaconda3
 
-Install Anaconda3 with Python 3 from here, choosing the correct version for your OS: [Anaconda Download Page](https://www.anaconda.com/distribution/#download-section).
-This will be the tool that allow us to create our Python environment
+Download and install Anaconda3 with Python 3 from the [Anaconda Download Page](https://www.anaconda.com/distribution/#download-section).
+
+### 3) Configure an Environment
+
+1. Open the Anaconda prompt.
+2. Create a new environment with Python 3.6:
+   ```bash
+   conda create -n <env_name> python=3.6
+   ```
+3. Activate the environment:
+   ```bash
+   conda activate <env_name>
+   ```
+4. Manage environments with the following commands:
+   - `conda deactivate` - Deactivate the current environment.
+   - `conda env list` - List all environments.
+   - `conda remove <env_name>` - Remove an environment.
+
+### 4) Install Libraries
+
+1. Activate your environment:
+   ```bash
+   conda activate <env_name>
+   ```
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Alternatively, install libraries individually:
+   ```bash
+   pip install scrapy scrapy-useragents shadow-useragent scrapy-splash selenium pyrebase numpy nltk unidecode googletrans stem torrequest urllib3 requests pytz
+   ```
+4. If issues arise, install specific versions:
+   ```bash
+   pip install scrapy==1.7.3 scrapy-useragents=0.0.1 shadow-useragent=0.0.17 scrapy-splash=0.7.2 selenium==3.141.0 pyrebase=3.0.27 numpy==1.17.2 nltk=3.4.5 unidecode=1.1.1 googletrans=2.4.0 stem=1.7.1 torrequest=0.1.0 urllib3=1.25.6 requests=2.11.1 pytz=2019.2
+   ```
 
-### 3) Configure an environment
+## Selenium Middleware Configuration
 
-3.1) Open Anaconda prompt (you can use the shortcut: `C:\Users\{username}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Anaconda3 (64-bit)`, where {username} is your Windows username)
+Selenium is a powerful tool for interacting with JavaScript-heavy pages. It allows automated web testing and renders pages as they would appear in a browser. BetParser includes a custom Scrapy-Selenium middleware for handling complex, JS/Angular-powered pages.
 
-3.2) Create a new Anaconda env with Python 3.6: `conda create -n {env_name} python=3.6`
+### Steps to Configure Selenium Middleware:
 
-{env_name} is the name you want to give to the Python env that will hold your BetParser Crawler
+1. **Install Chrome and ChromeDriver**:
 
-3.3) You can check that Anaconda has created for you a new env at this location: `C:\{anaconda_install_dir}\envs`. 
+   - Download and install Chrome if not already installed.
+   - Download the appropriate [Chrome WebDriver](https://chromedriver.chromium.org/downloads) for your OS.
+   - Place the driver in the project folder: `bet_parser/libs/selenium_drivers`.
 
-3.4) At the end of the installation we have 4 commands available to handle the environments:
+2. **Create a Chrome Profile**:
 
-	- conda activate {env_name}			# to activate an env
-	- conda deactivate {env_name}		# to deactivate an env
-	- conda env list					# to list all your env (a `*` indicates the current active one)
-	- conda remove {env_name}			# to remove an env
+   - Open Chrome and create a new user profile.
+   - Locate the profile folder on your system (search online for instructions specific to your OS).
+   - Copy the profile folder to: `bet_parser/libs/selenium_drivers/chrome_profiles`.
 
-### 4) Install libraries
+3. **Update Settings**:
 
-4.1) With the Anaconda prompt open, activate your new environment: `conda activate {env_name}`
+   - Edit `bet_parser/settings.py` in the "Selenium config" section. Update the following:
+     - `SELENIUM_CHROME_DRIVER`: Path to the ChromeDriver binary.
+     - `SELENIUM_CHROME_USER_DATA_DIR`: Path to the Chrome profile folder.
+   - Other parameters can be adjusted for fine-tuning but are pre-configured for most use cases.
 
-4.2) Run the following command to install all of the needed libraries:
-	`pip install -r requirements.txt`
+4. **Handle Protected Pages**:
 
-4.3) Or install them one by one manually:
+   - Some websites allow pages to be displayed only after user interactions. Use the Chrome profile to manually visit these pages and accept any banners or prompts to generate valid cookies.
+   - Selenium will use this profile to access these pages during scraping.
 
-- pip install scrapy
-- pip install scrapy-useragents
-- pip install shadow-useragent
-- pip install scrapy-splash
-- pip install selenium
-- pip install pyrebase
-- pip install numpy
-- pip install nltk
-- pip install unidecode
-- pip install googletrans
-- pip install stem
-- pip install torrequest
-- pip install urllib3
-- pip install requests
-- pip install pytz
+5. **Middleware Features**:
+   - The middleware creates a temporary copy of the Chrome profile to avoid bloating the folder.
+   - `SeleniumMiddleware` / `SeleniumRequest` parameters include:
+     - `driver`: Can be `'chrome'` or `'firefox'`.
+     - `render_js`: Set to `true` to extract the fully rendered DOM using JavaScript execution; set to `false` for standard HTML extraction with Selenium.
+     - `wait_time` and `wait_until`: Define wait conditions for page rendering.
+     - `headless`: Run in headless mode (no browser window).
+     - `script`: Execute custom JavaScript before extraction.
 
-4.4) If you're experiencing problems with some of the libraries, try to force the following specific versions:
+By following these steps, the Selenium middleware will be ready to handle complex pages effectively.
 
-- scrapy                    1.7.3
-- scrapy-useragents         0.0.1
-- shadow-useragent          0.0.17
-- scrapy-splash             0.7.2
-- selenium                  3.141.0
-- pyrebase                  3.0.27
-- numpy                     1.17.2
-- nltk                      3.4.5
-- unidecode                 1.1.1
-- googletrans               2.4.0
-- stem                      1.7.1
-- torrequest                0.1.0
-- urllib3                   1.25.6
-- requests                  2.11.1
-- pytz                      2019.2
+## Firebase Configuration
 
-## 5) Run/Debug
+1. Create a Firebase account and database named `parsed_bets`.
+2. Enable a Firebase app and configure its credentials in `bet_parser/settings.py`.
 
-5.1) PyCharm IDE Configuration
+## Run/Debug
 
-* Open PyCharm and configure the IDE to use the existing environment created at the point 3.2 of the Environment Setup section.
+### PyCharm IDE Configuration
 
-* Open the settings menu with `CTRL + ALT + S` and search for `Project Interpreter` and then add a new interpreter (go to settings in the top-right corner and press on add)
+1. Open PyCharm and configure the project interpreter to use the environment created earlier.
+2. Add a Python Run/Debug Configuration for each spider:
+   - Script path: `<env_path>/Lib/site-packages/scrapy/cmdline.py`
+   - Parameters: `crawl <spider_name>`
+   - Working directory: `<project_directory>`
+   - Under Execution check Run with Python Console (else the Debug will work, but the Run will be broken)
 
-* Then choose 'Existing environment' and put the location of your env python interpreter `C:\{anaconda_dir}\envs\{env_name}\python.exe`
+## Development with Scrapy Framework
 
+1. Create a project:
+   ```bash
+   scrapy startproject betparser
+   ```
+2. Add a spider:
+   ```bash
+   scrapy genspider <spider_name>
+   ```
+3. Run a spider:
+   ```bash
+   scrapy crawl <spider_name>
+   ```
 
-5.2) Run/Debug
+## Machine Learning Mapper - Word Similarity Algorithms
 
-To setup debugging in PyCharm we must create a single debugging configuration for each Spider created. The steps are the following:
-	
-* Add a new Python Run/Debug Configuration (top-right button edit configurations, then + button)
+After extracting betting odds, team names often appear in different formats or languages, making it difficult to identify unique matches. To address this, BetParser includes a machine learning-based mapper that standardizes team names using word similarity algorithms.
 
-* Set the Script path to: `C:\{anaconda_dir}\envs\{env_name}\Lib\site-packages\scrapy\cmdline.py`
+### How It Works:
 
-* Set the Parameters to: `crawl {spidername}`
+1. **Team Name Standardization**:
 
-* Select the correct project Python interpreter
+   - The mapper checks each team name against a pre-defined dataset (`team_names.csv`).
+   - If a match is found, the standardized name is used.
 
-* Set the Working directory to: `C:\{betparser_project_dir}`
+2. **Handling Unknown Names**:
 
-* Under Execution check Run with Python Console (else the Debug will work, but the Run will be broken)
+   - If no match is found, the name is logged in `to_validate.txt` for manual review.
+   - This ensures new names are added to the dataset for future use.
 
-* Now you can debug!
+3. **Manual Validation**:
 
-## Selenium middleware Configuration
+   - Open `to_validate.txt` and compare each name with entries in `team_names.csv`.
+   - If a name exists in another form or language, add the new form to `team_names.csv` and map it to the standardized name.
+   - For completely new names, add them to `team_names.csv` with a standardized English version and any known variations.
 
-Selenium it's a powerful tool that allows automated web testing. With the usage of Selenium is possible to perform potentially every interaction on a web page, and to render the same page exactly like it'd happen on a normal Chrome or Firefox browser. A powerful custom implementation of a Scrapy-Selenium middleware has been created in BetParser.
-This middleware is the most indicated solution to use to parse complex, JS/Angular powered pages.
+4. **Improving Accuracy**:
+   - Regularly update `team_names.csv` to reduce the size of `to_validate.txt`.
+   - Add as many variations of team names as possible to avoid repeated manual validation.
 
+### Configuration:
 
-To enable Selenium middleware in BetParser:
+- The mapper's behavior can be fine-tuned in the "Machine Learning config" section of `bet_parser/settings.py`.
+- The current configuration is optimized for most scenarios but can be adjusted as needed.
 
-1) Install Chrome browser in your machine, if you don't have it yet
+This process ensures accurate and consistent team name mapping, which is critical for the crawler's functionality.
 
-2) Download a Selenium Chrome driver: [Chromium - Chrome WebDriver download](https://chromedriver.chromium.org/downloads)
+## Optional Configurations
 
-Choose the correct one according to your OS
+### Splash Middleware Configuration
 
-3) Place the downloaded Chrome driver in the project folder in the path: `bet_parser/libs/selenium_drivers`
+Use Splash for alternative JavaScript rendering:
 
-4) Another needed step is to create a Chrome profile folder, and to copy it manually in the path: `bet_parser/libs/selenium_drivers/chrome_profiles`
+1. Install Docker and run Splash:
+   ```bash
+   docker pull scrapinghub/splash
+   docker run -p 8050:8050 scrapinghub/splash
+   ```
+2. Update `bet_parser/settings.py` to configure Splash.
 
-To generate a new Chrome profile, it's enough to open Chrome browser, use the menu to create and use a new user profile. After it's necessary to search in your system for the Chrome data folder to find the newly created profile folder. You can search on google for detailed instructions. (in case of problems you can ask to some of the devs)
+### Tor and Custom Proxy Middlewares
 
-5) IMPORTANT: Some websites protect their pages from robotic access, generating some cookies only after the human user perform some actions. To enable Selenium to use the generated Chrome profile to correctly access these pages (as some of those visited by the BetParser spiders), in the previous step you need to visit these web pages and manually confirm some of the welcome banners to get your cookies generated.
-The generated cookies validity is normally very long.
+Enable Tor or proxy rotation to avoid bans when requesting and parsing pages at high frequency. These features are experimental and require refinement.
 
-6) Last step: edit the file `bet_parser/settings.py`, and in the 'Selenium config' section, change only the `SELENIUM_CHROME_DRIVER` and the `SELENIUM_CHROME_USER_DATA_DIR` respectively to your specific Chrome Driver binary, and to your custom Chrome user profile. 
-The other parameter could be used to fine tune some global behaviour of the middleware, and to add in case a Firefox Driver. We suggest to leave them untouched.
+### Google Translator Mapper
 
-7) From now on if everything has been correctly configured the Selenium middleware should execute requests correctly and should be able to create as needed a temporary copy of the custom user profile to avoid folder bloating
+A Google Translator-based mapper is available but less effective. It can be enabled if needed.
 
-8) To understand the usage of the middleware in the code check out the SeleniumRequest/SeleniumMiddleware class.
-Most important SeleniumRequest parameters:
+## License
 
-- driver ==> 'chrome' or 'firefox', specify which web driver you want to use with selenium (and so which browser)
-
-- render_js ==> true: execute a js script to extract the rendered DOM for the response; false: just ask selenium to extract html content of the page
-
-- wait_time ==> alone: sets a waiting time for selenium to render the page; together with wait_until: sets a deadline until which to wait for the wait_until condition
-
-- wait_until ==> works only together with wait_time, and represent a Selenium expectation that has to happen before the page is fetched
-
-- headless ==> true: no browser window opened, operate in ghost mode; false: use a browser window
-
-- window_size ==> size of the above window
-
-- script ==> pass a custom js script to execute (before the extraction)
-
-## Machine Learning mapper - Word Similarity Algorithms
-
-After the betting odds are parsed from the web pages with Selenium, there is often a common issue: the Sport Matches are not always unique, because the Team Names can be expressed in different form or in different languages.
-
-To overcome this big problem, a small Machine Learning class have been implemented using some Word Similarity Algorithms.
-
-This ML class processes the Team Names of every single parsed Match, and check their existance in a big key-value pairs file already provided in the repo (with a continuously improved list of Team Names): `bet_parser/libs/ml_data/team_names.csv`
-If a Team Name is found in this file the corresponding standardized version is taken.
-Else if this Team Name isn't similar to any of the available ones, it means that is a completely new match and its value is appended in a validation file: `bet_parser/libs/ml_data/to_validate.txt`
-
-IMPORTANT:
-This is a very crucial step to make BetParser Crawler working correctly. 
-Sometimes after running many times the Spiders, the to_validate.txt grows a lot in size with several new unknown Team Names.
-In this moment it's really important to manually open the 'to_validate.txt' and the 'team_names.csv' to try to verify if each one of the team names in the to_validate is:
-1) already existing in different forms or languages in the team_names.csv;
-2) not existing at all in that file;
-
-In the first case it's just worth copying this new form/language in the team_names.csv, together with a mapping to the already existing standardized name.
-In the second case it's extremely important and worth to copy the unknown team name in the team_names.csv, and to map it to a standardized, possibly English version of the Team Name. And also it's really worth starting from now to add every possible other language and found form on the web of this Team Name, to avoid in the future to see it back in the to_validate.txt, but in another form.
-
-
-*EXTRA:
-In BetParser Crawler everything is configurable, and also the ML it is. In particular we can fine tune its behaviour in the 'Machine Learning config' section of the `bet_parser/settings.py`.
-Though the current configuration is convenient in many scenarios.
-
-## FireBase Configuration
-
-The very last step in the crwaling process is the write process to the DataBase.
-In BetParser Crawler we've choosen to implement FireBase DB connection, to use a real time and flexible data feed.
-
-To enable FireBase you need to:
-
-1) Create a FireBase account if you don't have one yet
-
-2) Create a FireBase database named `parsed_bets`
-
-3) Enabe a FireBase App from the account settings
-
-4) Configure BetParser Crawler to use the FireBase App key/secrets, editing the FireBase section in the `bet_parser/settings.py`
-
-## Extra Information
-
-### Development with Scrapy framework
-
-BetParser Crawler is built on top of the Scrapy framework. Scrapy is the tool that will help us to do the request and collect the data from the page with the possibility to create a well designed program structure that will allow our code to be simple.
-
-The Scrapy framework can be used to easily initialize projects and spiders skeletons:
-
-1) Create Projects - run: `scrapy startproject betparser`, in the Anaconda prompt, in a choosen folder 
-
-2) Create Spiders - to add a new spider, from the project folder in the Anaconda prompt run: `scrapy genspider {spidername}`, and you can start to code :)
-
-3) Run Spiders - to run a spider, from the project folder in the Anaconda prompt run: `scrapy crawl {spidername}`, to run your first spider
-
-## Splash middleware Configuration (OPTIONAL)
-
-Scrapy-Splash is a third party middleware that allows Scrapy to comunicate with Splash, an headless browser that can execute some JavaScript powered pages (Angular included) and will give us the final html extracted from the DOM and the possibility to send, for instance, some cookies in the request. It's an extension that adds lot of power to Scrapy, and is Dockerizable. 
-
-To use a docker image of Splash (you should install docker for your os first, if you don't have it yet): 
-	- `docker pull scrapinghub/splash`
-	- `docker run -p 8050:8050 scrapinghub/splash`
-Using the commands above, we have an instance of our Splash browser running on the port 8050 of our localhost.
-
-The final step is to configure the `bet_parser/settings.py` in the Splash section, to ensure that the host and the port of the Splash browser are correct, and in the downloader and spider middleware sections to enable the scrapy-splash downloader and all the needed spider middleware.
-
-## Tor and Custom Proxy middlewares (OPTIONAL)
-
-In BetParser Crawler have been implemented other 2 custom downloaders:
-
-1) Tor to try to avoid ban when requesting and parsing pages at high frequency from some web sites; this technique needs to be refined;
-
-2) Same story for Custom Proxy, that tries to use a Free Proxy rotation to obtain the same result;
-
-## Google Translator mapper (OPTIONAL)
-
-A google translator based mapper has also been implemented to use the famous translation engine to try to align the Team Names. This solution has revealed itself to not being very effective. But it's still available.
+This project is licensed under the MIT License. See the LICENSE file for details.
