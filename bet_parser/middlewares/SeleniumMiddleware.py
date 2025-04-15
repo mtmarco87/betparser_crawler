@@ -6,6 +6,9 @@ from scrapy import signals, Selector
 from scrapy.http import HtmlResponse
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.webdriver.common.by import By
 from typing import List
 from .SeleniumExecParams import SeleniumExecParams
 import time
@@ -67,9 +70,11 @@ class SeleniumDownloaderMiddleware(object):
                 self.generate_cloned_user_profile(user_data_dir)
                 options.add_argument("user-data-dir=" + self.current_profile_dir)
                 options.add_argument("--disable-plugins-discovery")
-
-            self.chrome_driver = webdriver.Chrome(chrome_options=options,
-                                                  executable_path=self.chrome_driver_path)
+            
+            service = None
+            if self.chrome_driver_path:
+                service = ChromeService(self.chrome_driver_path)
+            self.chrome_driver = webdriver.Chrome(service=service, options=options)
         return self.chrome_driver
 
     def generate_cloned_user_profile(self, user_data_dir):
@@ -93,9 +98,11 @@ class SeleniumDownloaderMiddleware(object):
                 options.add_argument('window-size=' + window_size)
             if headless:
                 options.add_argument('headless')
-
-            self.firefox_driver = webdriver.Firefox(firefox_options=options,
-                                                    executable_path=self.firefox_driver_path)
+            
+            service = None
+            if self.firefox_driver_path:
+                service = FirefoxService(self.firefox_driver_path)
+            self.firefox_driver = webdriver.Firefox(service=service, options=options)
         return self.firefox_driver
 
     @staticmethod
@@ -196,7 +203,7 @@ class SeleniumDownloaderMiddleware(object):
     def scroll_to_element(driver, spider, exec_params: SeleniumExecParams = None, element: any = None):
         if element or exec_params.scroll_to_element:
             try:
-                element = element or driver.find_element_by_css_selector(exec_params.scroll_to_element)
+                element = element or driver.find_element(By.CSS_SELECTOR, exec_params.scroll_to_element)
                 driver.execute_script(Scripts.scroll_to_element, element)
                 time.sleep(exec_params.scroll_wait_time or 0.5)
                 while not driver.execute_script(Scripts.is_element_visible, element):
@@ -215,7 +222,7 @@ class SeleniumDownloaderMiddleware(object):
                 try:
                     elements = None
                     for sub_links_css in exec_params.extract_sub_links_by_class:
-                        elements = driver.find_elements_by_css_selector(sub_links_css)
+                        elements = driver.find_elements(By.CSS_SELECTOR, sub_links_css)
                         if len(elements) > 0:
                             break
                     if initial_length == 0:
@@ -250,7 +257,7 @@ class SeleniumDownloaderMiddleware(object):
     def extract_proxies(self, driver, spider, body, exec_params):
         body_with_proxies: str = body
         if exec_params.extract_proxies:
-            elements = driver.find_elements_by_css_selector('#proxylisttable_next:not(.disabled) > a')
+            elements = driver.find_elements(By.CSS_SELECTOR, '#proxylisttable_next:not(.disabled) > a')
             if len(elements) > 0:
                 try:
                     elements[0].click()

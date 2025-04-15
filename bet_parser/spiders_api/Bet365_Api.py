@@ -130,7 +130,7 @@ class Bet365ApiSpider(scrapy.Spider):
                     value = field[separator_idx + 1:len(field)]
                     line_struct[key] = value
                 else:
-                    if field is '':
+                    if field == '':
                         continue
                     line_struct[Const.type] = field
 

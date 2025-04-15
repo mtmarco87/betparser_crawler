@@ -12,7 +12,7 @@
 import os
 from pathlib import Path
 from numpy import genfromtxt
-import shadow_useragent
+from bet_parser.utils.UserAgents import UserAgents
 
 BOT_PATH = str(Path(os.path.dirname(os.path.realpath(__file__))))
 BOT_NAME = 'bet_parser'
@@ -24,8 +24,8 @@ SPLASH_URL = 'http://127.0.0.1:8050'
 DUPEFILTER_CLASS = 'scrapy_splash.SplashAwareDupeFilter'
 
 # Selenium config
-SELENIUM_CHROME_DRIVER = BOT_PATH + '/libs/selenium_drivers/chromedriver.exe'
-SELENIUM_FIREFOX_DRIVER = BOT_PATH + '/libs/selenium_drivers/geckodriver.exe'
+SELENIUM_CHROME_DRIVER = None  # for auto management or specify i.e.: BOT_PATH + '/libs/selenium_drivers/chromedriver.exe'
+SELENIUM_FIREFOX_DRIVER = None # for auto management or specify i.e.: BOT_PATH + '/libs/selenium_drivers/geckodriver.exe'
 SELENIUM_HEADLESS = None
 SELENIUM_WINDOW_SIZE = None
 SELENIUM_CHROME_USER_DATA_DIR = BOT_PATH + '/libs/selenium_drivers/chrome_profiles/Profile1/'
@@ -36,9 +36,9 @@ TOR_REGENERATE_AFTER_N_REQ = 50
 
 # Firebase config
 FIREBASE_CONFIG = {
-    "apiKey": "yourkey",
-    "authDomain": "yourdomain",
-    "databaseURL": "yourdburl",
+    "serviceAccountKeyPath": BOT_PATH + "/libs/firebase/credentials.json", # or None for no auth
+    "authDomain": "yourDomain",
+    "databaseURL": "yourDbUrl",
     "storageBucket": ""
 }
 FIREBASE_DEFAULT_DB_ROOT = 'parsed_bets'
@@ -62,7 +62,7 @@ ORIGINAL_TEAM_NAMES_VALIDATION_FILE = None
 # USER_AGENT = 'bet_parser (+http://www.yourdomain.com)'
 # USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ' \
 #              'Chrome/77.0.3865.75 Safari/537.36'
-USER_AGENTS = list(map(lambda ua: ua['useragent'], shadow_useragent.ShadowUserAgent().get_sorted_uas()))
+USER_AGENTS = list(map(lambda ua: ua["useragent"], UserAgents.sorted))
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False

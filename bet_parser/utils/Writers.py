@@ -1,45 +1,53 @@
-import pyrebase
-from bet_parser.settings import *
+import firebase_admin
+from firebase_admin import credentials, db
+from bet_parser.settings import FIREBASE_CONFIG, FIREBASE_DEFAULT_DB_ROOT
 from bet_parser.models.Match import Match
 from typing import List
 import unidecode
 import os
 
-
 class FirebaseWriter:
     """
-    Writer class able to write Parsed Matches to Firebase.
+    Writer class able to write Parsed Matches to Firebase using the firebase-admin SDK.
     """
     db_root: str = ''
 
     def __init__(self, db_root=FIREBASE_DEFAULT_DB_ROOT):
         self.db_root = db_root
 
+        # Initialize Firebase Admin SDK
+        if not firebase_admin._apps:  # Ensure Firebase is initialized only once
+            cred = None
+            if FIREBASE_CONFIG["serviceAccountKeyPath"]:
+                cred = credentials.Certificate(FIREBASE_CONFIG["serviceAccountKeyPath"])
+            firebase_admin.initialize_app(cred, {
+                'databaseURL': FIREBASE_CONFIG["databaseURL"]
+            })
+
     """
-    Input: List[Match] - Matches list 
+    Writes parsed matches to Firebase Realtime Database.
     Minimum required data: Bookmaker, StartDate, Team1, Team2 (for unique key in DB)
+    :param parsed_matches: List of Match objects to write.
+    :param deduplicate: Whether to deduplicate entries before writing.
     """
-
     def write(self, parsed_matches: List[Match], deduplicate: bool = True):
-        # Init Firebase app
-        firebase = pyrebase.initialize_app(FIREBASE_CONFIG)
-        # Get Database
-        db = firebase.database()
-
         inserted_paths = []
         for match in parsed_matches:
-            db_path = self.db_root + '/' + match.StartDate + '_' + self.clean_string(match.Team1) + \
-                      '_' + self.clean_string(match.Team2)
+            db_path = f"{self.db_root}/{match.StartDate}_{self.clean_string(match.Team1)}_{self.clean_string(match.Team2)}"
             if db_path not in inserted_paths:
                 if deduplicate:
                     inserted_paths.append(db_path)
                 db_key = match.Bookmaker
-                db.child(db_path).child(db_key).set(match.dict())
+                db.reference(db_path).child(db_key).set(match.dict())
 
+    """
+    Cleans a string by removing spaces, special characters, and converting to lowercase.
+    :param string: The string to clean.
+    :return: Cleaned string.
+    """
     @staticmethod
     def clean_string(string):
         return unidecode.unidecode(string.replace(" ", "").replace(".", "").replace("/", "").lower())
-
 
 class FileWriter:
     """
