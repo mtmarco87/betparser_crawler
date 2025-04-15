@@ -42,9 +42,9 @@ Download and install Anaconda3 with Python 3 from the [Anaconda Download Page](h
 ### 3) Configure an Environment
 
 1. Open the Anaconda prompt.
-2. Create a new environment with Python 3.6:
+2. Create a new environment with Python 3.9:
    ```bash
-   conda create -n <env_name> python=3.6
+   conda create -n <env_name> python=3.9
    ```
 3. Activate the environment:
    ```bash
@@ -53,7 +53,7 @@ Download and install Anaconda3 with Python 3 from the [Anaconda Download Page](h
 4. Manage environments with the following commands:
    - `conda deactivate` - Deactivate the current environment.
    - `conda env list` - List all environments.
-   - `conda remove <env_name>` - Remove an environment.
+   - `conda env remove -n <env_name>` - Remove an environment.
 
 ### 4) Install Libraries
 
@@ -67,11 +67,11 @@ Download and install Anaconda3 with Python 3 from the [Anaconda Download Page](h
    ```
 3. Alternatively, install libraries individually:
    ```bash
-   pip install scrapy scrapy-useragents shadow-useragent scrapy-splash selenium pyrebase numpy nltk unidecode googletrans stem torrequest urllib3 requests pytz
+   pip install Scrapy Scrapy-UserAgents scrapy-splash selenium firebase-admin numpy nltk Unidecode googletrans stem torrequest urllib3 requests pytz
    ```
 4. If issues arise, install specific versions:
    ```bash
-   pip install scrapy==1.7.3 scrapy-useragents=0.0.1 shadow-useragent=0.0.17 scrapy-splash=0.7.2 selenium==3.141.0 pyrebase=3.0.27 numpy==1.17.2 nltk=3.4.5 unidecode=1.1.1 googletrans=2.4.0 stem=1.7.1 torrequest=0.1.0 urllib3=1.25.6 requests=2.11.1 pytz=2019.2
+   pip install Scrapy==2.12.0 Scrapy-UserAgents==0.0.1 scrapy-splash==0.11.1 selenium==4.31.0 firebase-admin==6.7.0 numpy==2.0.2 nltk==3.9.1 Unidecode==1.3.8 googletrans==2.4.0 stem==1.7.1 torrequest==0.1.0 urllib3==2.4.0 requests==2.32.3 pytz==2025.2
    ```
 
 ## Selenium Middleware Configuration
@@ -80,13 +80,22 @@ Selenium is a powerful tool for interacting with JavaScript-heavy pages. It allo
 
 ### Steps to Configure Selenium Middleware:
 
-1. **Install Chrome and ChromeDriver**:
+1. **Install Chrome or Firefox**:
 
-   - Download and install Chrome if not already installed.
-   - Download the appropriate [Chrome WebDriver](https://chromedriver.chromium.org/downloads) for your OS.
-   - Place the driver in the project folder: `bet_parser/libs/selenium_drivers`.
+   - You can use either Chrome or Firefox for Selenium.
 
-2. **Create a Chrome Profile**:
+   - **Chrome (recommended)**:
+
+     - Download and install Chrome if not already installed.
+     - (Optional) Download the appropriate [Chrome WebDriver](https://chromedriver.chromium.org/downloads) for your OS and place it in the project folder: `bet_parser/libs/selenium_drivers/chromedriver`.
+     - If you do not specify a driver path in the settings, the middleware will attempt to automatically manage the ChromeDriver.
+
+   - **Firefox**:
+     - Download and install Firefox if not already installed.
+     - (Optional) Download the appropriate [GeckoDriver](https://github.com/mozilla/geckodriver/releases) for your OS and place it in the project folder: `bet_parser/libs/selenium_drivers/geckodriver`.
+     - If you do not specify a driver path in the settings, the middleware will attempt to automatically manage the GeckoDriver.
+
+2. **Create a Chrome Browser Profile**:
 
    - Open Chrome and create a new user profile.
    - Locate the profile folder on your system (search online for instructions specific to your OS).
@@ -95,9 +104,12 @@ Selenium is a powerful tool for interacting with JavaScript-heavy pages. It allo
 3. **Update Settings**:
 
    - Edit `bet_parser/settings.py` in the "Selenium config" section. Update the following:
-     - `SELENIUM_CHROME_DRIVER`: Path to the ChromeDriver binary.
+
      - `SELENIUM_CHROME_USER_DATA_DIR`: Path to the Chrome profile folder.
-   - Other parameters can be adjusted for fine-tuning but are pre-configured for most use cases.
+     - `SELENIUM_CHROME_DRIVER` (optional): Path to the ChromeDriver binary. Set to `None` for automatic driver management or specify the path if you want to use a custom driver.
+     - `SELENIUM_FIREFOX_DRIVER` (optional): Path to the GeckoDriver binary. Set to `None` for automatic driver management or specify the path if you want to use a custom driver.
+
+   - You only need to configure the settings for the browser you plan to use (Chrome or Firefox).
 
 4. **Handle Protected Pages**:
 
@@ -118,11 +130,49 @@ By following these steps, the Selenium middleware will be ready to handle comple
 ## Firebase Configuration
 
 1. Create a Firebase account and database named `parsed_bets`.
-2. Enable a Firebase app and configure its credentials in `bet_parser/settings.py`.
+2. Enable a Firebase app and download the service account key JSON file.
+3. Copy the downloaded service account key JSON file to the `libs/firebase` directory in your project and rename it to `credentials.json` if necessary.
+4. Update the Firebase configuration in `bet_parser/settings.py`:
+   - Update `authDomain` and `databaseURL` with your Firebase project details.
+   - Example:
+     ```python
+     FIREBASE_CONFIG = {
+         "serviceAccountKeyPath": BOT_PATH + "/libs/firebase/credentials.json",
+         "authDomain": "your-project-id.firebaseapp.com",
+         "databaseURL": "https://your-project-id.firebaseio.com",
+         "storageBucket": ""
+     }
+     ```
+
+By following these steps, your Firebase configuration will be ready for use.
 
 ## Run/Debug
 
-### PyCharm IDE Configuration
+### Run a Spider
+
+To quickly run a spider without debugging, use the following command in the terminal from the project directory:
+
+```bash
+scrapy crawl <spider_name>
+```
+
+### Debug: VS Code Configuration
+
+The repository includes a pre-configured `launch.json` for debugging Scrapy spiders. To use it:
+
+1. Open the **Run and Debug** panel in VS Code (`Cmd+Shift+D` or `Ctrl+Shift+D`).
+2. Select the `Scrapy Spider Debug` configuration.
+3. Press the green "Start Debugging" button or hit `F5`.
+
+To debug a different spider, edit the `"args"` field in `.vscode/launch.json`:
+
+```jsonc
+"args": ["crawl", "<spider_name>"] // Replace <spider_name> with your spider
+```
+
+Ensure the correct Python interpreter (e.g., Conda environment) is selected via **Python: Select Interpreter** in the Command Palette.
+
+### Debug: PyCharm IDE Configuration
 
 1. Open PyCharm and configure the project interpreter to use the environment created earlier.
 2. Add a Python Run/Debug Configuration for each spider:

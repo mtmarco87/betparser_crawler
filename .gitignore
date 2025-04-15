@@ -73,3 +73,7 @@ output/
 __pycache__/
 bet_parser/libs/ml_data/to_validate.txt
 bet_parser/libs/selenium_drivers/*
+bet_parser/libs/firebase/*
+
+# Apple
+.DS_Store

@@ -15,23 +15,20 @@ class SisalSpider(scrapy.Spider):
     name: str = 'william'
     allowed_domains: list = ['williamhill.it']
     start_urls: Dict[str, str] = {
-        'http://sports.williamhill.it/bet_ita/it/betting/y/5/Calcio.html': 'william_main',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/33193/Qualificazioni+UEFA+EURO+2020.html': 'william_euro_2020_qualifications',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/344/UEFA+Champions+League.html': 'william_champions',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/1935/UEFA+Europa+League.html': 'william_europa_league',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/321/Serie+A.html': 'william_ita_serie_a',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/23532/Serie+B.html': 'william_ita_serie_b',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/295/Inghilterra+Premier+League.html': 'william_eng_premier_league',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/338/Spagna+La+Liga.html': 'william_esp_liga',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/312/Francia+Ligue+1.html': 'william_fra_ligue1',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/315/Germania+Bundesliga.html': 'william_ger_bundesliga',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/306/Olanda+Eredivisie.html': 'william_ned_eredivise',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/331/Portogallo+Primeira+Liga.html': 'william_por_primeira_liga',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/1713/Brasile+Serie+B.html': 'william_brazil_serie_b',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/356/Coppa+Libertadores.html': 'william_copa_libertadores',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/7480/Copa+Argentina.html': 'william_copa_argentina',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/3252/Argentina+Primera+B+Nacional.html': 'william_arg_prim_b_nac',
-        'http://sports.williamhill.it/bet_ita/it/betting/t/3131/Argentina+Primera+B+Metropolitana.html': 'william_arg_prim_b_metr',
+        'https://sports.williamhill.it/betting/it-it/calcio/coppe-europee/uefa-champions-league?marketId': 'william_champions',
+        'https://sports.williamhill.it/betting/it-it/calcio/coppe-europee/uefa-europa-league': 'william_europa_league',
+        'https://sports.williamhill.it/betting/it-it/calcio/italia/serie-a': 'william_ita_serie_a',
+        'https://sports.williamhill.it/betting/it-it/calcio/italia/serie-b': 'william_ita_serie_b',
+        'https://sports.williamhill.it/betting/it-it/calcio/inghilterra/premier-league': 'william_eng_premier_league',
+        'https://sports.williamhill.it/betting/it-it/calcio/spagna/la-liga': 'william_esp_liga',
+        'https://sports.williamhill.it/betting/it-it/calcio/francia/ligue-1': 'william_fra_ligue1',
+        'https://sports.williamhill.it/betting/it-it/calcio/germania/bundesliga': 'william_ger_bundesliga',
+        'https://sports.williamhill.it/betting/it-it/calcio/olanda/eredivisie': 'william_ned_eredivise',
+        'https://sports.williamhill.it/betting/it-it/calcio/portogallo/primeira-liga': 'william_por_primeira_liga',
+        'https://sports.williamhill.it/betting/it-it/calcio/brasile/brasileiro-serie-b': 'william_brazil_serie_b',
+        'https://sports.williamhill.it/betting/it-it/calcio/club-internazionali/conmebol-libertadores-group-a': 'william_copa_libertadores',
+        'https://sports.williamhill.it/betting/it-it/calcio/argentina/copa-argentina': 'william_copa_argentina',
+        'https://sports.williamhill.it/betting/it-it/calcio/argentina/liga-profesional': 'william_arg_liga',
     }
     parsed_matches: List[Match] = []
     script_kill_banners = 'try { ' + \
