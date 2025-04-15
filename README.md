@@ -1,29 +1,69 @@
 # BetParser Crawler
 
-BetParser Crawler is a Python application designed to parse and extract betting odds from websites. It leverages the Scrapy framework, Firebase, custom Selenium integrations, and SciPy for efficient data extraction and processing.
+BetParser Crawler is a Python application designed to parse and extract betting odds from websites. It leverages the Scrapy framework, Firebase, custom Selenium integrations, and ML for efficient data extraction and processing.
+
+## Disclaimer
+
+This software is provided for educational and research purposes only. The authors of this project do not condone or encourage any illegal activities, including but not limited to unauthorized data scraping or infringement of intellectual property rights.
+
+All trademarks, logos, and brand names mentioned in this project (e.g., Bwin, Bet365, William Hill, Sisal, Eurobet, etc.) are the property of their respective owners. The use of these names is for identification purposes only and does not imply endorsement or affiliation.
+
+By using this software, you agree that the authors are not liable for any misuse or legal consequences arising from its use. It is your responsibility to ensure compliance with all applicable laws and regulations in your jurisdiction.
 
 ## Table of Contents
 
 1. [Project Overview](#project-overview)
-2. [Environment Setup](#environment-setup)
+2. [Features](#features)
+3. [Screenshots](#screenshots)
+4. [Environment Setup](#environment-setup)
    - [Clone the Repository](#1-clone-the-repository)
    - [Install Anaconda3](#2-install-anaconda3)
    - [Configure an Environment](#3-configure-an-environment)
    - [Install Libraries](#4-install-libraries)
-3. [Selenium Middleware Configuration](#selenium-middleware-configuration)
-4. [Firebase Configuration](#firebase-configuration)
-5. [Run/Debug](#rundebug)
-6. [Development with Scrapy Framework](#development-with-scrapy-framework)
-7. [Machine Learning Mapper - Word Similarity Algorithms](#machine-learning-mapper---word-similarity-algorithms)
-8. [Optional Configurations](#optional-configurations)
+   - [Selenium Configuration](#5-selenium-configuration)
+   - [Firebase Configuration](#6-firebase-configuration)
+   - [Run/Debug](#7-rundebug)
+5. [Development with Scrapy Framework](#development-with-scrapy-framework)
+6. [Machine Learning Mapper - Word Similarity Algorithms](#machine-learning-mapper---word-similarity-algorithms)
+7. [Optional Configurations](#optional-configurations)
    - [Splash Middleware](#splash-middleware-configuration)
    - [Tor and Custom Proxy Middlewares](#tor-and-custom-proxy-middlewares)
    - [Google Translator Mapper](#google-translator-mapper)
-9. [License](#license)
+8. [License](#license)
 
 ## Project Overview
 
 BetParser Crawler simplifies the process of extracting betting odds from web pages. It supports parsing complex JavaScript-powered pages using Selenium and includes machine learning algorithms to standardize team names. The project is highly configurable and integrates with Firebase for real-time database updates.
+
+## Features
+
+- **Web Scraping**: Extract betting odds from multiple websites using Scrapy spiders.
+- **JavaScript Rendering**: Handle JavaScript-heavy pages with Selenium and Splash integrations.
+- **Machine Learning**: Standardize team names using machine learning algorithms for word similarity.
+- **Firebase**: Integrate with Firebase for real-time database updates.
+- **Configurable Spiders**: Pre-configured spiders for well-known brokers like Bwin, Bet365, William Hill, Sisal, and Eurobet.
+- **Proxy Support**: Enable proxy rotation and Tor to avoid bans during scraping.
+
+## Screenshots
+
+Here are some screenshots of the application in action:
+
+### 1. Scrapy Spider Output
+
+![Scrapy Spider Output](assets/screenshots/crawler-1.png)
+
+### 2. Selenium Middleware in Action
+
+![Selenium Middleware](assets/screenshots/crawler-2.gif)
+
+### 3. Machine Learning Mapper
+
+![Machine Learning Mapper](assets/screenshots/crawler-3-ml.png)
+
+### 4. Firebase Integration
+
+![Firebase Integration](assets/screenshots/crawler-4-db.png)
+![Firebase Integration Detail](assets/screenshots/crawler-5-db.png)
 
 ## Environment Setup
 
@@ -74,11 +114,11 @@ Download and install Anaconda3 with Python 3 from the [Anaconda Download Page](h
    pip install Scrapy==2.12.0 Scrapy-UserAgents==0.0.1 scrapy-splash==0.11.1 selenium==4.31.0 firebase-admin==6.7.0 numpy==2.0.2 nltk==3.9.1 Unidecode==1.3.8 googletrans==2.4.0 stem==1.7.1 torrequest==0.1.0 urllib3==2.4.0 requests==2.32.3 pytz==2025.2
    ```
 
-## Selenium Middleware Configuration
+### 5) Selenium Configuration
 
 Selenium is a powerful tool for interacting with JavaScript-heavy pages. It allows automated web testing and renders pages as they would appear in a browser. BetParser includes a custom Scrapy-Selenium middleware for handling complex, JS/Angular-powered pages.
 
-### Steps to Configure Selenium Middleware:
+### Steps to Configure Selenium:
 
 1. **Install Chrome or Firefox**:
 
@@ -88,12 +128,12 @@ Selenium is a powerful tool for interacting with JavaScript-heavy pages. It allo
 
      - Download and install Chrome if not already installed.
      - (Optional) Download the appropriate [Chrome WebDriver](https://chromedriver.chromium.org/downloads) for your OS and place it in the project folder: `bet_parser/libs/selenium_drivers/chromedriver`.
-     - If you do not specify a driver path in the settings, the middleware will attempt to automatically manage the ChromeDriver.
+     - If you do not download and specify a driver path in the settings, the middleware will attempt to automatically download the ChromeDriver.
 
    - **Firefox**:
      - Download and install Firefox if not already installed.
      - (Optional) Download the appropriate [GeckoDriver](https://github.com/mozilla/geckodriver/releases) for your OS and place it in the project folder: `bet_parser/libs/selenium_drivers/geckodriver`.
-     - If you do not specify a driver path in the settings, the middleware will attempt to automatically manage the GeckoDriver.
+     - If you do not download and specify a driver path in the settings, the middleware will attempt to automatically download the GeckoDriver.
 
 2. **Create a Chrome Browser Profile**:
 
@@ -116,18 +156,19 @@ Selenium is a powerful tool for interacting with JavaScript-heavy pages. It allo
    - Some websites allow pages to be displayed only after user interactions. Use the Chrome profile to manually visit these pages and accept any banners or prompts to generate valid cookies.
    - Selenium will use this profile to access these pages during scraping.
 
-5. **Middleware Features**:
-   - The middleware creates a temporary copy of the Chrome profile to avoid bloating the folder.
-   - `SeleniumMiddleware` / `SeleniumRequest` parameters include:
-     - `driver`: Can be `'chrome'` or `'firefox'`.
-     - `render_js`: Set to `true` to extract the fully rendered DOM using JavaScript execution; set to `false` for standard HTML extraction with Selenium.
-     - `wait_time` and `wait_until`: Define wait conditions for page rendering.
-     - `headless`: Run in headless mode (no browser window).
-     - `script`: Execute custom JavaScript before extraction.
-
 By following these steps, the Selenium middleware will be ready to handle complex pages effectively.
 
-## Firebase Configuration
+> **Middleware Features**
+>
+> - The middleware creates a temporary copy of the Chrome profile to avoid bloating the folder.
+> - `SeleniumMiddleware` / `SeleniumRequest` parameters include:
+>   - `driver`: Can be `'chrome'` or `'firefox'`.
+>   - `render_js`: Set to `true` to extract the fully rendered DOM using JavaScript execution; set to `false` for standard HTML extraction with Selenium.
+>   - `wait_time` and `wait_until`: Define wait conditions for page rendering.
+>   - `headless`: Run in headless mode (no browser window).
+>   - `script`: Execute custom JavaScript before extraction.
+
+### 6) Firebase Configuration
 
 1. Create a Firebase account and database named `parsed_bets`.
 2. Enable a Firebase app and download the service account key JSON file.
@@ -146,9 +187,9 @@ By following these steps, the Selenium middleware will be ready to handle comple
 
 By following these steps, your Firebase configuration will be ready for use.
 
-## Run/Debug
+### 7) Run/Debug
 
-### Run a Spider
+#### Run a Spider
 
 To quickly run a spider without debugging, use the following command in the terminal from the project directory:
 
@@ -156,7 +197,7 @@ To quickly run a spider without debugging, use the following command in the term
 scrapy crawl <spider_name>
 ```
 
-### Debug: VS Code Configuration
+#### Debug: VS Code Configuration
 
 The repository includes a pre-configured `launch.json` for debugging Scrapy spiders. To use it:
 
@@ -172,11 +213,11 @@ To debug a different spider, edit the `"args"` field in `.vscode/launch.json`:
 
 Ensure the correct Python interpreter (e.g., Conda environment) is selected via **Python: Select Interpreter** in the Command Palette.
 
-### Debug: PyCharm IDE Configuration
+#### Debug: PyCharm IDE Configuration
 
 1. Open PyCharm and configure the project interpreter to use the environment created earlier.
 2. Add a Python Run/Debug Configuration for each spider:
-   - Script path: `<env_path>/Lib/site-packages/scrapy/cmdline.py`
+   - Script path: `<conda_env_path>/Lib/site-packages/scrapy/cmdline.py`
    - Parameters: `crawl <spider_name>`
    - Working directory: `<project_directory>`
    - Under Execution check Run with Python Console (else the Debug will work, but the Run will be broken)
@@ -233,7 +274,7 @@ This process ensures accurate and consistent team name mapping, which is critica
 
 ### Splash Middleware Configuration
 
-Use Splash for alternative JavaScript rendering:
+Use Splash as an alternative to Selenium for rendering and extracting data from complex JavaScript-powered pages:
 
 1. Install Docker and run Splash:
    ```bash
@@ -252,4 +293,4 @@ A Google Translator-based mapper is available but less effective. It can be enab
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the [MIT License](LICENSE). See the `LICENSE` file for details.
