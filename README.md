@@ -1,29 +1,59 @@
 # BetParser Crawler
 
-BetParser Crawler is a Python application designed to parse and extract betting odds from websites. It leverages the Scrapy framework, Firebase, custom Selenium integrations, and SciPy for efficient data extraction and processing.
+BetParser Crawler is a Python application designed to parse and extract betting odds from websites. It leverages the Scrapy framework, Firebase, custom Selenium integrations, and ML for efficient data extraction and processing.
+
+## Disclaimer
+
+This software is provided for educational and research purposes only. The authors of this project do not condone or encourage any illegal activities, including but not limited to unauthorized data scraping or infringement of intellectual property rights.
+
+All trademarks, logos, and brand names mentioned in this project (e.g., Bwin, Bet365, William Hill, Sisal, Eurobet, etc.) are the property of their respective owners. The use of these names is for identification purposes only and does not imply endorsement or affiliation.
+
+By using this software, you agree that the authors are not liable for any misuse or legal consequences arising from its use. It is your responsibility to ensure compliance with all applicable laws and regulations in your jurisdiction.
 
 ## Table of Contents
 
 1. [Project Overview](#project-overview)
-2. [Environment Setup](#environment-setup)
+2. [Screenshots](#screenshots)
+3. [Environment Setup](#environment-setup)
    - [Clone the Repository](#1-clone-the-repository)
    - [Install Anaconda3](#2-install-anaconda3)
    - [Configure an Environment](#3-configure-an-environment)
    - [Install Libraries](#4-install-libraries)
-3. [Selenium Middleware Configuration](#selenium-middleware-configuration)
-4. [Firebase Configuration](#firebase-configuration)
-5. [Run/Debug](#rundebug)
-6. [Development with Scrapy Framework](#development-with-scrapy-framework)
-7. [Machine Learning Mapper - Word Similarity Algorithms](#machine-learning-mapper---word-similarity-algorithms)
-8. [Optional Configurations](#optional-configurations)
+4. [Selenium Middleware Configuration](#selenium-middleware-configuration)
+5. [Firebase Configuration](#firebase-configuration)
+6. [Run/Debug](#rundebug)
+7. [Development with Scrapy Framework](#development-with-scrapy-framework)
+8. [Machine Learning Mapper - Word Similarity Algorithms](#machine-learning-mapper---word-similarity-algorithms)
+9. [Optional Configurations](#optional-configurations)
    - [Splash Middleware](#splash-middleware-configuration)
    - [Tor and Custom Proxy Middlewares](#tor-and-custom-proxy-middlewares)
    - [Google Translator Mapper](#google-translator-mapper)
-9. [License](#license)
+10. [License](#license)
 
 ## Project Overview
 
 BetParser Crawler simplifies the process of extracting betting odds from web pages. It supports parsing complex JavaScript-powered pages using Selenium and includes machine learning algorithms to standardize team names. The project is highly configurable and integrates with Firebase for real-time database updates.
+
+## Screenshots
+
+Here are some screenshots of the application in action:
+
+### 1. Scrapy Spider Output
+
+![Scrapy Spider Output](assets/screenshots/crawler-1.png)
+
+### 2. Selenium Middleware in Action
+
+![Selenium Middleware](assets/screenshots/crawler-2.gif)
+
+### 3. Machine Learning Mapper
+
+![Machine Learning Mapper](assets/screenshots/crawler-3-ml.png)
+
+### 4. Firebase Integration
+
+![Firebase Integration](assets/screenshots/crawler-4-db.png)
+![Firebase Integration Detail](assets/screenshots/crawler-5-db.png)
 
 ## Environment Setup
 
@@ -176,7 +206,7 @@ Ensure the correct Python interpreter (e.g., Conda environment) is selected via 
 
 1. Open PyCharm and configure the project interpreter to use the environment created earlier.
 2. Add a Python Run/Debug Configuration for each spider:
-   - Script path: `<env_path>/Lib/site-packages/scrapy/cmdline.py`
+   - Script path: `<conda_env_path>/Lib/site-packages/scrapy/cmdline.py`
    - Parameters: `crawl <spider_name>`
    - Working directory: `<project_directory>`
    - Under Execution check Run with Python Console (else the Debug will work, but the Run will be broken)
@@ -233,7 +263,7 @@ This process ensures accurate and consistent team name mapping, which is critica
 
 ### Splash Middleware Configuration
 
-Use Splash for alternative JavaScript rendering:
+Use Splash as an alternative to Selenium for rendering and extracting data from complex JavaScript-powered pages:
 
 1. Install Docker and run Splash:
    ```bash
@@ -252,4 +282,4 @@ A Google Translator-based mapper is available but less effective. It can be enab
 
 ## License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
