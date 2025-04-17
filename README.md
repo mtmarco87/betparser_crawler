@@ -16,20 +16,23 @@ By using this software, you agree that the authors are not liable for any misuse
 2. [Features](#features)
 3. [Screenshots](#screenshots)
 4. [Environment Setup](#environment-setup)
-   - [Clone the Repository](#1-clone-the-repository)
-   - [Install Anaconda3](#2-install-anaconda3)
-   - [Configure an Environment](#3-configure-an-environment)
-   - [Install Libraries](#4-install-libraries)
-   - [Selenium Configuration](#5-selenium-configuration)
-   - [Firebase Configuration](#6-firebase-configuration)
-   - [Run/Debug](#7-rundebug)
-5. [Development with Scrapy Framework](#development-with-scrapy-framework)
-6. [Machine Learning Mapper - Word Similarity Algorithms](#machine-learning-mapper---word-similarity-algorithms)
-7. [Optional Configurations](#optional-configurations)
-   - [Splash Middleware](#splash-middleware-configuration)
-   - [Tor and Custom Proxy Middlewares](#tor-and-custom-proxy-middlewares)
+   - [Clone the Repository](#clone-the-repository)
+   - [Setup Steps](#setup-steps)
+   - [Selenium Configuration](#selenium-configuration)
+   - [Firebase Configuration](#firebase-configuration)
+5. [Usage](#usage)
+   - [How to Run](#how-to-run)
+   - [Machine Learning Mapper](#machine-learning-mapper)
+6. [Development](#development)
+   - [Scrapy Framework](#scrapy-framework)
+   - [Debugging](#debugging)
+   - [Testing](#testing)
+7. [Extras](#extras)
+   - [Splash Configuration](#splash-configuration)
+   - [Tor and Proxy Configuration](#tor-and-proxy-configuration)
    - [Google Translator Mapper](#google-translator-mapper)
-8. [License](#license)
+8. [Support](#support)
+9. [License](#license)
 
 ## Project Overview
 
@@ -67,7 +70,7 @@ Here are some screenshots of the application in action:
 
 ## Environment Setup
 
-### 1) Clone the Repository
+### Clone the Repository
 
 Clone this repository to your local machine using:
 
@@ -75,11 +78,13 @@ Clone this repository to your local machine using:
 git clone https://github.com/mtmarco87/betparser_crawler.git
 ```
 
-### 2) Install Anaconda3
+### Setup Steps
 
-Download and install Anaconda3 with Python 3 from the [Anaconda Download Page](https://www.anaconda.com/distribution/#download-section).
+#### Install Anaconda3
 
-### 3) Configure an Environment
+- Download and install Anaconda3 with Python 3 from the [Anaconda Download Page](https://www.anaconda.com/distribution/#download-section).
+
+#### Configure an Environment:
 
 1. Open the Anaconda prompt.
 2. Create a new environment with Python 3.9:
@@ -90,50 +95,43 @@ Download and install Anaconda3 with Python 3 from the [Anaconda Download Page](h
    ```bash
    conda activate <env_name>
    ```
-4. Manage environments with the following commands:
-   - `conda deactivate` - Deactivate the current environment.
-   - `conda env list` - List all environments.
-   - `conda env remove -n <env_name>` - Remove an environment.
 
-### 4) Install Libraries
+> Tip: Manage Conda environments with the following commands:
+>
+> - `conda activate <env_name>` - Activate an environment.
+> - `conda deactivate` - Deactivate the current environment.
+> - `conda env list` - List all environments.
+> - `conda env remove -n <env_name>` - Remove an environment.
 
-1. Activate your environment:
-   ```bash
-   conda activate <env_name>
-   ```
-2. Install dependencies:
+#### Install Libraries:
+
+1. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
-3. Alternatively, install libraries individually:
+2. Alternatively, install libraries individually:
    ```bash
    pip install Scrapy Scrapy-UserAgents scrapy-splash selenium firebase-admin numpy nltk Unidecode googletrans stem torrequest urllib3 requests pytz
    ```
-4. If issues arise, install specific versions:
+3. If issues arise, install specific versions:
    ```bash
    pip install Scrapy==2.12.0 Scrapy-UserAgents==0.0.1 scrapy-splash==0.11.1 selenium==4.31.0 firebase-admin==6.7.0 numpy==2.0.2 nltk==3.9.1 Unidecode==1.3.8 googletrans==2.4.0 stem==1.7.1 torrequest==0.1.0 urllib3==2.4.0 requests==2.32.3 pytz==2025.2
    ```
 
-### 5) Selenium Configuration
+### Selenium Configuration
 
-Selenium is a powerful tool for interacting with JavaScript-heavy pages. It allows automated web testing and renders pages as they would appear in a browser. BetParser includes a custom Scrapy-Selenium middleware for handling complex, JS/Angular-powered pages.
-
-### Steps to Configure Selenium:
+> Selenium is a powerful tool for interacting with JavaScript-heavy pages. It allows automated web testing and renders pages as they would appear in a browser. BetParser includes a custom Scrapy-Selenium middleware for handling complex, JS/Angular-powered pages.
 
 1. **Install Chrome or Firefox**:
 
-   - You can use either Chrome or Firefox for Selenium.
+   - Chrome (recommended):
 
-   - **Chrome (recommended)**:
+     - Install [Chrome](https://www.google.com/chrome/).
+     - (Optional) Download the [ChromeDriver](https://chromedriver.chromium.org/downloads) and place it in `bet_parser/libs/selenium_drivers/chromedriver`. If you skip this step, the middleware will automatically download the driver when needed.
 
-     - Download and install Chrome if not already installed.
-     - (Optional) Download the appropriate [Chrome WebDriver](https://chromedriver.chromium.org/downloads) for your OS and place it in the project folder: `bet_parser/libs/selenium_drivers/chromedriver`.
-     - If you do not download and specify a driver path in the settings, the middleware will attempt to automatically download the ChromeDriver.
-
-   - **Firefox**:
-     - Download and install Firefox if not already installed.
-     - (Optional) Download the appropriate [GeckoDriver](https://github.com/mozilla/geckodriver/releases) for your OS and place it in the project folder: `bet_parser/libs/selenium_drivers/geckodriver`.
-     - If you do not download and specify a driver path in the settings, the middleware will attempt to automatically download the GeckoDriver.
+   - Firefox:
+     - Install [Firefox](https://www.mozilla.org/firefox/).
+     - (Optional) Download the [GeckoDriver](https://github.com/mozilla/geckodriver/releases) and place it in `bet_parser/libs/selenium_drivers/geckodriver`. If you skip this step, the middleware will automatically download the driver when needed.
 
 2. **Create a Chrome Browser Profile**:
 
@@ -145,9 +143,9 @@ Selenium is a powerful tool for interacting with JavaScript-heavy pages. It allo
 
    - Edit `bet_parser/settings.py` in the "Selenium config" section. Update the following:
 
-     - `SELENIUM_CHROME_USER_DATA_DIR`: Path to the Chrome profile folder.
-     - `SELENIUM_CHROME_DRIVER` (optional): Path to the ChromeDriver binary. Set to `None` for automatic driver management or specify the path if you want to use a custom driver.
-     - `SELENIUM_FIREFOX_DRIVER` (optional): Path to the GeckoDriver binary. Set to `None` for automatic driver management or specify the path if you want to use a custom driver.
+   - `SELENIUM_CHROME_USER_DATA_DIR`: Path to the Chrome profile folder.
+   - `SELENIUM_CHROME_DRIVER` (optional): Path to the ChromeDriver binary. Set to `None` for automatic driver management or specify the path if you want to use a custom driver.
+   - `SELENIUM_FIREFOX_DRIVER` (optional): Path to the GeckoDriver binary. Set to `None` for automatic driver management or specify the path if you want to use a custom driver.
 
    - You only need to configure the settings for the browser you plan to use (Chrome or Firefox).
 
@@ -156,19 +154,7 @@ Selenium is a powerful tool for interacting with JavaScript-heavy pages. It allo
    - Some websites allow pages to be displayed only after user interactions. Use the Chrome profile to manually visit these pages and accept any banners or prompts to generate valid cookies.
    - Selenium will use this profile to access these pages during scraping.
 
-By following these steps, the Selenium middleware will be ready to handle complex pages effectively.
-
-> **Middleware Features**
->
-> - The middleware creates a temporary copy of the Chrome profile to avoid bloating the folder.
-> - `SeleniumMiddleware` / `SeleniumRequest` parameters include:
->   - `driver`: Can be `'chrome'` or `'firefox'`.
->   - `render_js`: Set to `true` to extract the fully rendered DOM using JavaScript execution; set to `false` for standard HTML extraction with Selenium.
->   - `wait_time` and `wait_until`: Define wait conditions for page rendering.
->   - `headless`: Run in headless mode (no browser window).
->   - `script`: Execute custom JavaScript before extraction.
-
-### 6) Firebase Configuration
+### Firebase Configuration
 
 1. Create a Firebase account and database named `parsed_bets`.
 2. Enable a Firebase app and download the service account key JSON file.
@@ -185,63 +171,23 @@ By following these steps, the Selenium middleware will be ready to handle comple
      }
      ```
 
-By following these steps, your Firebase configuration will be ready for use.
+## Usage
 
-### 7) Run/Debug
+### How to Run
 
-#### Run a Spider
-
-To quickly run a spider without debugging, use the following command in the terminal from the project directory:
+Run a spider using the following command in the terminal from the project directory:
 
 ```bash
 scrapy crawl <spider_name>
 ```
 
-#### Debug: VS Code Configuration
+Replace `<spider_name>` with the name of the spider you want to run. All available spiders can be found in the `bet_parser/spiders` and `bet_parser/spiders_api` directories by checking the `name` field in each spider file.
 
-The repository includes a pre-configured `launch.json` for debugging Scrapy spiders. To use it:
-
-1. Open the **Run and Debug** panel in VS Code (`Cmd+Shift+D` or `Ctrl+Shift+D`).
-2. Select the `Scrapy Spider Debug` configuration.
-3. Press the green "Start Debugging" button or hit `F5`.
-
-To debug a different spider, edit the `"args"` field in `.vscode/launch.json`:
-
-```jsonc
-"args": ["crawl", "<spider_name>"] // Replace <spider_name> with your spider
-```
-
-Ensure the correct Python interpreter (e.g., Conda environment) is selected via **Python: Select Interpreter** in the Command Palette.
-
-#### Debug: PyCharm IDE Configuration
-
-1. Open PyCharm and configure the project interpreter to use the environment created earlier.
-2. Add a Python Run/Debug Configuration for each spider:
-   - Script path: `<conda_env_path>/Lib/site-packages/scrapy/cmdline.py`
-   - Parameters: `crawl <spider_name>`
-   - Working directory: `<project_directory>`
-   - Under Execution check Run with Python Console (else the Debug will work, but the Run will be broken)
-
-## Development with Scrapy Framework
-
-1. Create a project:
-   ```bash
-   scrapy startproject betparser
-   ```
-2. Add a spider:
-   ```bash
-   scrapy genspider <spider_name>
-   ```
-3. Run a spider:
-   ```bash
-   scrapy crawl <spider_name>
-   ```
-
-## Machine Learning Mapper - Word Similarity Algorithms
+### Machine Learning Mapper
 
 After extracting betting odds, team names often appear in different formats or languages, making it difficult to identify unique matches. To address this, BetParser includes a machine learning-based mapper that standardizes team names using word similarity algorithms.
 
-### How It Works:
+#### How It Works:
 
 1. **Team Name Standardization**:
 
@@ -263,33 +209,108 @@ After extracting betting odds, team names often appear in different formats or l
    - Regularly update `team_names.csv` to reduce the size of `to_validate.txt`.
    - Add as many variations of team names as possible to avoid repeated manual validation.
 
-### Configuration:
+#### Configuration:
 
 - The mapper's behavior can be fine-tuned in the "Machine Learning config" section of `bet_parser/settings.py`.
 - The current configuration is optimized for most scenarios but can be adjusted as needed.
 
 This process ensures accurate and consistent team name mapping, which is critical for the crawler's functionality.
 
-## Optional Configurations
+## Development
 
-### Splash Middleware Configuration
+### Scrapy Framework
+
+BetParser leverages the Scrapy framework for efficient web scraping. Scrapy allows you to define spiders to crawl websites and extract structured data, such as betting odds.
+
+Key steps for working with Scrapy in this project:
+
+1. **Add a new spider**:
+
+   ```bash
+   scrapy genspider <spider_name>
+   ```
+
+2. **Customize spiders**:
+   - Modify the generated spider files in the `spiders/` directory to define the crawling logic and data extraction rules.
+3. **Extend functionality**:
+   - Use Scrapy middlewares, pipelines, and settings to customize the scraping process.
+
+> Tip: BetParser's Selenium Middleware Features
+>
+> - Extracts data from JavaScript-heavy web pages.
+> - Automatically creates a temporary copy of the Chrome profile to prevent bloating the folder.
+> - `SeleniumRequest` parameters include:
+>   - `driver`: Can be `'chrome'` or `'firefox'`.
+>   - `render_js`: Set to `true` to extract the fully rendered DOM using JavaScript execution; set to `false` for standard HTML extraction with Selenium.
+>   - `wait_time` and `wait_until`: Define wait conditions for page rendering.
+>   - `headless`: Run in headless mode (no browser window).
+>   - `script`: Execute custom JavaScript before extraction.
+
+For more details, refer to the [Scrapy documentation](https://docs.scrapy.org/en/latest/).
+
+### Debugging
+
+#### VS Code
+
+The repository includes a pre-configured `launch.json` for debugging Scrapy spiders. To use it:
+
+1. Open the **Run and Debug** panel in VS Code (`Cmd+Shift+D` or `Ctrl+Shift+D`).
+2. Select the `Scrapy Spider Debug` configuration.
+3. Press the green "Start Debugging" button or hit `F5`.
+
+To debug a different spider, edit the `"args"` field in `.vscode/launch.json`:
+
+```jsonc
+"args": ["crawl", "<spider_name>"] // Replace <spider_name> with your spider
+```
+
+Ensure the correct Python interpreter (e.g., Conda environment) is selected via **Python: Select Interpreter** in the Command Palette.
+
+#### PyCharm
+
+1. Open PyCharm and configure the project interpreter to use the environment created earlier.
+2. Add a Python Run/Debug Configuration for each spider:
+   - Script path: `<conda_env_path>/Lib/site-packages/scrapy/cmdline.py`
+   - Parameters: `crawl <spider_name>`
+   - Working directory: `<project_directory>`
+   - Under Execution check Run with Python Console (else the Debug will work, but the Run will be broken)
+
+### Testing
+
+- Use the `scrapy check` command to validate spiders.
+
+## Extras
+
+### Splash Configuration
 
 Use Splash as an alternative to Selenium for rendering and extracting data from complex JavaScript-powered pages:
 
 1. Install Docker and run Splash:
+
    ```bash
    docker pull scrapinghub/splash
    docker run -p 8050:8050 scrapinghub/splash
    ```
+
 2. Update `bet_parser/settings.py` to configure Splash.
 
-### Tor and Custom Proxy Middlewares
+### Tor and Proxy Configuration
 
-Enable Tor or proxy rotation to avoid bans when requesting and parsing pages at high frequency. These features are experimental and require refinement.
+Enable Tor or proxy rotation to avoid bans when requesting and parsing pages at high frequency. These features are experimental and may require additional refinement. To enable them, update the relevant settings in `bet_parser/settings.py`.
 
 ### Google Translator Mapper
 
-A Google Translator-based mapper is available but less effective. It can be enabled if needed.
+A Google Translator-based mapper is available but less effective. To enable it, update the relevant settings in `bet_parser/settings.py`.
+
+## Support
+
+If you find this project useful, consider supporting its development:
+
+- ⭐ Star the repository to show your appreciation.
+- 💬 Share feedback or suggestions by opening an issue.
+- ☕ [Buy me a coffee](https://buymeacoffee.com/mtmarco87) to support future updates and improvements.
+- 🔵 BTC Address: `bc1qzy6e99pkeq00rsx8jptx93jv56s9ak2lz32e2d`
+- 🟣 ETH Address: `0x38cf74ED056fF994342941372F8ffC5C45E6cF21`
 
 ## License
 
