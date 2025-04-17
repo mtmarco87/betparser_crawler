@@ -41,6 +41,29 @@ class FirebaseWriter:
                 db.reference(db_path).child(db_key).set(match.dict())
 
     """
+    Renames a root key in Firebase Realtime Database by copying data to a new key and deleting the old key.
+    
+    :param old_key: The existing root key to rename.
+    :param new_key: The new root key name.
+    """
+    def rename_root_key(self, old_key: str, new_key: str):
+        ref = db.reference('/')
+        
+        # Read data from the old key
+        old_data = ref.child(old_key).get()
+        if old_data is None:
+            print(f"No data found under the key '{old_key}'.")
+            return
+
+        # Write data to the new key
+        ref.child(new_key).set(old_data)
+        print(f"Data successfully copied from '{old_key}' to '{new_key}'.")
+
+        # Delete the old key
+        ref.child(old_key).delete()
+        print(f"Old key '{old_key}' has been deleted.")
+
+    """
     Cleans a string by removing spaces, special characters, and converting to lowercase.
     :param string: The string to clean.
     :return: Cleaned string.
